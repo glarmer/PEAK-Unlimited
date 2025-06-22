@@ -25,6 +25,8 @@ public class Plugin : BaseUnityPlugin
     private static int _newMaxPlayers;
     private static int _cheatExtraMarshmallows;
     private static bool _extraMarshmallows;
+    private static ELobbyType _lobbyType;
+    private static ConfigEntry<bool> _configPrivateLobby
     private static ConfigEntry<int> _configMaxPlayers;
     private static ConfigEntry<int> _configCheatExtraMarshmallows;
     private static ConfigEntry<bool> _configExtraMarshmallows;
@@ -36,6 +38,14 @@ public class Plugin : BaseUnityPlugin
         Logger = base.Logger;
         Logger.LogInfo($"Plugin {MyPluginInfo.PLUGIN_GUID} is loaded!");
 
+        _configPrivateLobby = Config.Bind
+        (
+            "General",
+            "PrivateLobby",
+            false,
+            "Makes the lobby invite only so friends may not \"Join Game\" freely. Default is false."
+        );
+        
         _configMaxPlayers = Config.Bind
         (
             "General",
@@ -63,7 +73,7 @@ public class Plugin : BaseUnityPlugin
             "(Cheat, disabled by default) This will set the desired amount of marshmallows to the campfires as a cheat, requires ExtraMarshmallows to be enabled."
         );
         _cheatExtraMarshmallows = _configCheatExtraMarshmallows.Value;
-        
+
         if (_newMaxPlayers == 0)
         {
             _newMaxPlayers = 1;
@@ -178,7 +188,14 @@ public class Plugin : BaseUnityPlugin
         [HarmonyPrefix]
         static bool Prefix()
         {
-            SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, _newMaxPlayers);
+            if (_configPrivateLobby.Value)
+            {
+                SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypePrivate, _newMaxPlayers);
+            }
+            else
+            {
+                SteamMatchmaking.CreateLobby(ELobbyType.k_ELobbyTypeFriendsOnly, _newMaxPlayers);
+            }
             return false;
         }
     }
