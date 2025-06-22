@@ -25,7 +25,6 @@ public class Plugin : BaseUnityPlugin
     private static int _newMaxPlayers;
     private static int _cheatExtraMarshmallows;
     private static bool _extraMarshmallows;
-    private static ELobbyType _lobbyType;
     private static ConfigEntry<bool> _configPrivateLobby
     private static ConfigEntry<int> _configMaxPlayers;
     private static ConfigEntry<int> _configCheatExtraMarshmallows;
