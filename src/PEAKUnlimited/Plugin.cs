@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -25,6 +25,7 @@ public partial class Plugin : BaseUnityPlugin
     internal static new ManualLogSource Logger;
     private static int _newMaxPlayers;
     private static int _cheatExtraMarshmallows;
+    private static int _cheatExtraBackpacks;
     private static bool _extraMarshmallows;
     private static ConfigEntry<int> _configMaxPlayers;
     private static ConfigEntry<int> _configCheatExtraMarshmallows;
@@ -98,7 +99,12 @@ public partial class Plugin : BaseUnityPlugin
             0,
             "(Cheat, disabled by default) Sets how many backpacks will spawn as a cheat, requires ExtraBackpacks to also be enabled. Capped at 10."
         );
-        _cheatExtraMarshmallows = _configCheatExtraMarshmallows.Value;
+        _cheatExtraBackpacks = _configCheatExtraBackpacks.Value;
+
+        if (_cheatExtraBackpacks > 10)
+        {
+            _cheatExtraBackpacks = 10;
+        }
         
         if (_newMaxPlayers == 0)
         {
@@ -212,9 +218,9 @@ public partial class Plugin : BaseUnityPlugin
                         }
                     }
                 }
-                if (_configCheatExtraBackpacks.Value > 0 && _configCheatExtraBackpacks.Value <= 10)
+                if (_cheatExtraBackpacks  > 0 && _cheatExtraBackpacks  <= 10)
                 {
-                    number = _configCheatExtraBackpacks.Value - 1; //Minus one as there is already a backpack present
+                    number = _cheatExtraBackpacks  - 1; //Minus one as there is already a backpack present
                 }
 
                 if (number > 0)
