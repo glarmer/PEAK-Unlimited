@@ -37,7 +37,7 @@ public partial class Plugin : BaseUnityPlugin
     private readonly Harmony _harmony = new Harmony(Id);
     private static List<Campfire> campfireList = new List<Campfire>();
     private static bool isAfterAwake = false;
-    private static int vanillaMaxPlayers = 4;
+    private static int VANILLA_MAX_PLAYERS = 4;
     private static Dictionary<Campfire, List<GameObject>> marshmallows = new Dictionary<Campfire, List<GameObject>>();
 
     private void Awake()
@@ -103,6 +103,7 @@ public partial class Plugin : BaseUnityPlugin
 
         if (_cheatExtraBackpacks > 10)
         {
+            Logger.LogInfo("Cheatbackpacks set!");
             _cheatExtraBackpacks = 10;
         }
         
@@ -121,7 +122,6 @@ public partial class Plugin : BaseUnityPlugin
         if (_extraMarshmallows) {
             Logger.LogInfo($"Plugin {Id} extra marshmallows are enabled!");
             _harmony.PatchAll(typeof(AwakePatch));
-            Logger.LogInfo($"Plugin {Id} late marshmallows are enabled!");
             Logger.LogInfo($"Plugin {Id} left patch enabled!");
             _harmony.PatchAll(typeof(OnPlayerLeftRoomPatch));
             Logger.LogInfo($"Plugin {Id} joined patch enabled!");
@@ -191,6 +191,7 @@ public partial class Plugin : BaseUnityPlugin
         [HarmonyPostfix]
         static void Postfix(Campfire __instance)
         {
+            Logger.LogInfo("Campfire Awake Patch!");
             if (!PhotonNetwork.IsMasterClient)
                 return;
             
@@ -200,7 +201,7 @@ public partial class Plugin : BaseUnityPlugin
             {
                 Logger.LogInfo("Backpackification enabled and starting!");
                 Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[6];
-                int numberOfExtraPlayers = _numberOfPlayers - vanillaMaxPlayers;
+                int numberOfExtraPlayers = _numberOfPlayers - VANILLA_MAX_PLAYERS;
                 int number = 0;
                 if (numberOfExtraPlayers > 0) {
                     double backpackNumber = numberOfExtraPlayers * 0.25;
@@ -220,9 +221,10 @@ public partial class Plugin : BaseUnityPlugin
                 }
                 if (_cheatExtraBackpacks  > 0 && _cheatExtraBackpacks  <= 10)
                 {
+                    Logger.LogInfo("Cheat Backpacks enabled = " + _cheatExtraBackpacks);
                     number = _cheatExtraBackpacks  - 1; //Minus one as there is already a backpack present
                 }
-
+                Logger.LogInfo("Backpacks enabled = " + number);
                 if (number > 0)
                 {
                     foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 3.3f, 3.7f,
@@ -252,19 +254,19 @@ public partial class Plugin : BaseUnityPlugin
             }
             campfireList.Add(__instance);
             Logger.LogInfo("Marshmellowifying campfire...!");
-            int amountOfMarshmallowsToSpawn = _numberOfPlayers - vanillaMaxPlayers;
+            int amountOfMarshmallowsToSpawn = _numberOfPlayers - VANILLA_MAX_PLAYERS;
             if (_cheatExtraMarshmallows != 0)
             {
                 Logger.LogInfo("Adding cheatmellows!");
-                amountOfMarshmallowsToSpawn = _cheatExtraMarshmallows - vanillaMaxPlayers;
-                if (_numberOfPlayers < vanillaMaxPlayers)
+                amountOfMarshmallowsToSpawn = _cheatExtraMarshmallows - VANILLA_MAX_PLAYERS;
+                if (_numberOfPlayers < VANILLA_MAX_PLAYERS)
                 {
                     amountOfMarshmallowsToSpawn = _cheatExtraMarshmallows - _numberOfPlayers;
                 }
             }
             
             Plugin.Logger.LogInfo("Start of campfire patch!");
-            if (PhotonNetwork.IsMasterClient && (_numberOfPlayers > vanillaMaxPlayers || _cheatExtraMarshmallows != 0))
+            if (PhotonNetwork.IsMasterClient && (_numberOfPlayers > VANILLA_MAX_PLAYERS || _cheatExtraMarshmallows != 0))
             {
                 Logger.LogInfo("More than 4 players, preparing to marshmallowify! Number: " + _numberOfPlayers);
                 Vector3 position = __instance.gameObject.transform.position;
@@ -289,7 +291,7 @@ public partial class Plugin : BaseUnityPlugin
             //Add a marshmallow at each campfire for the new player
             if (!_configLateMarshmallows.Value)
                 return;
-            if (isAfterAwake && PhotonNetwork.IsMasterClient && _numberOfPlayers > vanillaMaxPlayers && _cheatExtraMarshmallows == 0)
+            if (isAfterAwake && PhotonNetwork.IsMasterClient && _numberOfPlayers > VANILLA_MAX_PLAYERS && _cheatExtraMarshmallows == 0)
             {
                 foreach (Campfire campfire in campfireList)
                 {
@@ -315,7 +317,7 @@ public partial class Plugin : BaseUnityPlugin
             Logger.LogInfo("Someone has left the room! Number: " + _numberOfPlayers + "/" + NetworkConnector.MAX_PLAYERS);
             if (!_configLateMarshmallows.Value)
                 return;
-            if (isAfterAwake && PhotonNetwork.IsMasterClient && _numberOfPlayers >= vanillaMaxPlayers && _cheatExtraMarshmallows == 0)
+            if (isAfterAwake && PhotonNetwork.IsMasterClient && _numberOfPlayers >= VANILLA_MAX_PLAYERS && _cheatExtraMarshmallows == 0)
             {
                 Logger.LogInfo("Removing a marshmallow!");
                 foreach (Campfire campfire in campfireList)
@@ -343,7 +345,7 @@ public partial class Plugin : BaseUnityPlugin
             Image original = __instance.scoutImages[0];
             for (int i = 0; i < Character.AllCharacters.Count; i++)
             {
-                if (i < vanillaMaxPlayers)
+                if (i < VANILLA_MAX_PLAYERS)
                 {
                     newScoutImages[i] = __instance.scoutImages[i];
                 }
@@ -375,7 +377,7 @@ public partial class Plugin : BaseUnityPlugin
         [HarmonyPrefix]
         static void Prefix(EndScreen __instance)
         {
-            if (Character.AllCharacters.Count <= vanillaMaxPlayers)
+            if (Character.AllCharacters.Count <= VANILLA_MAX_PLAYERS)
                 return;
 
             var newScoutWindows = new EndScreenScoutWindow[Character.AllCharacters.Count];
