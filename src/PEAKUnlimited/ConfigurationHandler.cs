@@ -9,6 +9,7 @@ public class ConfigurationHandler
     private ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "PEAKUnlimited.cfg"), true);
     
     private ConfigEntry<int> _configMaxPlayers;
+    private ConfigEntry<bool> _lockKiosk;
     private ConfigEntry<bool> _configExtraMarshmallows;
     private ConfigEntry<bool> _configLateMarshmallows;
     private ConfigEntry<int> _configCheatExtraMarshmallows;
@@ -16,6 +17,7 @@ public class ConfigurationHandler
     private ConfigEntry<int> _configCheatExtraBackpacks;
     
     public int MaxPlayers => _configMaxPlayers.Value;
+    public bool LockKiosk => _lockKiosk.Value;
     public bool IsExtraMarshmallowsEnabled => _configExtraMarshmallows.Value;
     public bool IsLateMarshmallowsEnabled => _configLateMarshmallows.Value;
     public int CheatMarshmallows => _configCheatExtraMarshmallows.Value;
@@ -42,6 +44,15 @@ public class ConfigurationHandler
             _configMaxPlayers.Value = 30;
         }
         Plugin.Logger.LogInfo("ConfigurationHandler: Max Players Loaded: " + _configMaxPlayers.Value);
+        
+        _lockKiosk = config.Bind
+        (
+            "General",
+            "LockKiosk",
+            false,
+            "Allows you to stop other players starting the game from the Airport Kiosk"
+        );
+        Plugin.Logger.LogInfo("ConfigurationHandler: Lock Kiosk enabled: " + _lockKiosk.Value);
         
         _configExtraMarshmallows = config.Bind
         (
