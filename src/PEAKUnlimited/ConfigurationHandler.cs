@@ -2,7 +2,7 @@ using System.IO;
 using BepInEx;
 using BepInEx.Configuration;
 
-namespace PEAKUnlimited.Patches;
+namespace PEAKUnlimited;
 
 public class ConfigurationHandler
 {
