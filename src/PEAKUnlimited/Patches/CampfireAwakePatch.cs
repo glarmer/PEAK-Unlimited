@@ -1,14 +1,10 @@
 using HarmonyLib;
 using Photon.Pun;
-using Zorro.Core;
-
-namespace PEAKUnlimited;
-
-using BepInEx.Logging;
-using HarmonyLib;
-using Photon.Pun;
 using UnityEngine;
 using Zorro.Core;
+
+namespace PEAKUnlimited.Patches;
+
 public class CampfireAwakePatch
 {
         [HarmonyPatch(typeof(Campfire), "Awake")]

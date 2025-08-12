@@ -1,10 +1,9 @@
 using HarmonyLib;
 using UnityEngine;
-
-namespace PEAKUnlimited;
-
-using UnityEngine;
 using UnityEngine.UI;
+
+namespace PEAKUnlimited.Patches;
+
 public class EndScreenStartPatch : MonoBehaviour
     {
         [HarmonyPatch(typeof(EndScreen), "Start")]

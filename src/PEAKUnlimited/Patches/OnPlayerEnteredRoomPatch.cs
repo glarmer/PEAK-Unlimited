@@ -2,7 +2,7 @@ using HarmonyLib;
 using Photon.Pun;
 using UnityEngine;
 
-namespace PEAKUnlimited;
+namespace PEAKUnlimited.Patches;
 
 public class OnPlayerEnteredRoomPatch
 {

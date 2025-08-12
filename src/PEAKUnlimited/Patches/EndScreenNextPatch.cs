@@ -2,7 +2,7 @@ using HarmonyLib;
 using Photon.Pun;
 using Zorro.Core;
 
-namespace PEAKUnlimited;
+namespace PEAKUnlimited.Patches;
 
 public class EndScreenNextPatch
 {

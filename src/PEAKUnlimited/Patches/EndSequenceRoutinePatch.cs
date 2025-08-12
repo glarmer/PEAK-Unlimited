@@ -1,7 +1,7 @@
-using UnityEngine;
 using HarmonyLib;
+using UnityEngine;
 
-namespace PEAKUnlimited;
+namespace PEAKUnlimited.Patches;
 
 public class EndSequenceRoutinePatch : MonoBehaviour
 {

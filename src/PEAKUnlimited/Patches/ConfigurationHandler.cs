@@ -1,11 +1,8 @@
 using System.IO;
 using BepInEx;
 using BepInEx.Configuration;
-using BepInEx.Logging;
-using UnityEngine;
-using Logger = BepInEx.Logging.Logger;
 
-namespace PEAKUnlimited;
+namespace PEAKUnlimited.Patches;
 
 public class ConfigurationHandler
 {
