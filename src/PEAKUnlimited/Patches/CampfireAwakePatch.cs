@@ -51,7 +51,7 @@ public class CampfireAwakePatch
                 Plugin.Logger.LogInfo("Backpacks enabled = " + number);
                 if (number > 0)
                 {
-                    foreach (Vector3 position in Plugin.GetEvenlySpacedPointsAroundCampfire(number, 3.3f, 3.7f,
+                    foreach (Vector3 position in Utility.GetEvenlySpacedPointsAroundCampfire(number, 3.3f, 3.7f,
                                  __instance.gameObject.transform.position,
                                  __instance.advanceToSegment))
                     {
@@ -61,7 +61,7 @@ public class CampfireAwakePatch
                             finalPosition =
                                 position + new Vector3(0, 10f, 0f); // stops backpacks on the beach spawning underground...
                         }
-                        Plugin.Add(obj, finalPosition).transform.parent = __instance.gameObject.transform;
+                        Utility.Add(obj, finalPosition).transform.parent = __instance.gameObject.transform;
                     }
                 }
                 else
@@ -94,7 +94,7 @@ public class CampfireAwakePatch
             {
                 Plugin.Logger.LogInfo("More than 4 players, preparing to marshmallowify! Number: " + Plugin._numberOfPlayers);
                 Vector3 position = __instance.gameObject.transform.position;
-                Plugin.marshmallows.Add(__instance, Plugin.spawnMarshmallows(amountOfMarshmallowsToSpawn, position, __instance.advanceToSegment));
+                Plugin.marshmallows.Add(__instance, Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, position, __instance.advanceToSegment));
             }
             else
             {
