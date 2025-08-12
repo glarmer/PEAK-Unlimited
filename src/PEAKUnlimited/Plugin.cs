@@ -23,17 +23,8 @@ namespace PEAKUnlimited;
 public partial class Plugin : BaseUnityPlugin
 {
     internal static new ManualLogSource Logger;
-    private static int _newMaxPlayers;
-    private static int _cheatExtraMarshmallows;
-    private static int _cheatExtraBackpacks;
-    private static bool _extraMarshmallows;
-    private static ConfigEntry<int> _configMaxPlayers;
-    private static ConfigEntry<int> _configCheatExtraMarshmallows;
-    private static ConfigEntry<int> _configCheatExtraBackpacks;
-    private static ConfigEntry<bool> _configExtraBackpacks;
-    private static ConfigEntry<bool> _configExtraMarshmallows;
-    private static ConfigEntry<bool> _configLateMarshmallows;
     private static int _numberOfPlayers = 1;
+    private static ConfigurationHandler config;
     private readonly Harmony _harmony = new Harmony(Id);
     private static List<Campfire> campfireList = new List<Campfire>();
     private static bool isAfterAwake = false;
@@ -44,82 +35,11 @@ public partial class Plugin : BaseUnityPlugin
     {
         Logger = base.Logger;
         Logger.LogInfo($"Plugin {Id} is loaded!");
-
-        _configMaxPlayers = Config.Bind
-        (
-            "General",
-            "MaxPlayers",
-            20,
-            "The maximum number of players you want to be able to join your lobby (Including yourself). Warning: untested, higher numbers may be unstable! Range: 1-20"
-        );
-        _newMaxPlayers = _configMaxPlayers.Value;
-        
-        _configExtraMarshmallows = Config.Bind
-        (
-            "General",
-            "ExtraMarshmallows",
-            true,
-            "Controls whether additional marshmallows are spawned for the extra players"
-        );
-        _extraMarshmallows = _configExtraMarshmallows.Value;
-        
-        _configExtraBackpacks = Config.Bind
-        (
-            "General",
-            "ExtraBackpacks",
-            true,
-            "Controls whether additional backpacks have a chance to be spawned for extra players"
-        );
-        
-        _configLateMarshmallows = Config.Bind
-        (
-            "General",
-            "LateJoinMarshmallows",
-            false,
-            "Controls whether additional marshmallows are spawned for players who join late (mid run), and removed for those who leave early (Experimental + Untested)"
-        );
-
-        _configCheatExtraMarshmallows = Config.Bind
-        (
-            "General",
-            "Cheat Marshmallows",
-            0,
-            "(Cheat, disabled by default) This will set the desired amount of marshmallows to the campfires as a cheat, requires ExtraMarshmallows to be enabled. Capped at 30."
-        );
-        _cheatExtraMarshmallows = _configCheatExtraMarshmallows.Value;
-        if (_cheatExtraMarshmallows > 30)
-        {
-            _cheatExtraMarshmallows = 30;
-        }
-        
-        _configCheatExtraBackpacks = Config.Bind
-        (
-            "General",
-            "Cheat Backpacks",
-            0,
-            "(Cheat, disabled by default) Sets how many backpacks will spawn as a cheat, requires ExtraBackpacks to also be enabled. Capped at 10."
-        );
-        _cheatExtraBackpacks = _configCheatExtraBackpacks.Value;
-
-        if (_cheatExtraBackpacks > 10)
-        {
-            Logger.LogInfo("Cheatbackpacks set!");
-            _cheatExtraBackpacks = 10;
-        }
-        
-        if (_newMaxPlayers == 0)
-        {
-            _newMaxPlayers = 1;
-        }
-        else if (_newMaxPlayers > 30)
-        {
-            _newMaxPlayers = 30;
-        }
-
-        NetworkConnector.MAX_PLAYERS = _newMaxPlayers;
+        config = new ConfigurationHandler();
+        NetworkConnector.MAX_PLAYERS = config.MaxPlayers;
         Logger.LogInfo($"Plugin {Id} set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
         Logger.LogInfo($"Plugin {Id} is patching!");
-        if (_extraMarshmallows) {
+        if (config.IsExtraMarshmallowsEnabled) {
             Logger.LogInfo($"Plugin {Id} extra marshmallows are enabled!");
             _harmony.PatchAll(typeof(AwakePatch));
             Logger.LogInfo($"Plugin {Id} left patch enabled!");
@@ -197,7 +117,7 @@ public partial class Plugin : BaseUnityPlugin
             
             
             //Backpack addition
-            if (_configExtraBackpacks.Value)
+            if (config.IsExtraBackpacksEnabled)
             {
                 Logger.LogInfo("Backpackification enabled and starting!");
                 Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[6];
@@ -219,10 +139,10 @@ public partial class Plugin : BaseUnityPlugin
                         }
                     }
                 }
-                if (_cheatExtraBackpacks  > 0 && _cheatExtraBackpacks  <= 10)
+                if (config.CheatBackpacks  != 0)
                 {
-                    Logger.LogInfo("Cheat Backpacks enabled = " + _cheatExtraBackpacks);
-                    number = _cheatExtraBackpacks  - 1; //Minus one as there is already a backpack present
+                    Logger.LogInfo("Cheat Backpacks enabled = " + config.CheatBackpacks);
+                    number = config.CheatBackpacks  - 1; //Minus one as there is already a backpack present
                 }
                 Logger.LogInfo("Backpacks enabled = " + number);
                 if (number > 0)
@@ -255,18 +175,18 @@ public partial class Plugin : BaseUnityPlugin
             campfireList.Add(__instance);
             Logger.LogInfo("Marshmellowifying campfire...!");
             int amountOfMarshmallowsToSpawn = _numberOfPlayers - VANILLA_MAX_PLAYERS;
-            if (_cheatExtraMarshmallows != 0)
+            if (config.CheatMarshmallows != 0)
             {
                 Logger.LogInfo("Adding cheatmellows!");
-                amountOfMarshmallowsToSpawn = _cheatExtraMarshmallows - VANILLA_MAX_PLAYERS;
+                amountOfMarshmallowsToSpawn = config.CheatMarshmallows - VANILLA_MAX_PLAYERS;
                 if (_numberOfPlayers < VANILLA_MAX_PLAYERS)
                 {
-                    amountOfMarshmallowsToSpawn = _cheatExtraMarshmallows - _numberOfPlayers;
+                    amountOfMarshmallowsToSpawn = config.CheatMarshmallows - _numberOfPlayers;
                 }
             }
             
             Plugin.Logger.LogInfo("Start of campfire patch!");
-            if (PhotonNetwork.IsMasterClient && (_numberOfPlayers > VANILLA_MAX_PLAYERS || _cheatExtraMarshmallows != 0))
+            if (PhotonNetwork.IsMasterClient && (_numberOfPlayers > VANILLA_MAX_PLAYERS || config.CheatMarshmallows != 0))
             {
                 Logger.LogInfo("More than 4 players, preparing to marshmallowify! Number: " + _numberOfPlayers);
                 Vector3 position = __instance.gameObject.transform.position;
@@ -289,9 +209,9 @@ public partial class Plugin : BaseUnityPlugin
             _numberOfPlayers++;
             Logger.LogInfo("Someone has joined the room! Number: " + _numberOfPlayers + "/" + NetworkConnector.MAX_PLAYERS);
             //Add a marshmallow at each campfire for the new player
-            if (!_configLateMarshmallows.Value)
+            if (!config.IsLateMarshmallowsEnabled)
                 return;
-            if (isAfterAwake && PhotonNetwork.IsMasterClient && _numberOfPlayers > VANILLA_MAX_PLAYERS && _cheatExtraMarshmallows == 0)
+            if (isAfterAwake && PhotonNetwork.IsMasterClient && _numberOfPlayers > VANILLA_MAX_PLAYERS && config.CheatMarshmallows == 0)
             {
                 foreach (Campfire campfire in campfireList)
                 {
@@ -315,9 +235,9 @@ public partial class Plugin : BaseUnityPlugin
                 _numberOfPlayers = 0;
             }
             Logger.LogInfo("Someone has left the room! Number: " + _numberOfPlayers + "/" + NetworkConnector.MAX_PLAYERS);
-            if (!_configLateMarshmallows.Value)
+            if (!config.IsLateMarshmallowsEnabled)
                 return;
-            if (isAfterAwake && PhotonNetwork.IsMasterClient && _numberOfPlayers >= VANILLA_MAX_PLAYERS && _cheatExtraMarshmallows == 0)
+            if (isAfterAwake && PhotonNetwork.IsMasterClient && _numberOfPlayers >= VANILLA_MAX_PLAYERS && config.CheatMarshmallows == 0)
             {
                 Logger.LogInfo("Removing a marshmallow!");
                 foreach (Campfire campfire in campfireList)
