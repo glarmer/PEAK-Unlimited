@@ -32,13 +32,11 @@ public partial class Plugin : BaseUnityPlugin
         NetworkConnector.MAX_PLAYERS = config.MaxPlayers;
         Logger.LogInfo($"Plugin {Id} set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
         
-        //Extra marshmallow patches
-        if (config.IsExtraMarshmallowsEnabled) {
-            _harmony.PatchAll(typeof(CampfireAwakePatch));
-            _harmony.PatchAll(typeof(OnPlayerLeftRoomPatch));
-            _harmony.PatchAll(typeof(OnPlayerEnteredRoomPatch));
-            Logger.LogInfo("Marshmallow patches successful!");
-        }
+        //Extra marshmallow and backpack patches
+        _harmony.PatchAll(typeof(CampfireAwakePatch));
+        _harmony.PatchAll(typeof(OnPlayerLeftRoomPatch));
+        _harmony.PatchAll(typeof(OnPlayerEnteredRoomPatch));
+        Logger.LogInfo("Marshmallow patches successful!");
         
         //Lock Airport Kiosk Patches
         if (config.LockKiosk)
@@ -54,5 +52,8 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(EndScreenStartPatch));
         _harmony.PatchAll(typeof(EndScreenNextPatch));
         Logger.LogInfo("End screen patches successful!");
+        
+        //In-game message patches
+        _harmony.PatchAll(typeof(PlayerConnectionLogAwakePatch));
     }
 }

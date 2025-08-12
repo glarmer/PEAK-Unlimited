@@ -1,0 +1,46 @@
+using HarmonyLib;
+
+namespace PEAKUnlimited.Patches;
+
+public class PlayerConnectionLogAwakePatch
+{
+    [HarmonyPatch(typeof(PlayerConnectionLog), "Awake")]
+    [HarmonyPostfix]
+    static void Postfix(PlayerConnectionLog __instance)
+    {
+        __instance.AddMessage($"{__instance.GetColorTag(__instance.joinedColor)} Lobby started with: </color>{__instance.GetColorTag(__instance.userColor)} PEAK Unlimited </color>");
+
+        if (Plugin.config.isLobbyDetailsEnabled)
+        {
+            __instance.AddMessage(
+                $"{__instance.GetColorTag(__instance.joinedColor)} Max players: </color>{__instance.GetColorTag(__instance.userColor)} {NetworkConnector.MAX_PLAYERS} </color>");
+
+            string isEnabled = "Enabled";
+            if (!Plugin.config.IsExtraMarshmallowsEnabled)
+            {
+                isEnabled = "Disabled";
+            }
+
+            __instance.AddMessage(
+                $"{__instance.GetColorTag(__instance.joinedColor)} Extra marshmallows: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
+
+            isEnabled = "Enabled";
+            if (!Plugin.config.IsExtraBackpacksEnabled)
+            {
+                isEnabled = "Disabled";
+            }
+
+            __instance.AddMessage(
+                $"{__instance.GetColorTag(__instance.joinedColor)} Extra backpacks: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
+
+            isEnabled = "Enabled";
+            if (!Plugin.config.LockKiosk)
+            {
+                isEnabled = "Disabled";
+            }
+
+            __instance.AddMessage(
+                $"{__instance.GetColorTag(__instance.joinedColor)} Host only kiosk: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
+        }
+    }
+}

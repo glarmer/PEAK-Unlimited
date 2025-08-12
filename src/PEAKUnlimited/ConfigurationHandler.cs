@@ -10,6 +10,7 @@ public class ConfigurationHandler
     
     private ConfigEntry<int> _configMaxPlayers;
     private ConfigEntry<bool> _lockKiosk;
+    private ConfigEntry<bool> _configLobbyDetails;
     private ConfigEntry<bool> _configExtraMarshmallows;
     private ConfigEntry<bool> _configLateMarshmallows;
     private ConfigEntry<int> _configCheatExtraMarshmallows;
@@ -18,6 +19,7 @@ public class ConfigurationHandler
     
     public int MaxPlayers => _configMaxPlayers.Value;
     public bool LockKiosk => _lockKiosk.Value;
+    public bool isLobbyDetailsEnabled => _configLobbyDetails.Value;
     public bool IsExtraMarshmallowsEnabled => _configExtraMarshmallows.Value;
     public bool IsLateMarshmallowsEnabled => _configLateMarshmallows.Value;
     public int CheatMarshmallows => _configCheatExtraMarshmallows.Value;
@@ -53,6 +55,15 @@ public class ConfigurationHandler
             "Allows you to stop other players starting the game from the Airport Kiosk"
         );
         Plugin.Logger.LogInfo("ConfigurationHandler: Lock Kiosk enabled: " + _lockKiosk.Value);
+        
+        _configLobbyDetails = config.Bind
+        (
+            "General",
+            "LobbyDetails",
+            true,
+            "Prints the lobby details in the join log when a game is started"
+        );
+        Plugin.Logger.LogInfo("ConfigurationHandler: Lobby details enabled: " + _lockKiosk.Value);
         
         _configExtraMarshmallows = config.Bind
         (
