@@ -55,5 +55,7 @@ public partial class Plugin : BaseUnityPlugin
         
         //In-game message patches
         _harmony.PatchAll(typeof(PlayerConnectionLogAwakePatch));
+        _harmony.PatchAll(typeof(PlayClickedPatch));
+        _harmony.PatchAll(typeof(LeaveLobbyPatch));
     }
 }

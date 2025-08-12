@@ -11,7 +11,6 @@ public class LoadIslandMasterPatch
     {
         Plugin.Logger.LogInfo("Load Island Master Patch running");
         if (!PhotonNetwork.IsMasterClient || !Plugin.hasHostStarted) return false;
-        Plugin.Logger.LogInfo("Load Island Master Patch running 2");
         Plugin.hasHostStarted = false;
         return true;
     }
