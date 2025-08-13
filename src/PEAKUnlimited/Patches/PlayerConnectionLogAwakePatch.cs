@@ -49,6 +49,17 @@ public class PlayerConnectionLogAwakePatch
 
             __instance.AddMessage(
                 $"{__instance.GetColorTag(__instance.joinedColor)} Host only kiosk: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
+            if (Plugin.config.CheatMarshmallows > 0)
+            {
+                __instance.AddMessage(
+                    $"{__instance.GetColorTag(__instance.joinedColor)} Cheat marshmallows: </color>{__instance.GetColorTag(__instance.userColor)} {Plugin.config.CheatMarshmallows} </color>");
+            }
+            if (Plugin.config.CheatBackpacks > 0)
+            {
+                __instance.AddMessage(
+                    $"{__instance.GetColorTag(__instance.joinedColor)} Cheat backpacks: </color>{__instance.GetColorTag(__instance.userColor)} {Plugin.config.CheatBackpacks} </color>");
+            }
         }
+        
     }
 }
