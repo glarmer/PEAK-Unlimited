@@ -63,7 +63,7 @@ public class ConfigurationHandler
             true,
             "Prints the lobby details in the join log when a game is started"
         );
-        Plugin.Logger.LogInfo("ConfigurationHandler: Lobby details enabled: " + _lockKiosk.Value);
+        Plugin.Logger.LogInfo("ConfigurationHandler: Lobby details enabled: " + _configLobbyDetails.Value);
         
         _configExtraMarshmallows = config.Bind
         (
