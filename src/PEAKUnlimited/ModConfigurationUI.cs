@@ -19,10 +19,10 @@ public class ModConfigurationUI : MonoBehaviour
         private GUIStyle _rowStyle;
         private GUIStyle _hintStyle;
 
-        private const int PanelWidth = 360;
-        private const int RowHeight = 28;
+        private const int PanelWidth = 460;
+        private const int RowHeight = 32;
         private const int Pad = 12;
-        private const int TitleHeight = 28;
+        private const int TitleHeight = 32;
 
         public void Init(List<Option> options)
         {
@@ -42,7 +42,7 @@ public class ModConfigurationUI : MonoBehaviour
 
             _titleStyle = new GUIStyle(GUI.skin.label)
             {
-                fontSize = 18,
+                fontSize = 22,
                 alignment = TextAnchor.MiddleLeft,
                 fontStyle = FontStyle.Bold
             };
@@ -50,13 +50,13 @@ public class ModConfigurationUI : MonoBehaviour
             _rowStyle = new GUIStyle(GUI.skin.button)
             {
                 alignment = TextAnchor.MiddleLeft,
-                fontSize = 14,
+                fontSize = 16,
                 padding = new RectOffset(10, 10, 4, 4)
             };
 
             _hintStyle = new GUIStyle(GUI.skin.label)
             {
-                fontSize = 12,
+                fontSize = 14,
                 alignment = TextAnchor.MiddleLeft,
                 wordWrap = true
             };
@@ -184,7 +184,7 @@ public class ModConfigurationUI : MonoBehaviour
                 y += RowHeight + 4;
             }
 
-            var hintRect = new Rect(panelRect.x + Pad, panelRect.yMax - Pad - 30, panelRect.width - Pad * 2, 30);
+            var hintRect = new Rect(panelRect.x + Pad, panelRect.yMax - Pad - 30, panelRect.width - Pad * 2, 34);
             GUI.Label(
                 hintRect,
                 "F2: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • Scroll Wheel or ←/→ Arrows: Adjust Numerical Values",
