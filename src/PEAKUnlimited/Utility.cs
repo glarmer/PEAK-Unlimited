@@ -7,10 +7,11 @@ namespace PEAKUnlimited;
 
 public class Utility
 {
-    public static List<Vector3> GetEvenlySpacedPointsAroundCampfire(int numPoints, float innerRadius, float outerRadius, Vector3 campfirePosition, Segment advanceToSegment)
+    public static List<Vector3> GetEvenlySpacedPointsAroundCampfire(int numPoints, float innerRadius, float outerRadius, Vector3 campfirePosition, Vector3 campfireAngles, Segment advanceToSegment)
     {
         List<Vector3> points = new List<Vector3>();
-    
+        Quaternion campfireRotation = Quaternion.Euler(campfireAngles);
+        
         for (int i = 0; i < numPoints; i++)
         {
             float radius = outerRadius;
@@ -23,30 +24,30 @@ public class Utility
             float x = radius * Mathf.Cos(angle);
             float z = radius * Mathf.Sin(angle);
             
-            points.Add(SetToGround(new Vector3(x, 0f, z) + campfirePosition));
+            Vector3 localPos = new Vector3(x, 0f, z);
+            Vector3 rotatedOffset = campfireRotation * localPos;
+            Vector3 worldPos = campfirePosition + rotatedOffset;
+            worldPos.y += -0.05f;
+
+            points.Add(worldPos);
         }
         
         return points;
     }
 
-    public static List<GameObject> SpawnMarshmallows(int number, Vector3 campfirePosition, Segment advanceToSegment)
+    public static List<GameObject> SpawnMarshmallows(int number, Vector3 campfirePosition, Vector3 campfireAngles, Segment advanceToSegment)
     {
         List<GameObject> marshmallows = new List<GameObject>();
         Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[46];
         Plugin.Logger.LogInfo((object) ("Plugin PeakUnlimited " + obj.GetName()));
         obj.GetName();
-        foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 2.5f, 3f, campfirePosition,
+        foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 2f, 2.5f, campfirePosition, campfireAngles,
                      advanceToSegment))
         {
             marshmallows.Add(Add(obj, position).gameObject);
         }
         Plugin.Logger.LogInfo((object) ("Plugin PeakUnlimited added with position: " + obj.GetName()));
         return marshmallows;
-    }
-
-    private static Vector3 SetToGround(Vector3 vector)
-    {
-        return HelperFunctions.GetGroundPos(vector, HelperFunctions.LayerType.TerrainMap);
     }
 
     public static Item Add(Item item, Vector3 position)

@@ -21,7 +21,7 @@ public class OnPlayerEnteredRoomPatch
             {
                 Vector3 position = campfire.gameObject.transform.position;
                 Plugin.Logger.LogInfo("Spawning a marshmallow!");
-                Plugin.marshmallows[campfire].Add(Utility.SpawnMarshmallows(1, position, campfire.advanceToSegment)[0]);
+                Plugin.marshmallows[campfire].Add(Utility.SpawnMarshmallows(1, position, campfire.gameObject.transform.eulerAngles, campfire.advanceToSegment)[0]);
             }
         }
     }

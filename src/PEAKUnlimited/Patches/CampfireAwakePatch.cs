@@ -57,8 +57,9 @@ public class CampfireAwakePatch
             Plugin.Logger.LogInfo("More than 4 players, preparing to marshmallowify! Number: " +
                                   Plugin._numberOfPlayers);
             Vector3 position = __instance.gameObject.transform.position;
+            Vector3 eulerAngles = __instance.gameObject.transform.eulerAngles;
             Plugin.marshmallows.Add(__instance,
-                Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, position, __instance.advanceToSegment));
+                Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, position, eulerAngles, __instance.advanceToSegment));
         }
         else
         {
@@ -101,7 +102,7 @@ public class CampfireAwakePatch
         if (number > 0)
         {
             foreach (Vector3 position in Utility.GetEvenlySpacedPointsAroundCampfire(number, 3.3f, 3.7f,
-                         __instance.gameObject.transform.position,
+                         __instance.gameObject.transform.position, __instance.gameObject.transform.eulerAngles,
                          __instance.advanceToSegment))
             {
                 Vector3 finalPosition = position;
