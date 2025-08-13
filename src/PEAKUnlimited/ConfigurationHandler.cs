@@ -47,6 +47,8 @@ public class ConfigurationHandler
         }
         Plugin.Logger.LogInfo("ConfigurationHandler: Max Players Loaded: " + ConfigMaxPlayers.Value);
         
+        ConfigMaxPlayers.SettingChanged += OnMaxPlayersChanged;
+        
         ConfigLockKiosk = _config.Bind
         (
             "General",
@@ -126,5 +128,11 @@ public class ConfigurationHandler
         }
         Plugin.Logger.LogInfo("ConfigurationHandler: Cheat Backpacks set to: " + ConfigCheatExtraBackpacks.Value);
         Plugin.Logger.LogInfo("ConfigurationHandler initialised");
+    }
+    
+    private void OnMaxPlayersChanged(object sender, System.EventArgs e)
+    {
+        NetworkConnector.MAX_PLAYERS = MaxPlayers;
+        Plugin.Logger.LogInfo($"Set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
     }
 }
