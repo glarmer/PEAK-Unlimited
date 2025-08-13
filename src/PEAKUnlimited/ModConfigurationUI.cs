@@ -89,6 +89,12 @@ public class ModConfigurationUI : MonoBehaviour
                 AdjustInt(-1);
             if (Input.GetKeyDown(KeyCode.RightArrow))
                 AdjustInt(1);
+            
+            float scroll = Input.GetAxis("Mouse ScrollWheel");
+            if (scroll > 0f)       
+                AdjustInt(1);
+            else if (scroll < 0f) 
+                AdjustInt(-1);
         }
 
         private void AdjustInt(int delta)
@@ -181,7 +187,7 @@ public class ModConfigurationUI : MonoBehaviour
             var hintRect = new Rect(panelRect.x + Pad, panelRect.yMax - Pad - 30, panelRect.width - Pad * 2, 30);
             GUI.Label(
                 hintRect,
-                "F2: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • ←/→: Adjust Numerical Values",
+                "F2: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • Scroll Wheel or ←/→ Arrows: Adjust Numerical Values",
                 _hintStyle
             );
         }

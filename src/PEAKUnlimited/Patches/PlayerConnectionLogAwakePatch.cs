@@ -61,5 +61,7 @@ public class PlayerConnectionLogAwakePatch
             }
         }
         
+        __instance.AddMessage($"{__instance.GetColorTag(__instance.joinedColor)} Configure PEAK Unlimited with: </color>{__instance.GetColorTag(__instance.userColor)} F2 </color>");
+
     }
 }
