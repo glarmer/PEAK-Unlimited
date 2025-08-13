@@ -42,12 +42,9 @@ public partial class Plugin : BaseUnityPlugin
         Logger.LogInfo("Marshmallow patches successful!");
         
         //Lock Airport Kiosk Patches
-        if (config.LockKiosk)
-        {
-            _harmony.PatchAll(typeof(StartGamePatch));
-            _harmony.PatchAll(typeof(LoadIslandMasterPatch));
-            Logger.LogInfo("Kiosk patches successful!");
-        }
+        _harmony.PatchAll(typeof(StartGamePatch));
+        _harmony.PatchAll(typeof(LoadIslandMasterPatch));
+        Logger.LogInfo("Kiosk patches successful!");
         
         //End screen patches
         _harmony.PatchAll(typeof(EndSequenceRoutinePatch));

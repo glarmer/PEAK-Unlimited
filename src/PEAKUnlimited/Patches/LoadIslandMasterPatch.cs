@@ -9,8 +9,11 @@ public class LoadIslandMasterPatch
     [HarmonyPrefix]
     static bool Prefix()
     {
-        Plugin.Logger.LogInfo("Load Island Master Patch running");
-        if (!PhotonNetwork.IsMasterClient || !Plugin.hasHostStarted) return false;
+        if (Plugin.config.LockKiosk)
+        {
+            Plugin.Logger.LogInfo("Load Island Master Patch running");
+            if (!PhotonNetwork.IsMasterClient || !Plugin.hasHostStarted) return false;
+        }
         Plugin.hasHostStarted = false;
         return true;
     }
