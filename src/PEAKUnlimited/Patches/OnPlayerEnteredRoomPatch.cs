@@ -10,18 +10,18 @@ public class OnPlayerEnteredRoomPatch
     [HarmonyPostfix]
     static void Postfix(PlayerConnectionLog __instance)
     {
-        Plugin._numberOfPlayers++;
-        Plugin.Logger.LogInfo("Someone has joined the room! Number: " + Plugin._numberOfPlayers + "/" + NetworkConnector.MAX_PLAYERS);
+        Plugin.NumberOfPlayers++;
+        Plugin.Logger.LogInfo("Someone has joined the room! Number: " + Plugin.NumberOfPlayers + "/" + NetworkConnector.MAX_PLAYERS);
         //Add a marshmallow at each campfire for the new player
-        if (!Plugin.config.IsLateMarshmallowsEnabled)
+        if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
-        if (Plugin.isAfterAwake && PhotonNetwork.IsMasterClient && Plugin._numberOfPlayers > Plugin.VANILLA_MAX_PLAYERS && Plugin.config.CheatMarshmallows == 0)
+        if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && Plugin.NumberOfPlayers > Plugin.VanillaMaxPlayers && Plugin.ConfigurationHandler.CheatMarshmallows == 0)
         {
-            foreach (Campfire campfire in Plugin.campfireList)
+            foreach (Campfire campfire in Plugin.CampfireList)
             {
                 Vector3 position = campfire.gameObject.transform.position;
                 Plugin.Logger.LogInfo("Spawning a marshmallow!");
-                Plugin.marshmallows[campfire].Add(Utility.SpawnMarshmallows(1, position, campfire.gameObject.transform.eulerAngles, campfire.advanceToSegment)[0]);
+                Plugin.Marshmallows[campfire].Add(Utility.SpawnMarshmallows(1, position, campfire.gameObject.transform.eulerAngles, campfire.advanceToSegment)[0]);
             }
         }
     }

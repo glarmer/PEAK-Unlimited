@@ -10,25 +10,25 @@ public class OnPlayerLeftRoomPatch : MonoBehaviour
     [HarmonyPostfix]
     static void Postfix(PlayerConnectionLog __instance)
     {
-        Plugin._numberOfPlayers--;
-        if (Plugin._numberOfPlayers < 0)
+        Plugin.NumberOfPlayers--;
+        if (Plugin.NumberOfPlayers < 0)
         {
-            Plugin._numberOfPlayers = 0;
+            Plugin.NumberOfPlayers = 0;
         }
-        Plugin.Logger.LogInfo("Someone has left the room! Number: " + Plugin._numberOfPlayers + "/" + NetworkConnector.MAX_PLAYERS);
-        if (!Plugin.config.IsLateMarshmallowsEnabled)
+        Plugin.Logger.LogInfo("Someone has left the room! Number: " + Plugin.NumberOfPlayers + "/" + NetworkConnector.MAX_PLAYERS);
+        if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
-        if (Plugin.isAfterAwake && PhotonNetwork.IsMasterClient && Plugin._numberOfPlayers >= Plugin.VANILLA_MAX_PLAYERS && Plugin.config.CheatMarshmallows == 0)
+        if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && Plugin.NumberOfPlayers >= Plugin.VanillaMaxPlayers && Plugin.ConfigurationHandler.CheatMarshmallows == 0)
         {
             Plugin.Logger.LogInfo("Removing a marshmallow!");
-            foreach (Campfire campfire in Plugin.campfireList)
+            foreach (Campfire campfire in Plugin.CampfireList)
             {
-                Plugin.Logger.LogInfo("Removing a marshmallow! " +  Plugin.marshmallows[campfire].Count);
-                Plugin.Logger.LogInfo("Removing a marshmallow! " +  Plugin.marshmallows[campfire][0].gameObject.name);
-                Destroy(Plugin.marshmallows[campfire][0]);
-                Plugin.marshmallows[campfire].RemoveAt(0);
-                Plugin.Logger.LogInfo("Removing a marshmallow! " +  Plugin.marshmallows[campfire].Count);
-                Plugin.Logger.LogInfo("Removing a marshmallow! " +  Plugin.marshmallows[campfire][0].gameObject.name);
+                Plugin.Logger.LogInfo("Removing a marshmallow! " +  Plugin.Marshmallows[campfire].Count);
+                Plugin.Logger.LogInfo("Removing a marshmallow! " +  Plugin.Marshmallows[campfire][0].gameObject.name);
+                Destroy(Plugin.Marshmallows[campfire][0]);
+                Plugin.Marshmallows[campfire].RemoveAt(0);
+                Plugin.Logger.LogInfo("Removing a marshmallow! " +  Plugin.Marshmallows[campfire].Count);
+                Plugin.Logger.LogInfo("Removing a marshmallow! " +  Plugin.Marshmallows[campfire][0].gameObject.name);
             }
         }
     }

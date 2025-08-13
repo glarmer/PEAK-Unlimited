@@ -10,7 +10,7 @@ public class EndScreenStartPatch : MonoBehaviour
         [HarmonyPrefix]
         static void Prefix(EndScreen __instance)
         {
-            if (Character.AllCharacters.Count <= Plugin.VANILLA_MAX_PLAYERS)
+            if (Character.AllCharacters.Count <= Plugin.VanillaMaxPlayers)
                 return;
 
             var newScoutWindows = new EndScreenScoutWindow[Character.AllCharacters.Count];

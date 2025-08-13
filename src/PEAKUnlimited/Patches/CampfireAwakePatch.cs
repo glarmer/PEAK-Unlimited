@@ -16,17 +16,17 @@ public class CampfireAwakePatch
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        if (Plugin.config.IsExtraBackpacksEnabled)
+        if (Plugin.ConfigurationHandler.IsExtraBackpacksEnabled)
         {
             AddBackpacks(__instance);
         }
 
-        if (Plugin.config.IsExtraMarshmallowsEnabled)
+        if (Plugin.ConfigurationHandler.IsExtraMarshmallowsEnabled)
         {
             AddMarshmallows(__instance);
         }
 
-        Plugin.isAfterAwake = true;
+        Plugin.IsAfterAwake = true;
     }
 
     private static void AddMarshmallows(Campfire __instance)
@@ -37,28 +37,28 @@ public class CampfireAwakePatch
             return;
         }
 
-        Plugin.campfireList.Add(__instance);
+        Plugin.CampfireList.Add(__instance);
         Plugin.Logger.LogInfo("Marshmellowifying campfire...!");
-        int amountOfMarshmallowsToSpawn = Plugin._numberOfPlayers - Plugin.VANILLA_MAX_PLAYERS;
-        if (Plugin.config.CheatMarshmallows != 0)
+        int amountOfMarshmallowsToSpawn = Plugin.NumberOfPlayers - Plugin.VanillaMaxPlayers;
+        if (Plugin.ConfigurationHandler.CheatMarshmallows != 0)
         {
             Plugin.Logger.LogInfo("Adding cheatmellows!");
-            amountOfMarshmallowsToSpawn = Plugin.config.CheatMarshmallows - Plugin.VANILLA_MAX_PLAYERS - 1;
-            if (Plugin._numberOfPlayers < Plugin.VANILLA_MAX_PLAYERS)
+            amountOfMarshmallowsToSpawn = Plugin.ConfigurationHandler.CheatMarshmallows - Plugin.VanillaMaxPlayers - 1;
+            if (Plugin.NumberOfPlayers < Plugin.VanillaMaxPlayers)
             {
-                amountOfMarshmallowsToSpawn = Plugin.config.CheatMarshmallows - Plugin._numberOfPlayers - 1;
+                amountOfMarshmallowsToSpawn = Plugin.ConfigurationHandler.CheatMarshmallows - Plugin.NumberOfPlayers - 1;
             }
         }
 
         Plugin.Logger.LogInfo("Start of campfire patch!");
-        if (PhotonNetwork.IsMasterClient && (Plugin._numberOfPlayers > Plugin.VANILLA_MAX_PLAYERS ||
-                                             Plugin.config.CheatMarshmallows != 0))
+        if (PhotonNetwork.IsMasterClient && (Plugin.NumberOfPlayers > Plugin.VanillaMaxPlayers ||
+                                             Plugin.ConfigurationHandler.CheatMarshmallows != 0))
         {
             Plugin.Logger.LogInfo("More than 4 players, preparing to marshmallowify! Number: " +
-                                  Plugin._numberOfPlayers);
+                                  Plugin.NumberOfPlayers);
             Vector3 position = __instance.gameObject.transform.position;
             Vector3 eulerAngles = __instance.gameObject.transform.eulerAngles;
-            Plugin.marshmallows.Add(__instance,
+            Plugin.Marshmallows.Add(__instance,
                 Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, position, eulerAngles, __instance.advanceToSegment));
         }
         else
@@ -72,7 +72,7 @@ public class CampfireAwakePatch
     {
         Plugin.Logger.LogInfo("Backpackification enabled and starting!");
         Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[6];
-        int numberOfExtraPlayers = Plugin._numberOfPlayers - Plugin.VANILLA_MAX_PLAYERS;
+        int numberOfExtraPlayers = Plugin.NumberOfPlayers - Plugin.VanillaMaxPlayers;
         int number = 0;
         if (numberOfExtraPlayers > 0)
         {
@@ -92,10 +92,10 @@ public class CampfireAwakePatch
             }
         }
 
-        if (Plugin.config.CheatBackpacks != 0)
+        if (Plugin.ConfigurationHandler.CheatBackpacks != 0)
         {
-            Plugin.Logger.LogInfo("Cheat Backpacks enabled = " + Plugin.config.CheatBackpacks);
-            number = Plugin.config.CheatBackpacks - 1; //Minus one as there is already a backpack present
+            Plugin.Logger.LogInfo("Cheat Backpacks enabled = " + Plugin.ConfigurationHandler.CheatBackpacks);
+            number = Plugin.ConfigurationHandler.CheatBackpacks - 1; //Minus one as there is already a backpack present
         }
 
         Plugin.Logger.LogInfo("Backpacks enabled = " + number);

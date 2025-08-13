@@ -11,6 +11,6 @@ public class StartGamePatch
     static void Prefix()
     {
         if (PhotonNetwork.IsMasterClient)
-            Plugin.hasHostStarted = true;
+            Plugin.HasHostStarted = true;
     }
 }

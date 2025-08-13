@@ -18,13 +18,13 @@ public class PlayerConnectionLogAwakePatch
         
         __instance.AddMessage($"{__instance.GetColorTag(__instance.joinedColor)} Lobby started with: </color>{__instance.GetColorTag(__instance.userColor)} PEAK Unlimited </color>");
 
-        if (Plugin.config.isLobbyDetailsEnabled)
+        if (Plugin.ConfigurationHandler.IsLobbyDetailsEnabled)
         {
             __instance.AddMessage(
                 $"{__instance.GetColorTag(__instance.joinedColor)} Max players: </color>{__instance.GetColorTag(__instance.userColor)} {NetworkConnector.MAX_PLAYERS} </color>");
 
             string isEnabled = "Enabled";
-            if (!Plugin.config.IsExtraMarshmallowsEnabled)
+            if (!Plugin.ConfigurationHandler.IsExtraMarshmallowsEnabled)
             {
                 isEnabled = "Disabled";
             }
@@ -33,7 +33,7 @@ public class PlayerConnectionLogAwakePatch
                 $"{__instance.GetColorTag(__instance.joinedColor)} Extra marshmallows: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
 
             isEnabled = "Enabled";
-            if (!Plugin.config.IsExtraBackpacksEnabled)
+            if (!Plugin.ConfigurationHandler.IsExtraBackpacksEnabled)
             {
                 isEnabled = "Disabled";
             }
@@ -42,22 +42,22 @@ public class PlayerConnectionLogAwakePatch
                 $"{__instance.GetColorTag(__instance.joinedColor)} Extra backpacks: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
 
             isEnabled = "Enabled";
-            if (!Plugin.config.LockKiosk)
+            if (!Plugin.ConfigurationHandler.LockKiosk)
             {
                 isEnabled = "Disabled";
             }
 
             __instance.AddMessage(
                 $"{__instance.GetColorTag(__instance.joinedColor)} Host only kiosk: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
-            if (Plugin.config.CheatMarshmallows > 0)
+            if (Plugin.ConfigurationHandler.CheatMarshmallows > 0)
             {
                 __instance.AddMessage(
-                    $"{__instance.GetColorTag(__instance.joinedColor)} Cheat marshmallows: </color>{__instance.GetColorTag(__instance.userColor)} {Plugin.config.CheatMarshmallows} </color>");
+                    $"{__instance.GetColorTag(__instance.joinedColor)} Cheat marshmallows: </color>{__instance.GetColorTag(__instance.userColor)} {Plugin.ConfigurationHandler.CheatMarshmallows} </color>");
             }
-            if (Plugin.config.CheatBackpacks > 0)
+            if (Plugin.ConfigurationHandler.CheatBackpacks > 0)
             {
                 __instance.AddMessage(
-                    $"{__instance.GetColorTag(__instance.joinedColor)} Cheat backpacks: </color>{__instance.GetColorTag(__instance.userColor)} {Plugin.config.CheatBackpacks} </color>");
+                    $"{__instance.GetColorTag(__instance.joinedColor)} Cheat backpacks: </color>{__instance.GetColorTag(__instance.userColor)} {Plugin.ConfigurationHandler.CheatBackpacks} </color>");
             }
         }
         

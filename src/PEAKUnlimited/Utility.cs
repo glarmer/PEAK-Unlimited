@@ -5,7 +5,7 @@ using Zorro.Core;
 
 namespace PEAKUnlimited;
 
-public class Utility
+public static class Utility
 {
     public static List<Vector3> GetEvenlySpacedPointsAroundCampfire(int numPoints, float innerRadius, float outerRadius, Vector3 campfirePosition, Vector3 campfireAngles, Segment advanceToSegment)
     {

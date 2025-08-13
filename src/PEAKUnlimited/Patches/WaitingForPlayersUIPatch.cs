@@ -16,7 +16,7 @@ public class WaitingForPlayersUIPatch : MonoBehaviour
         Image original = __instance.scoutImages[0];
         for (int i = 0; i < Character.AllCharacters.Count; i++)
         {
-            if (i < Plugin.VANILLA_MAX_PLAYERS)
+            if (i < Plugin.VanillaMaxPlayers)
             {
                 newScoutImages[i] = __instance.scoutImages[i];
             }
