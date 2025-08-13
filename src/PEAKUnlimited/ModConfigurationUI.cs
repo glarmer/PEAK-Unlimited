@@ -64,7 +64,7 @@ public class ModConfigurationUI : MonoBehaviour
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F2))
+            if (Input.GetKeyDown(KeyCode.F2) && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>().m_currentState == RichPresenceState.Status_MainMenu))
             {
                 _visible = !_visible;
                 if (_visible) OnOpened();
