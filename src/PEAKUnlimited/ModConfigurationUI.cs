@@ -160,7 +160,7 @@ public class ModConfigurationUI : MonoBehaviour
 
                 if (i == _selectedIndex)
                 {
-                    GUI.color = new Color(1f, 1f, 1f, 0.12f);
+                    GUI.color = new Color(1f, 1f, 1f, 0.24f);
                     GUI.DrawTexture(rowRect, _whiteTex);
                     GUI.color = Color.white;
                 }
@@ -181,7 +181,7 @@ public class ModConfigurationUI : MonoBehaviour
             var hintRect = new Rect(panelRect.x + Pad, panelRect.yMax - Pad - 30, panelRect.width - Pad * 2, 30);
             GUI.Label(
                 hintRect,
-                "F2: Open/Close • Tab/Shift+Tab ↑/↓: Move • Enter/Click: Change • ←/→: Adjust Numerical Values",
+                "F2: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • ←/→: Adjust Numerical Values",
                 _hintStyle
             );
         }
