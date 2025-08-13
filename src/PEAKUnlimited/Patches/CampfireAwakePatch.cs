@@ -43,10 +43,10 @@ public class CampfireAwakePatch
         if (Plugin.config.CheatMarshmallows != 0)
         {
             Plugin.Logger.LogInfo("Adding cheatmellows!");
-            amountOfMarshmallowsToSpawn = Plugin.config.CheatMarshmallows - Plugin.VANILLA_MAX_PLAYERS;
+            amountOfMarshmallowsToSpawn = Plugin.config.CheatMarshmallows - Plugin.VANILLA_MAX_PLAYERS - 1;
             if (Plugin._numberOfPlayers < Plugin.VANILLA_MAX_PLAYERS)
             {
-                amountOfMarshmallowsToSpawn = Plugin.config.CheatMarshmallows - Plugin._numberOfPlayers;
+                amountOfMarshmallowsToSpawn = Plugin.config.CheatMarshmallows - Plugin._numberOfPlayers - 1;
             }
         }
 
