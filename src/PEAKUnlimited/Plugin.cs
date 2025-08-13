@@ -72,8 +72,9 @@ public partial class Plugin : BaseUnityPlugin
             Option.Bool("Extra Backpacks",   config._configExtraBackpacks),
             Option.Bool("Extra Marshmallows",    config._configExtraMarshmallows),
             Option.Bool("Host Locked Kiosk",    config._lockKiosk),
+            Option.Bool("Lobby Details",    config._configLobbyDetails),
             Option.Int("Cheat Marshmallows",   config._configCheatExtraMarshmallows, 0, 30, 1),
-            Option.Int("Cheat Backpacks",   config._configCheatExtraBackpacks, 0, 10, 1)
+            Option.Int("Cheat Backpacks",   config._configCheatExtraBackpacks, 0, 10, 1),
         });
     }
 }
