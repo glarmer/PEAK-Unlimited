@@ -65,7 +65,7 @@ public partial class Plugin : BaseUnityPlugin
         _ui = go.AddComponent<ModConfigurationUI>();
         _ui.Init(new List<Option>
         {
-            Option.Int("Max Players (Requires Restart)",   config._configMaxPlayers, 0, 30, 1),
+            Option.Int("Max Players (Requires Restart)",   config._configMaxPlayers, 1, 30, 1),
             Option.Bool("Extra Backpacks",   config._configExtraBackpacks),
             Option.Bool("Extra Marshmallows",    config._configExtraMarshmallows),
             Option.Bool("Host Locked Kiosk",    config._lockKiosk),
