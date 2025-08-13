@@ -61,9 +61,10 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(PlayClickedPatch));
         _harmony.PatchAll(typeof(LeaveLobbyPatch));
         
+        
+        //Mod Configuration Menu
         var go = new GameObject("PEAKUnlimitedUI");
         DontDestroyOnLoad(go);
-
         _ui = go.AddComponent<ModConfigurationUI>();
         _ui.Init(new List<Option>
         {

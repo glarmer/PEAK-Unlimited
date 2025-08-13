@@ -181,7 +181,7 @@ public class ModConfigurationUI : MonoBehaviour
             var hintRect = new Rect(panelRect.x + Pad, panelRect.yMax - Pad - 30, panelRect.width - Pad * 2, 30);
             GUI.Label(
                 hintRect,
-                "F2: Open/Close • Tab/Shift+Tab ↑/↓: Move • Enter/Click: Change • ←/→: Adjust Int",
+                "F2: Open/Close • Tab/Shift+Tab ↑/↓: Move • Enter/Click: Change • ←/→: Adjust Numerical Values",
                 _hintStyle
             );
         }
