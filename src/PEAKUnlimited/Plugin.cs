@@ -6,6 +6,7 @@ using HarmonyLib;
 using PEAKUnlimited.Patches;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zorro.Core;
 
@@ -24,6 +25,8 @@ public partial class Plugin : BaseUnityPlugin
     public static Dictionary<Campfire, List<GameObject>> marshmallows = new Dictionary<Campfire, List<GameObject>>();
     public static bool hasHostStarted = false;
 
+    private ModConfigurationUI _ui;
+    
     private void Awake()
     {
         Logger = base.Logger;
@@ -57,5 +60,19 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(PlayerConnectionLogAwakePatch));
         _harmony.PatchAll(typeof(PlayClickedPatch));
         _harmony.PatchAll(typeof(LeaveLobbyPatch));
+        
+        var go = new GameObject("PEAKUnlimitedUI");
+        DontDestroyOnLoad(go);
+
+        _ui = go.AddComponent<ModConfigurationUI>();
+        _ui.Init(new List<Option>
+        {
+            Option.Int("Max Players",   config._configMaxPlayers, 0, 30, 1),
+            Option.Bool("Extra Backpacks",   config._configExtraBackpacks),
+            Option.Bool("Extra Marshmallows",    config._configExtraMarshmallows),
+            Option.Bool("Host Locked Kiosk",    config._lockKiosk),
+            Option.Int("Cheat Marshmallows",   config._configCheatExtraMarshmallows, 0, 30, 1),
+            Option.Int("Cheat Backpacks",   config._configCheatExtraBackpacks, 0, 10, 1)
+        });
     }
 }

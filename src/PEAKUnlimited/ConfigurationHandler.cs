@@ -8,14 +8,14 @@ public class ConfigurationHandler
 {
     private ConfigFile config = new ConfigFile(Path.Combine(Paths.ConfigPath, "PEAKUnlimited.cfg"), true);
     
-    private ConfigEntry<int> _configMaxPlayers;
-    private ConfigEntry<bool> _lockKiosk;
-    private ConfigEntry<bool> _configLobbyDetails;
-    private ConfigEntry<bool> _configExtraMarshmallows;
-    private ConfigEntry<bool> _configLateMarshmallows;
-    private ConfigEntry<int> _configCheatExtraMarshmallows;
-    private ConfigEntry<bool> _configExtraBackpacks;
-    private ConfigEntry<int> _configCheatExtraBackpacks;
+    public ConfigEntry<int> _configMaxPlayers;
+    public ConfigEntry<bool> _lockKiosk;
+    public ConfigEntry<bool> _configLobbyDetails;
+    public ConfigEntry<bool> _configExtraMarshmallows;
+    public ConfigEntry<bool> _configLateMarshmallows;
+    public ConfigEntry<int> _configCheatExtraMarshmallows;
+    public ConfigEntry<bool> _configExtraBackpacks;
+    public ConfigEntry<int> _configCheatExtraBackpacks;
     
     public int MaxPlayers => _configMaxPlayers.Value;
     public bool LockKiosk => _lockKiosk.Value;
