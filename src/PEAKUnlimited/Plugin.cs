@@ -52,7 +52,7 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(PlayerConnectionLogAwakePatch));
         _harmony.PatchAll(typeof(PlayClickedPatch));
         _harmony.PatchAll(typeof(LeaveLobbyPatch));
-
+        Logger.LogInfo("Player connection log patches successful!");
 
         //Mod Configuration Menu
         var go = new GameObject("PEAKUnlimitedUI");
@@ -68,5 +68,9 @@ public partial class Plugin : BaseUnityPlugin
             Option.Int("Cheat Marshmallows", ConfigurationHandler.ConfigCheatExtraMarshmallows, 0, 30),
             Option.Int("Cheat Backpacks", ConfigurationHandler.ConfigCheatExtraBackpacks, 0, 10)
         });
+        
+        //Possibly help with broken audio bug?
+        _harmony.PatchAll(typeof(AssignMixerGroupPatch));
+        Logger.LogInfo("Audio patches successful!");
     }
 }
