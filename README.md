@@ -6,6 +6,8 @@ Have more than 4 climbing-enthusiast friends? Want to scale the PEAKs with all o
 
 Introducing, "PEAK Unlimited", a mod for PEAK which raises the lobby max player count so that you may play with all of your friends, only the host needs to have this mod! 
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q7IFRUH)
+
 ## Features:
 - Raises the Max Player Count
 - Adds extra marshmallows for all your friends! 
