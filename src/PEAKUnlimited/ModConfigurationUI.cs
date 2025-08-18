@@ -28,7 +28,6 @@ public class ModConfigurationUI : MonoBehaviour
         {
             _options = options ?? new List<Option>();
             _selectedIndex = 0;
-            EnsureStyles();
         }
 
         private void EnsureStyles()
