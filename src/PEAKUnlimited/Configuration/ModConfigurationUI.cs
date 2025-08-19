@@ -189,7 +189,7 @@ public class ModConfigurationUI : MonoBehaviour
                     : opt.IntEntry.Value.ToString();
 
                 // Highlight if selected
-                if (i == _selectedIndex)
+                if (i == _selectedIndex && !opt.IsDisabled())
                 {
                     GUI.color = new Color(1f, 1f, 1f, 0.24f);
                     GUI.DrawTexture(rowRect, _whiteTex);
