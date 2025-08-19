@@ -2,7 +2,9 @@ using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using PEAKUnlimited.Configuration;
 using PEAKUnlimited.Patches;
+using Photon.Pun;
 using UnityEngine;
 
 namespace PEAKUnlimited;
@@ -64,7 +66,7 @@ public partial class Plugin : BaseUnityPlugin
         _ui = go.AddComponent<ModConfigurationUI>();
         _ui.Init(new List<Option>
         {
-            Option.Int("Max Players", ConfigurationHandler.ConfigMaxPlayers, 1, 30),
+            Option.Int("Max Players", ConfigurationHandler.ConfigMaxPlayers, 1, 30, isDisabled: () => PhotonNetwork.InRoom),
             Option.Bool("Extra Backpacks", ConfigurationHandler.ConfigExtraBackpacks),
             Option.Bool("Extra Marshmallows", ConfigurationHandler.ConfigExtraMarshmallows),
             Option.Bool("Host Locked Kiosk", ConfigurationHandler.ConfigLockKiosk),

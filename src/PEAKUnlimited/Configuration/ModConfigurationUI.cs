@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using BepInEx.Configuration;
 using PEAKUnlimited.Patches;
 using UnityEngine;
 
-namespace PEAKUnlimited;
+namespace PEAKUnlimited.Configuration;
 
 public class ModConfigurationUI : MonoBehaviour
 {
@@ -96,19 +95,11 @@ public class ModConfigurationUI : MonoBehaviour
                 AdjustInt(-1);
         }
 
-        private void AdjustInt(int delta)
-        {
-            var opt = _options[_selectedIndex];
-            if (opt.Type == Option.OptionType.Int)
-            {
-                int newVal = Mathf.Clamp(opt.IntEntry.Value + (delta * opt.Step), opt.MinInt, opt.MaxInt);
-                opt.IntEntry.Value = newVal;
-            }
-        }
-
         private void ToggleSelected()
         {
             var opt = _options[_selectedIndex];
+            if (opt.IsDisabled()) return; 
+
             if (opt.Type == Option.OptionType.Bool)
             {
                 opt.BoolEntry.Value = !opt.BoolEntry.Value;
@@ -121,12 +112,27 @@ public class ModConfigurationUI : MonoBehaviour
             }
         }
 
+        private void AdjustInt(int delta)
+        {
+            var opt = _options[_selectedIndex];
+            if (opt.IsDisabled()) return;
+
+            if (opt.Type == Option.OptionType.Int)
+            {
+                int newVal = Mathf.Clamp(opt.IntEntry.Value + (delta * opt.Step), opt.MinInt, opt.MaxInt);
+                opt.IntEntry.Value = newVal;
+            }
+        }
+
         private void OnOpened()
         {
             _prevCursorVisible = Cursor.visible;
             _prevCursorLock = Cursor.lockState;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+            
+            if (_options.Count > 0 && _options[_selectedIndex].IsDisabled())
+                CycleSelection(1);
         }
 
         private void OnClosed()
@@ -137,8 +143,20 @@ public class ModConfigurationUI : MonoBehaviour
 
         private void CycleSelection(int delta)
         {
-            _selectedIndex = (_selectedIndex + delta) % _options.Count;
-            if (_selectedIndex < 0) _selectedIndex += _options.Count;
+            if (_options.Count == 0)
+                return;
+
+            int startIndex = _selectedIndex;
+            do
+            {
+                _selectedIndex = (_selectedIndex + delta) % _options.Count;
+                if (_selectedIndex < 0)
+                    _selectedIndex += _options.Count;
+                
+                if (!_options[_selectedIndex].IsDisabled())
+                    break;
+
+            } while (_selectedIndex != startIndex);
         }
 
         private void OnGUI()
@@ -154,15 +172,23 @@ public class ModConfigurationUI : MonoBehaviour
             GUI.color = Color.white;
 
             var titleRect = new Rect(panelRect.x + Pad, panelRect.y + Pad, panelRect.width - Pad * 2, TitleHeight);
-            GUI.Label(titleRect, "PEAK Unlimited Mod Options", _titleStyle);
+            GUI.Label(titleRect, "PEAK Unlimited Settings", _titleStyle);
 
             float y = titleRect.yMax + 8;
             for (int i = 0; i < _options.Count; i++)
             {
                 var rowRect = new Rect(panelRect.x + Pad, y, panelRect.width - Pad * 2, RowHeight);
-                bool hover = rowRect.Contains(Event.current.mousePosition);
-                if (hover) _selectedIndex = i;
+                var opt = _options[i];
 
+                bool hover = rowRect.Contains(Event.current.mousePosition);
+                if (hover && !opt.IsDisabled())
+                    _selectedIndex = i;
+
+                string valueStr = opt.Type == Option.OptionType.Bool
+                    ? (opt.BoolEntry.Value ? "ON" : "OFF")
+                    : opt.IntEntry.Value.ToString();
+
+                // Highlight if selected
                 if (i == _selectedIndex)
                 {
                     GUI.color = new Color(1f, 1f, 1f, 0.24f);
@@ -170,15 +196,16 @@ public class ModConfigurationUI : MonoBehaviour
                     GUI.color = Color.white;
                 }
 
-                var opt = _options[i];
-                string valueStr = opt.Type == Option.OptionType.Bool
-                    ? (opt.BoolEntry.Value ? "ON" : "OFF")
-                    : opt.IntEntry.Value.ToString();
+                // Grey out if disabled
+                GUI.enabled = !opt.IsDisabled();
 
                 if (GUI.Button(rowRect, $"{opt.Label}: {valueStr}", _rowStyle))
                 {
-                    ToggleSelected();
+                    if (!opt.IsDisabled()) 
+                        ToggleSelected();
                 }
+
+                GUI.enabled = true; // Reset for next option
 
                 y += RowHeight + 4;
             }
