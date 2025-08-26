@@ -72,7 +72,8 @@ public partial class Plugin : BaseUnityPlugin
             Option.Bool("Host Locked Kiosk", ConfigurationHandler.ConfigLockKiosk, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
             Option.Bool("Lobby Details", ConfigurationHandler.ConfigLobbyDetails, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
             Option.Int("Cheat Marshmallows", ConfigurationHandler.ConfigCheatExtraMarshmallows, 0, 30, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
-            Option.Int("Cheat Backpacks", ConfigurationHandler.ConfigCheatExtraBackpacks, 0, 10, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport)
+            Option.Int("Cheat Backpacks", ConfigurationHandler.ConfigCheatExtraBackpacks, 0, 10, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
+            Option.InputAction("Menu Key", ConfigurationHandler.ConfigMenuKey)
         });
     }
 }

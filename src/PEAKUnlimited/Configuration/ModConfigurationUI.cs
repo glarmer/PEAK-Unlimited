@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using PEAKUnlimited.Patches;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PEAKUnlimited.Configuration;
 
@@ -12,6 +13,9 @@ public class ModConfigurationUI : MonoBehaviour
 
         private bool _prevCursorVisible;
         private CursorLockMode _prevCursorLock;
+        
+        private bool _waitingForBinding = false;
+        private Option _bindingTarget;
 
         private Texture2D _whiteTex;
         private GUIStyle _titleStyle;
@@ -34,10 +38,7 @@ public class ModConfigurationUI : MonoBehaviour
             float maxWidth = _titleStyle.CalcSize(new GUIContent(titleText)).x;
             foreach (var opt in _options)
             {
-                string valueStr = opt.Type == Option.OptionType.Bool
-                    ? (opt.BoolEntry.Value ? "ON" : "OFF")
-                    : opt.IntEntry.Value.ToString();
-                float w = _rowStyle.CalcSize(new GUIContent($"{opt.Label}: {valueStr}")).x;
+                float w = _rowStyle.CalcSize(new GUIContent($"{opt.Label}: {opt.Value()}")).x;
                 if (w > maxWidth) maxWidth = w;
             }
             
@@ -126,6 +127,25 @@ public class ModConfigurationUI : MonoBehaviour
             }
 
             if (!_visible || _options.Count == 0) return;
+            
+            if (_waitingForBinding && Keyboard.current.anyKey.wasPressedThisFrame)
+            {
+                // Example: capture the first pressed key
+                foreach (var key in Keyboard.current.allKeys)
+                {
+                    if (key.wasPressedThisFrame)
+                    {
+                        string controlPath = key.path; // e.g. "<Keyboard>/space"
+                        _bindingTarget.StringEntry.Value = controlPath;
+
+                        Plugin.Logger.LogInfo($"Rebound {_bindingTarget.Label} to {controlPath}");
+
+                        _waitingForBinding = false;
+                        _bindingTarget = null;
+                        break;
+                    }
+                }
+            }
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
@@ -164,17 +184,24 @@ public class ModConfigurationUI : MonoBehaviour
         private void ToggleSelected()
         {
             var opt = _options[_selectedIndex];
-            if (opt.IsDisabled()) return; 
+            if (opt.IsDisabled()) return;
+            
+            switch (opt.Type)
+            {
+                case Option.OptionType.Bool:
+                    opt.BoolEntry.Value = !opt.BoolEntry.Value;
+                    break;
 
-            if (opt.Type == Option.OptionType.Bool)
-            {
-                opt.BoolEntry.Value = !opt.BoolEntry.Value;
-            }
-            else if (opt.Type == Option.OptionType.Int)
-            {
-                int next = opt.IntEntry.Value + opt.Step;
-                if (next > opt.MaxInt) next = opt.MinInt;
-                opt.IntEntry.Value = next;
+                case Option.OptionType.Int:
+                    int next = opt.IntEntry.Value + opt.Step;
+                    if (next > opt.MaxInt) next = opt.MinInt;
+                    opt.IntEntry.Value = next;
+                    break;
+
+                case Option.OptionType.InputAction:
+                    _waitingForBinding = true;
+                    _bindingTarget = opt;
+                    break;
             }
         }
 
@@ -251,18 +278,14 @@ public class ModConfigurationUI : MonoBehaviour
             for (int i = 0; i < _options.Count; i++)
             {
                 var rowRect = new Rect(panelRect.x + Pad, y, panelRect.width - Pad * 2, RowHeight);
-                var opt = _options[i];
+                var option = _options[i];
 
                 bool hover = rowRect.Contains(Event.current.mousePosition);
-                if (hover && !opt.IsDisabled())
+                if (hover && !option.IsDisabled())
                     _selectedIndex = i;
 
-                string valueStr = opt.Type == Option.OptionType.Bool
-                    ? (opt.BoolEntry.Value ? "ON" : "OFF")
-                    : opt.IntEntry.Value.ToString();
-
                 // Highlight if selected
-                if (i == _selectedIndex && !opt.IsDisabled())
+                if (i == _selectedIndex && !option.IsDisabled())
                 {
                     GUI.color = new Color(1f, 1f, 1f, 0.24f);
                     GUI.DrawTexture(rowRect, _whiteTex);
@@ -270,11 +293,11 @@ public class ModConfigurationUI : MonoBehaviour
                 }
 
                 // Grey out if disabled
-                GUI.enabled = !opt.IsDisabled();
+                GUI.enabled = !option.IsDisabled();
 
-                if (GUI.Button(rowRect, $"{opt.Label}: {valueStr}", _rowStyle))
+                if (GUI.Button(rowRect, $"{option.Label}: {option.Value()}", _rowStyle))
                 {
-                    if (!opt.IsDisabled()) 
+                    if (!option.IsDisabled()) 
                         ToggleSelected();
                 }
                 
