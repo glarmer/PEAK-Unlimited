@@ -36,9 +36,9 @@ public class ModConfigurationUI : MonoBehaviour
         private void CalculatePanelWidth()
         {
             float maxWidth = _titleStyle.CalcSize(new GUIContent(titleText)).x;
-            foreach (var opt in _options)
+            foreach (var option in _options)
             {
-                float w = _rowStyle.CalcSize(new GUIContent($"{opt.Label}: {opt.Value()}")).x;
+                float w = _rowStyle.CalcSize(new GUIContent($"{option.Label}: {option.Value()}")).x;
                 if (w > maxWidth) maxWidth = w;
             }
             
@@ -130,12 +130,11 @@ public class ModConfigurationUI : MonoBehaviour
             
             if (_waitingForBinding && Keyboard.current.anyKey.wasPressedThisFrame)
             {
-                // Example: capture the first pressed key
                 foreach (var key in Keyboard.current.allKeys)
                 {
                     if (key.wasPressedThisFrame)
                     {
-                        string controlPath = key.path; // e.g. "<Keyboard>/space"
+                        string controlPath = key.path;
                         _bindingTarget.StringEntry.Value = controlPath;
 
                         Plugin.Logger.LogInfo($"Rebound {_bindingTarget.Label} to {controlPath}");
@@ -183,37 +182,37 @@ public class ModConfigurationUI : MonoBehaviour
 
         private void ToggleSelected()
         {
-            var opt = _options[_selectedIndex];
-            if (opt.IsDisabled()) return;
+            var option = _options[_selectedIndex];
+            if (option.IsDisabled()) return;
             
-            switch (opt.Type)
+            switch (option.Type)
             {
                 case Option.OptionType.Bool:
-                    opt.BoolEntry.Value = !opt.BoolEntry.Value;
+                    option.BoolEntry.Value = !option.BoolEntry.Value;
                     break;
 
                 case Option.OptionType.Int:
-                    int next = opt.IntEntry.Value + opt.Step;
-                    if (next > opt.MaxInt) next = opt.MinInt;
-                    opt.IntEntry.Value = next;
+                    int next = option.IntEntry.Value + option.Step;
+                    if (next > option.MaxInt) next = option.MinInt;
+                    option.IntEntry.Value = next;
                     break;
 
                 case Option.OptionType.InputAction:
                     _waitingForBinding = true;
-                    _bindingTarget = opt;
+                    _bindingTarget = option;
                     break;
             }
         }
 
         private void AdjustInt(int delta)
         {
-            var opt = _options[_selectedIndex];
-            if (opt.IsDisabled()) return;
+            var option = _options[_selectedIndex];
+            if (option.IsDisabled()) return;
 
-            if (opt.Type == Option.OptionType.Int)
+            if (option.Type == Option.OptionType.Int)
             {
-                int newVal = Mathf.Clamp(opt.IntEntry.Value + (delta * opt.Step), opt.MinInt, opt.MaxInt);
-                opt.IntEntry.Value = newVal;
+                int newValue = Mathf.Clamp(option.IntEntry.Value + (delta * option.Step), option.MinInt, option.MaxInt);
+                option.IntEntry.Value = newValue;
             }
         }
 
