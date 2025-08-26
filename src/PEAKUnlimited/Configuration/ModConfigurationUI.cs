@@ -23,7 +23,7 @@ public class ModConfigurationUI : MonoBehaviour
         private GUIStyle _hintStyle;
         
         private string titleText = "PEAK Unlimited Settings";
-        private string hintText = "F2: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • Scroll Wheel or ←/→ Arrows: Adjust Numerical Values";
+        private string hintText = "F2: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • Scroll Wheel or ←/→ Arrows: Adjust Numerical Values • +/-: Scale Menu";
 
         private int RowHeight = 32;
         private int PanelWidth = 460;
@@ -84,6 +84,7 @@ public class ModConfigurationUI : MonoBehaviour
         {
             _options = options ?? new List<Option>();
             _selectedIndex = 0;
+            hintText = $"{Plugin.ConfigurationHandler.ConfigMenuKey.Value.Split("/")[^1].ToUpper()}: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • Scroll Wheel or ←/→ Arrows: Adjust Numerical Values • +/-: Scale Menu";
         }
 
         private void EnsureStyles()
@@ -131,7 +132,9 @@ public class ModConfigurationUI : MonoBehaviour
                         Plugin.Logger.LogInfo($"Rebound {_bindingTarget.Label} to {controlPath}");
 
                         _waitingForBinding = false;
+                        hintText = $"{_bindingTarget.DisplayValue()}: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • Scroll Wheel or ←/→ Arrows: Adjust Numerical Values • +/-: Scale Menu";
                         _bindingTarget = null;
+                        
                         break;
                     }
                 }
