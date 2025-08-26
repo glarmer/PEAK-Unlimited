@@ -212,8 +212,9 @@ public class ModConfigurationUI : MonoBehaviour
             CalculatePanelWidth();
             
             float titleHeight = _titleStyle.CalcHeight(new GUIContent(titleText), PanelWidth - Pad * 2);
-
-            int panelHeight = Pad + (int) titleHeight + 8 + (_options.Count * (RowHeight + 4)) + Pad + 34;
+            float hintHeight = _hintStyle.CalcHeight(new GUIContent(hintText), PanelWidth - Pad * 2);
+            
+            int panelHeight = Pad + (int)titleHeight + 8 + (_options.Count * (RowHeight + 4)) + Pad + (int)hintHeight;
             Rect panelRect = new Rect(20, 20, PanelWidth, panelHeight);
 
             GUI.color = new Color(0f, 0f, 0f, 0.75f);
@@ -258,9 +259,13 @@ public class ModConfigurationUI : MonoBehaviour
 
                 y += RowHeight + 4;
             }
-
-            float hintHeight = _hintStyle.CalcHeight(new GUIContent(hintText), PanelWidth - Pad * 2);
-            var hintRect = new Rect(panelRect.x + Pad, panelRect.yMax - Pad - hintHeight, panelRect.width - Pad * 2, hintHeight);
+            
+            var hintRect = new Rect(
+                panelRect.x + Pad,
+                panelRect.yMax - Pad - hintHeight,
+                panelRect.width - Pad * 2,
+                hintHeight
+            );
             GUI.Label(hintRect, hintText, _hintStyle);
             GUI.Label(
                 hintRect,
