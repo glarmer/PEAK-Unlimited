@@ -42,6 +42,13 @@ Only the host needs to install!
 - Do not complain to the game developers about bugs if you are using mods. Uninstall your mods first and if they persist then tell them!
 - Please search the PEAK Steam discussions and Discord if you face bugs as they are possibly caused by the game and not the mod. If you continue to experience issues then please reach out via the Github issues!
 
+The only official pages for this mod are as follows:
+- Thunderstore: https://thunderstore.io/c/peak/p/glarmer/PEAK_Unlimited/
+- GitHub: https://github.com/glarmer/PEAK-Unlimited/
+- Nexus: https://www.nexusmods.com/peak/mods/37
+
+Any other site is not run by me and may contain malware. Please make sure to download from an official source.
+
 ## Help
 - You can find your PEAK folder by **right clicking the game in your Steam library** then > **Manage** > **Browse Local Files**
 - If you have issues with auto install, try manually installing with the version of BepInEx that I link above.
