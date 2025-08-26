@@ -16,7 +16,7 @@ public class Option
     public int MaxInt  {get; set;}
     public int Step {get; set;}
     public Func<bool> IsDisabled { get; set; } = () => false;
-    public Func<string> Value { get; set; } = () => "";
+    public Func<string> DisplayValue { get; set; } = () => "";
 
     private Option(string label, OptionType type)
     {
@@ -30,7 +30,7 @@ public class Option
         {
             BoolEntry = entry,
             IsDisabled = isDisabled ?? (() => false),
-            Value = () => entry.Value ? "ON" : "OFF"
+            DisplayValue = () => entry.Value ? "ON" : "OFF"
         };
     }
 
@@ -40,7 +40,7 @@ public class Option
         {
             StringEntry = entry,
             IsDisabled = isDisabled ?? (() => false),
-            Value = () =>
+            DisplayValue = () =>
             {
                 string[] strings = entry.Value.Split("/");
                 return strings.Length > 1 ? strings[^1].ToUpper() : entry.Value;
@@ -57,7 +57,7 @@ public class Option
             MaxInt = max,
             Step = step,
             IsDisabled = isDisabled ?? (() => false),
-            Value = () => entry.Value.ToString()
+            DisplayValue = () => entry.Value.ToString()
         };
     }
 }

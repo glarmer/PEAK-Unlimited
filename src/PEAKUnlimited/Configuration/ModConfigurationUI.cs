@@ -38,7 +38,7 @@ public class ModConfigurationUI : MonoBehaviour
             float maxWidth = _titleStyle.CalcSize(new GUIContent(titleText)).x;
             foreach (var option in _options)
             {
-                float w = _rowStyle.CalcSize(new GUIContent($"{option.Label}: {option.Value()}")).x;
+                float w = _rowStyle.CalcSize(new GUIContent($"{option.Label}: {option.DisplayValue()}")).x;
                 if (w > maxWidth) maxWidth = w;
             }
             
@@ -302,7 +302,7 @@ public class ModConfigurationUI : MonoBehaviour
                     GUI.color = Color.white;
 
                     GUI.Button(rowRect, $"Press any key...", _rowStyle);
-                } else if (GUI.Button(rowRect, $"{option.Label}: {option.Value()}", _rowStyle))
+                } else if (GUI.Button(rowRect, $"{option.Label}: {option.DisplayValue()}", _rowStyle))
                 {
                     if (!option.IsDisabled()) 
                         ToggleSelected();
