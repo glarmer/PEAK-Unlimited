@@ -1,13 +1,17 @@
+using System;
 using System.IO;
 using BepInEx;
 using BepInEx.Configuration;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PEAKUnlimited;
 
 public class ConfigurationHandler
 {
     private ConfigFile _config = new ConfigFile(Path.Combine(Paths.ConfigPath, "PEAKUnlimited.cfg"), true);
-    
+    public InputAction MenuAction { get; set; }
+
     public ConfigEntry<int> ConfigMaxPlayers;
     public ConfigEntry<bool> ConfigLockKiosk;
     public ConfigEntry<bool> ConfigLobbyDetails;
@@ -16,6 +20,7 @@ public class ConfigurationHandler
     public ConfigEntry<int> ConfigCheatExtraMarshmallows;
     public ConfigEntry<bool> ConfigExtraBackpacks;
     public ConfigEntry<int> ConfigCheatExtraBackpacks;
+    public ConfigEntry<string> ConfigMenuKey;
     
     public int MaxPlayers => ConfigMaxPlayers.Value;
     public bool LockKiosk => ConfigLockKiosk.Value;
@@ -111,6 +116,17 @@ public class ConfigurationHandler
         }
         Plugin.Logger.LogInfo("ConfigurationHandler: Cheat Marshmallows set to: " + ConfigCheatExtraMarshmallows.Value);
         
+        ConfigMenuKey = _config.Bind
+        (
+            "General",
+            "Config Menu Key",
+            "<Keyboard>/f2",
+            "Control path for opening the mod configuration menu (e.g. <Keyboard>/f2, <Keyboard>/space, <Keyboard>/escape)"
+        );
+        Plugin.Logger.LogInfo("ConfigurationHandler: Config Menu Key: " + ConfigMenuKey.Value);
+        SetupInputAction();
+        ConfigMenuKey.SettingChanged += OnMenuKeyChanged;
+        
         ConfigCheatExtraBackpacks = _config.Bind
         (
             "General",
@@ -134,5 +150,19 @@ public class ConfigurationHandler
     {
         NetworkConnector.MAX_PLAYERS = MaxPlayers;
         Plugin.Logger.LogInfo($"Set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
+    }
+
+    private void OnMenuKeyChanged(object sender, System.EventArgs e)
+    {
+        SetupInputAction();
+    }
+    
+    private void SetupInputAction()
+    {
+        MenuAction?.Dispose();
+
+        MenuAction = new InputAction(type: InputActionType.Button);
+        MenuAction.AddBinding(ConfigMenuKey.Value);
+        MenuAction.Enable();
     }
 }

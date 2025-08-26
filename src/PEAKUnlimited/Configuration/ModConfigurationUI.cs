@@ -21,8 +21,8 @@ public class ModConfigurationUI : MonoBehaviour
         private string titleText = "PEAK Unlimited Settings";
         private string hintText = "F2: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • Scroll Wheel or ←/→ Arrows: Adjust Numerical Values";
 
-        private int PanelWidth = 460;
         private int RowHeight = 32;
+        private int PanelWidth = 460;
         private int Pad = 12;
 
         private int TitleFontSize = 22;
@@ -41,7 +41,27 @@ public class ModConfigurationUI : MonoBehaviour
                 if (w > maxWidth) maxWidth = w;
             }
             
+            int hintWidth = CalculateHintWidth();
+            maxWidth = Mathf.Max(maxWidth, hintWidth);
+
             PanelWidth = Mathf.Clamp((int)maxWidth + Pad * 2, 460, Screen.width - Pad * 2);
+        }
+        
+        private int CalculateHintWidth()
+        {
+            float lineHeight = _hintStyle.CalcHeight(new GUIContent("Test"), 9999);
+            float maxAllowedHeight = lineHeight * 2;
+
+            int testWidth = 200;
+            while (testWidth < Screen.width - Pad * 2)
+            {
+                float h = _hintStyle.CalcHeight(new GUIContent(hintText), testWidth);
+                if (h <= maxAllowedHeight)
+                    return testWidth;
+
+                testWidth += 20;
+            }
+            return Screen.width - Pad * 2;
         }
 
         private void Scale(int scale)
@@ -53,9 +73,9 @@ public class ModConfigurationUI : MonoBehaviour
             TitleFontSize += scale * 2;
             OptionFontSize += scale * 2;
             HintFontSize += scale * 2;
-            
-            RowHeight = OptionFontSize + 16;
 
+            RowHeight = OptionFontSize + 16;
+            
             CalculatePanelWidth();
         }
 
@@ -98,7 +118,7 @@ public class ModConfigurationUI : MonoBehaviour
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.F2) && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>().m_currentState == RichPresenceState.Status_MainMenu))
+            if (Plugin.ConfigurationHandler.MenuAction != null && Plugin.ConfigurationHandler.MenuAction.WasPerformedThisFrame() && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>().m_currentState == RichPresenceState.Status_MainMenu))
             {
                 _visible = !_visible;
                 if (_visible) OnOpened();
@@ -212,9 +232,12 @@ public class ModConfigurationUI : MonoBehaviour
             CalculatePanelWidth();
             
             float titleHeight = _titleStyle.CalcHeight(new GUIContent(titleText), PanelWidth - Pad * 2);
-            float hintHeight = _hintStyle.CalcHeight(new GUIContent(hintText), PanelWidth - Pad * 2);
             
-            int panelHeight = Pad + (int)titleHeight + 8 + (_options.Count * (RowHeight + 4)) + Pad + (int)hintHeight;
+            float rowsHeight = _options.Count * (RowHeight + 4);
+            float lineHeight = _hintStyle.CalcHeight(new GUIContent("Test"), 9999);
+            float hintHeight = lineHeight * 2;
+            
+            int panelHeight = Pad + (int)titleHeight + 8 + (int)rowsHeight + Pad + (int)hintHeight;
             Rect panelRect = new Rect(20, 20, PanelWidth, panelHeight);
 
             GUI.color = new Color(0f, 0f, 0f, 0.75f);
