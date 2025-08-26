@@ -40,7 +40,11 @@ public class Option
         {
             StringEntry = entry,
             IsDisabled = isDisabled ?? (() => false),
-            Value = () => entry.Value
+            Value = () =>
+            {
+                string[] strings = entry.Value.Split("/");
+                return strings.Length > 1 ? strings[^1].ToUpper() : entry.Value;
+            }
         };
     }
 

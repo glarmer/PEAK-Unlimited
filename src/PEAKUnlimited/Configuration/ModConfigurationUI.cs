@@ -119,15 +119,6 @@ public class ModConfigurationUI : MonoBehaviour
 
         private void Update()
         {
-            if (Plugin.ConfigurationHandler.MenuAction != null && Plugin.ConfigurationHandler.MenuAction.WasPerformedThisFrame() && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>().m_currentState == RichPresenceState.Status_MainMenu))
-            {
-                _visible = !_visible;
-                if (_visible) OnOpened();
-                else OnClosed();
-            }
-
-            if (!_visible || _options.Count == 0) return;
-            
             if (_waitingForBinding && Keyboard.current.anyKey.wasPressedThisFrame)
             {
                 foreach (var key in Keyboard.current.allKeys)
@@ -144,7 +135,17 @@ public class ModConfigurationUI : MonoBehaviour
                         break;
                     }
                 }
+                return;
             }
+            
+            if (Plugin.ConfigurationHandler.MenuAction != null && Plugin.ConfigurationHandler.MenuAction.WasPerformedThisFrame() && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>().m_currentState == RichPresenceState.Status_MainMenu))
+            {
+                _visible = !_visible;
+                if (_visible) OnOpened();
+                else OnClosed();
+            }
+
+            if (!_visible || _options.Count == 0) return;
 
             if (Input.GetKeyDown(KeyCode.Tab))
             {
@@ -284,17 +285,24 @@ public class ModConfigurationUI : MonoBehaviour
                     _selectedIndex = i;
 
                 // Highlight if selected
-                if (i == _selectedIndex && !option.IsDisabled())
+                if (i == _selectedIndex && !option.IsDisabled() || !(option.Label == "Menu Key" && _waitingForBinding))
                 {
                     GUI.color = new Color(1f, 1f, 1f, 0.24f);
                     GUI.DrawTexture(rowRect, _whiteTex);
                     GUI.color = Color.white;
                 }
-
+                
                 // Grey out if disabled
                 GUI.enabled = !option.IsDisabled();
+                
+                if (option.Label == "Menu Key" && _waitingForBinding)
+                {
+                    GUI.color = new Color(0f, 0f, 0f, 0.6f);
+                    GUI.DrawTexture(rowRect, _whiteTex);
+                    GUI.color = Color.white;
 
-                if (GUI.Button(rowRect, $"{option.Label}: {option.Value()}", _rowStyle))
+                    GUI.Button(rowRect, $"Press any key...", _rowStyle);
+                } else if (GUI.Button(rowRect, $"{option.Label}: {option.Value()}", _rowStyle))
                 {
                     if (!option.IsDisabled()) 
                         ToggleSelected();
