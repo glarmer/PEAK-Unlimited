@@ -39,23 +39,17 @@ public class CampfireAwakePatch
 
         Plugin.CampfireList.Add(__instance);
         Plugin.Logger.LogInfo("Marshmellowifying campfire...!");
-        int amountOfMarshmallowsToSpawn = Plugin.NumberOfPlayers - Plugin.VanillaMaxPlayers;
+        int amountOfMarshmallowsToSpawn = PhotonNetwork.CurrentRoom.PlayerCount;
         if (Plugin.ConfigurationHandler.CheatMarshmallows != 0)
         {
             Plugin.Logger.LogInfo("Adding cheatmellows!");
-            amountOfMarshmallowsToSpawn = Plugin.ConfigurationHandler.CheatMarshmallows - Plugin.VanillaMaxPlayers - 1;
-            if (Plugin.NumberOfPlayers < Plugin.VanillaMaxPlayers)
-            {
-                amountOfMarshmallowsToSpawn = Plugin.ConfigurationHandler.CheatMarshmallows - Plugin.NumberOfPlayers - 1;
-            }
+            amountOfMarshmallowsToSpawn = Plugin.ConfigurationHandler.CheatMarshmallows;
         }
 
         Plugin.Logger.LogInfo("Start of campfire patch!");
-        if (PhotonNetwork.IsMasterClient && (Plugin.NumberOfPlayers > Plugin.VanillaMaxPlayers ||
-                                             Plugin.ConfigurationHandler.CheatMarshmallows != 0))
+        if (PhotonNetwork.IsMasterClient)
         {
-            Plugin.Logger.LogInfo("More than 4 players, preparing to marshmallowify! Number: " +
-                                  Plugin.NumberOfPlayers);
+            Plugin.Logger.LogInfo("Preparing to marshmallowify! Number: " + PhotonNetwork.CurrentRoom.PlayerCount);
             Vector3 position = __instance.gameObject.transform.position;
             Vector3 eulerAngles = __instance.gameObject.transform.eulerAngles;
             Plugin.Marshmallows.Add(__instance,
@@ -72,7 +66,7 @@ public class CampfireAwakePatch
     {
         Plugin.Logger.LogInfo("Backpackification enabled and starting!");
         Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[6];
-        int numberOfExtraPlayers = Plugin.NumberOfPlayers - Plugin.VanillaMaxPlayers;
+        int numberOfExtraPlayers = PhotonNetwork.CurrentRoom.PlayerCount - Plugin.VanillaMaxPlayers;
         int number = 0;
         if (numberOfExtraPlayers > 0)
         {

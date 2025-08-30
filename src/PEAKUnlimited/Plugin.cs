@@ -13,7 +13,6 @@ namespace PEAKUnlimited;
 public partial class Plugin : BaseUnityPlugin
 {
     internal new static ManualLogSource Logger;
-    public static int NumberOfPlayers = 1;
     public static ConfigurationHandler ConfigurationHandler;
     private readonly Harmony _harmony = new(Id);
     public static List<Campfire> CampfireList = new();
@@ -59,6 +58,9 @@ public partial class Plugin : BaseUnityPlugin
         //Possibly help with broken audio bug?
         _harmony.PatchAll(typeof(AssignMixerGroupPatch));
         Logger.LogInfo("Audio patches successful!");
+        
+        _harmony.PatchAll(typeof(SingleItemSpawnerTrySpawnItemsPatch));
+        Logger.LogInfo("Item Spawner patches successful!");
 
         //Mod Configuration Menu
         var go = new GameObject("PEAKUnlimitedUI");

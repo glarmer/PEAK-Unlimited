@@ -10,15 +10,10 @@ public class OnPlayerLeftRoomPatch : MonoBehaviour
     [HarmonyPostfix]
     static void Postfix(PlayerConnectionLog __instance)
     {
-        Plugin.NumberOfPlayers--;
-        if (Plugin.NumberOfPlayers < 0)
-        {
-            Plugin.NumberOfPlayers = 0;
-        }
-        Plugin.Logger.LogInfo("Someone has left the room! Number: " + Plugin.NumberOfPlayers + "/" + NetworkConnector.MAX_PLAYERS);
+        Plugin.Logger.LogInfo("Someone has left the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + NetworkConnector.MAX_PLAYERS);
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
-        if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && Plugin.NumberOfPlayers >= Plugin.VanillaMaxPlayers && Plugin.ConfigurationHandler.CheatMarshmallows == 0)
+        if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && PhotonNetwork.CurrentRoom.PlayerCount >= Plugin.VanillaMaxPlayers && Plugin.ConfigurationHandler.CheatMarshmallows == 0)
         {
             Plugin.Logger.LogInfo("Removing a marshmallow!");
             foreach (Campfire campfire in Plugin.CampfireList)
