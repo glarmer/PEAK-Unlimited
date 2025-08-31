@@ -42,6 +42,16 @@ public class PlayerConnectionLogAwakePatch
                 $"{__instance.GetColorTag(__instance.joinedColor)} Extra backpacks: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
 
             isEnabled = "Enabled";
+            if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
+            {
+                isEnabled = "Disabled";
+            }
+
+            __instance.AddMessage(
+                $"{__instance.GetColorTag(__instance.joinedColor)} Late join marshmallows: </color>{__instance.GetColorTag(__instance.userColor)} {isEnabled} </color>");
+
+            
+            isEnabled = "Enabled";
             if (!Plugin.ConfigurationHandler.LockKiosk)
             {
                 isEnabled = "Disabled";
