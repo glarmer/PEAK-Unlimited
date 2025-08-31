@@ -1,8 +1,9 @@
+using System;
 using HarmonyLib;
 using Photon.Pun;
-using pworld.Scripts;
 using UnityEngine;
 using Zorro.Core;
+using Random = UnityEngine.Random;
 
 namespace PEAKUnlimited.Patches;
 
@@ -20,45 +21,36 @@ public class CampfireAwakePatch
         {
             AddBackpacks(__instance);
         }
-
-        if (Plugin.ConfigurationHandler.IsExtraMarshmallowsEnabled)
-        {
-            AddMarshmallows(__instance);
-        }
+        AddMarshmallows(__instance);
 
         Plugin.IsAfterAwake = true;
     }
 
     private static void AddMarshmallows(Campfire __instance)
     {
-        Plugin.Logger.LogInfo("Marshmallowification enabled and starting!");
-        if (__instance.gameObject.transform.parent.gameObject.name.ToLower().Contains("wings"))
-        {
-            return;
-        }
-
-        Plugin.CampfireList.Add(__instance);
-        Plugin.Logger.LogInfo("Marshmellowifying campfire...!");
-        int amountOfMarshmallowsToSpawn = PhotonNetwork.CurrentRoom.PlayerCount;
-        if (Plugin.ConfigurationHandler.CheatMarshmallows != 0)
-        {
-            Plugin.Logger.LogInfo("Adding cheatmellows!");
-            amountOfMarshmallowsToSpawn = Plugin.ConfigurationHandler.CheatMarshmallows;
-        }
-
-        Plugin.Logger.LogInfo("Start of campfire patch!");
         if (PhotonNetwork.IsMasterClient)
         {
-            Plugin.Logger.LogInfo("Preparing to marshmallowify! Number: " + PhotonNetwork.CurrentRoom.PlayerCount);
+            if (__instance.gameObject.transform.parent.gameObject.name.ToLower().Contains("wings"))
+            {
+                return;
+            }
+            Plugin.CampfireList.Add(__instance);
+            
+            int amountOfMarshmallowsToSpawn = Math.Min(4, PhotonNetwork.CurrentRoom.PlayerCount);
+            if (Plugin.ConfigurationHandler.IsExtraMarshmallowsEnabled)
+            {
+                Plugin.Logger.LogInfo("Marshmallowification enabled and starting!");
+                amountOfMarshmallowsToSpawn = PhotonNetwork.CurrentRoom.PlayerCount;
+            }
+            if (Plugin.ConfigurationHandler.CheatMarshmallows != 0)
+            {
+                amountOfMarshmallowsToSpawn = Plugin.ConfigurationHandler.CheatMarshmallows;
+                Plugin.Logger.LogInfo("Cheatmallows enabled!");
+            }
+            Plugin.Logger.LogInfo($"Will spawn {amountOfMarshmallowsToSpawn} marshmallows for {PhotonNetwork.CurrentRoom.PlayerCount} people!");
             Vector3 position = __instance.gameObject.transform.position;
             Vector3 eulerAngles = __instance.gameObject.transform.eulerAngles;
-            Plugin.Marshmallows.Add(__instance,
-                Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, position, eulerAngles, __instance.advanceToSegment));
-        }
-        else
-        {
-            Plugin.Logger.LogInfo(
-                "Not enough players for extra marshmallows, use the extra marshmallows cheat configuration option to override this!");
+            Plugin.Marshmallows.Add(__instance, Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, position, eulerAngles, __instance.advanceToSegment));
         }
     }
 
