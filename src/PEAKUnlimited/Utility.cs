@@ -28,7 +28,14 @@ public static class Utility
             Vector3 rotatedOffset = campfireRotation * localPos;
             Vector3 worldPos = campfirePosition + rotatedOffset;
             worldPos.y += -0.05f;
-
+            
+            //Fixes edge cases where SetToGround places marshmallows below the floor
+            Vector3 worldPosGrounded = SetToGround(worldPos);
+            if (Vector3.Distance(worldPos, worldPosGrounded) <= 1f)
+            {
+                worldPos = worldPosGrounded;
+            }
+            
             points.Add(worldPos);
         }
         
@@ -49,6 +56,11 @@ public static class Utility
             marshmallows.Add(Add(obj, position, rotation).gameObject);
         }
         return marshmallows;
+    }
+    
+    private static Vector3 SetToGround(Vector3 vector)
+    {
+        return HelperFunctions.GetGroundPos(vector, HelperFunctions.LayerType.TerrainMap);
     }
 
     public static Item Add(Item item, Vector3 position, Quaternion rotation)
