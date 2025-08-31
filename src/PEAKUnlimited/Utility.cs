@@ -44,17 +44,20 @@ public static class Utility
         foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 2f, 2.5f, campfirePosition, campfireAngles,
                      advanceToSegment))
         {
-            marshmallows.Add(Add(obj, position).gameObject);
+            Vector3 directionToCampfire = (campfirePosition - position).normalized;
+            Quaternion rotation = Quaternion.LookRotation(directionToCampfire, Vector3.up);
+            rotation *= Quaternion.Euler(0f, Random.Range(-30f, -150f), 0f);
+            marshmallows.Add(Add(obj, position, rotation).gameObject);
         }
         Plugin.Logger.LogInfo((object) ("Plugin PeakUnlimited added with position: " + obj.GetName()));
         return marshmallows;
     }
 
-    public static Item Add(Item item, Vector3 position)
+    public static Item Add(Item item, Vector3 position, Quaternion rotation)
     {
         if (!PhotonNetwork.IsConnected)
             return null;
         Plugin.Logger.LogInfo((object) string.Format("Spawn item: {0} at {1}", (object) item, (object) position));
-        return PhotonNetwork.Instantiate("0_Items/" + item.name, position, Quaternion.Euler(0f, Random.Range(0f, 360f), 0f)).GetComponent<Item>();
+        return PhotonNetwork.Instantiate("0_Items/" + item.name, position, rotation).GetComponent<Item>();
     }
 }

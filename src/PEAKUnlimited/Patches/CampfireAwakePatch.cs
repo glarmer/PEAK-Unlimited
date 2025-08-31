@@ -106,7 +106,8 @@ public class CampfireAwakePatch
                         position + new Vector3(0, 10f, 0f); // stops backpacks on the beach spawning underground...
                 }
 
-                Utility.Add(obj, finalPosition).transform.parent = __instance.gameObject.transform;
+                Quaternion rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
+                Utility.Add(obj, finalPosition, rotation).transform.parent = __instance.gameObject.transform;
             }
         }
         else
