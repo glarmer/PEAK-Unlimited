@@ -8,9 +8,6 @@ Introducing, "PEAK Unlimited", a mod for PEAK which raises the lobby max player 
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q7IFRUH)
 
-### Commissions
-Did you know I take commissions? Contact me on discord @glarmer if you'd like to discuss! Note: All commissions must go through PayPal for the safety of you as a buyer and me as a seller.
-
 ## Features:
 - Raises the Max Player Count
 - Adds extra marshmallows for all your friends! 
@@ -33,6 +30,9 @@ Did you know I take commissions? Contact me on discord @glarmer if you'd like to
 
 - [PEAK Unbound](https://thunderstore.io/c/peak/p/glarmer/PEAK_Unbound/) - Allows you to rebind your keys
 - [Voice Volume Saver](https://thunderstore.io/c/peak/p/glarmer/PEAK_Voice_Volume_Saver/) - Saves the volume of all your friends, no more adjusting their volume every time you load in!
+
+### Commissions
+Did you know I take commissions? Contact me on discord @glarmer if you'd like to discuss! Note: All commissions must go through PayPal for the safety of you as a buyer and me as a seller.
 
 ## Manual Installation
 Only the host needs to install! Automatic installation via Gale or R2ModMan is recommended!
