@@ -8,6 +8,9 @@ Introducing, "PEAK Unlimited", a mod for PEAK which raises the lobby max player 
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q7IFRUH)
 
+### Commissions
+Did you know I take commissions? Contact me on discord @glarmer if you'd like to discuss! Note: All commissions must go through PayPal for the safety of you as a buyer and me as a seller.
+
 ## Features:
 - Raises the Max Player Count
 - Adds extra marshmallows for all your friends! 
@@ -59,7 +62,6 @@ Any other site is not run by me and may contain malware. Please make sure to dow
 - You can find your PEAK folder by **right clicking the game in your Steam library** then > **Manage** > **Browse Local Files**
 - If you have issues with auto install, try manually installing with the version of BepInEx that I link above.
 - Please report issues to [the mods github](https://github.com/glarmer/PEAK-Unlimited/), alternatively I will periodically check the [steam guide](https://steamcommunity.com/sharedfiles/filedetails/?id=3501916945&tscn=1750268995)
-
 
 ## Images
 - Here are some fun pictures using the mod
