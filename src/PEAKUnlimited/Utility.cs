@@ -20,7 +20,7 @@ public static class Utility
                 radius = innerRadius;
             }
             
-            float angle = i * Mathf.PI * 2f / numPoints; // Even spacing: 2π / n
+            float angle = i * Mathf.PI * 2f / numPoints;
             float x = radius * Mathf.Cos(angle);
             float z = radius * Mathf.Sin(angle);
             
@@ -39,7 +39,7 @@ public static class Utility
     {
         List<GameObject> marshmallows = new List<GameObject>();
         Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[46];
-        Plugin.Logger.LogInfo((object) ("Plugin PeakUnlimited " + obj.GetName()));
+        Plugin.Logger.LogInfo("Plugin PeakUnlimited " + obj.GetName());
         obj.GetName();
         foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 2f, 2.5f, campfirePosition, campfireAngles,
                      advanceToSegment))
@@ -49,7 +49,7 @@ public static class Utility
             rotation *= Quaternion.Euler(0f, Random.Range(-30f, -150f), 0f);
             marshmallows.Add(Add(obj, position, rotation).gameObject);
         }
-        Plugin.Logger.LogInfo((object) ("Plugin PeakUnlimited added with position: " + obj.GetName()));
+        Plugin.Logger.LogInfo("Plugin PeakUnlimited added with position: " + obj.GetName());
         return marshmallows;
     }
 
@@ -57,7 +57,7 @@ public static class Utility
     {
         if (!PhotonNetwork.IsConnected)
             return null;
-        Plugin.Logger.LogInfo((object) string.Format("Spawn item: {0} at {1}", (object) item, (object) position));
+        Plugin.Logger.LogInfo($"Spawn item: {item} at {position}");
         return PhotonNetwork.Instantiate("0_Items/" + item.name, position, rotation).GetComponent<Item>();
     }
 }
