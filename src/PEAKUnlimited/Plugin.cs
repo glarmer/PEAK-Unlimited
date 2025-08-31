@@ -6,6 +6,7 @@ using PEAKUnlimited.Configuration;
 using PEAKUnlimited.Patches;
 using Photon.Pun;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace PEAKUnlimited;
 
@@ -59,6 +60,7 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(AssignMixerGroupPatch));
         Logger.LogInfo("Audio patches successful!");
         
+        //Disable vanilla marshmallow patch
         _harmony.PatchAll(typeof(SingleItemSpawnerTrySpawnItemsPatch));
         Logger.LogInfo("Item Spawner patches successful!");
 
@@ -71,6 +73,7 @@ public partial class Plugin : BaseUnityPlugin
             Option.Int("Max Players", ConfigurationHandler.ConfigMaxPlayers, 1, 30, isDisabled: () => PhotonNetwork.InRoom),
             Option.Bool("Extra Backpacks", ConfigurationHandler.ConfigExtraBackpacks, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
             Option.Bool("Extra Marshmallows", ConfigurationHandler.ConfigExtraMarshmallows, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
+            Option.Bool("Late Join Marshmallows", ConfigurationHandler.ConfigLateMarshmallows, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
             Option.Bool("Host Locked Kiosk", ConfigurationHandler.ConfigLockKiosk, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
             Option.Bool("Lobby Details", ConfigurationHandler.ConfigLobbyDetails, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),
             Option.Int("Cheat Marshmallows", ConfigurationHandler.ConfigCheatExtraMarshmallows, 0, 30, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>().m_currentState != RichPresenceState.Status_Airport),

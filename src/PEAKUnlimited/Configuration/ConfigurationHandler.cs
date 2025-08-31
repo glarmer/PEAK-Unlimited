@@ -94,8 +94,8 @@ public class ConfigurationHandler
         (
             "General",
             "LateJoinMarshmallows",
-            false,
-            "Controls whether additional marshmallows are spawned for players who join late (mid run), and removed for those who leave early (Experimental + Untested)"
+            true,
+            "Controls whether additional marshmallows are spawned for players who join late (mid run), and removed for those who leave early"
         );
         Plugin.Logger.LogInfo("ConfigurationHandler: Late Marshmallows enabled: " + ConfigLateMarshmallows.Value);
 
