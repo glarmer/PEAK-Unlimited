@@ -15,19 +15,21 @@ public class OnPlayerEnteredRoomPatch
         //Add a marshmallow at each campfire for the new player
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
+        Segment segment = Singleton<MapHandler>.Instance.GetCurrentSegment();
         if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && Plugin.ConfigurationHandler.CheatMarshmallows == 0)
         {
             //Delete existing marshmallows
             foreach (var campfireMarshmallows in Plugin.Marshmallows)
             {
-                foreach (var marshmallow in campfireMarshmallows.Value)
+                if (campfireMarshmallows.Key.advanceToSegment > segment)
                 {
-                    PhotonNetwork.Destroy(marshmallow);
+                    foreach (var marshmallow in campfireMarshmallows.Value)
+                    {
+                        PhotonNetwork.Destroy(marshmallow);
+                    }
                 }
             }
-            
             Plugin.Marshmallows.Clear();
-            Segment segment = Singleton<MapHandler>.Instance.GetCurrentSegment();
             foreach (Campfire campfire in Plugin.CampfireList)
             {
                 if (campfire.advanceToSegment > segment)
