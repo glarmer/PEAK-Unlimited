@@ -14,6 +14,7 @@ public class OnPlayerLeftRoomPatch : MonoBehaviour
         Plugin.Logger.LogInfo("Someone has left the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + NetworkConnector.MAX_PLAYERS);
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
+        if (Plugin.CampfireList == null || Plugin.CampfireList.Count == 0) return;
         Segment segment = Singleton<MapHandler>.Instance.GetCurrentSegment();
         if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && Plugin.ConfigurationHandler.CheatMarshmallows == 0)
         {

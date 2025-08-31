@@ -15,6 +15,7 @@ public class OnPlayerEnteredRoomPatch
         //Add a marshmallow at each campfire for the new player
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
+        if (Plugin.CampfireList == null || Plugin.CampfireList.Count == 0) return;
         Segment segment = Singleton<MapHandler>.Instance.GetCurrentSegment();
         if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && Plugin.ConfigurationHandler.CheatMarshmallows == 0)
         {
