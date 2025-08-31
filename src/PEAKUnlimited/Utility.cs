@@ -39,7 +39,6 @@ public static class Utility
     {
         List<GameObject> marshmallows = new List<GameObject>();
         Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[46];
-        Plugin.Logger.LogInfo("Plugin PeakUnlimited " + obj.GetName());
         obj.GetName();
         foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 2f, 2.5f, campfirePosition, campfireAngles,
                      advanceToSegment))
@@ -49,7 +48,6 @@ public static class Utility
             rotation *= Quaternion.Euler(0f, Random.Range(-30f, -150f), 0f);
             marshmallows.Add(Add(obj, position, rotation).gameObject);
         }
-        Plugin.Logger.LogInfo("Plugin PeakUnlimited added with position: " + obj.GetName());
         return marshmallows;
     }
 
@@ -57,7 +55,7 @@ public static class Utility
     {
         if (!PhotonNetwork.IsConnected)
             return null;
-        Plugin.Logger.LogInfo($"Spawn item: {item} at {position}");
+        Plugin.Logger.LogInfo($"Spawn item: {item.name} at {position}");
         return PhotonNetwork.Instantiate("0_Items/" + item.name, position, rotation).GetComponent<Item>();
     }
 }
