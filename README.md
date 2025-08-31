@@ -48,7 +48,7 @@ Only the host needs to install! Automatic installation via Gale or R2ModMan is r
 
 ## Important
 - DO NOT UNDER ANY CIRCUMSTANCE COMPLAIN ABOUT BUGS TO THE DEVELOPERS WHILE USING MODS. UNINSTALL MODS IF YOU ENCOUNTER BUGS AND THEN REPORT THEM IF THEY ARE STILL PRESENT.
-- Please search the PEAK Steam discussions if you face bugs as they are likely caused by the game and not the mod. If you continue to experience issues then please reach out via the GitHub issues.
+- Please search the PEAK Steam discussions if you face bugs as they are possibly caused by the game and not the mod. If you continue to experience issues then please reach out via the GitHub issues.
 - Game may become unstable with high number of players as it requires more system resources.
 
 The only official pages for this mod are as follows:
