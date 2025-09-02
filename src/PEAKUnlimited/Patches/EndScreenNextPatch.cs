@@ -12,6 +12,7 @@ public class EndScreenNextPatch
     {
         if (PhotonNetwork.IsMasterClient)
         {
+            Plugin.CampfireList.Clear();
             Singleton<PeakHandler>.Instance.EndScreenComplete();
         }
     }
