@@ -1,31 +1,46 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <!-- This is the most appropriate target framework for the game's Unity version. -->
-        <TargetFramework>netstandard2.1</TargetFramework>
-        <!-- This is the GUID of your mod. Example: com.github.YourAccount.BepInExTemplate -->
-        <AssemblyName>PEAKUnlimited</AssemblyName>
-        <!-- This is the display name of your mod. Example: BepInEx Template -->
-        <AssemblyTitle>PEAKUnlimited</AssemblyTitle>
-        <!-- This is the version number of your mod. -->
-        <Version>0.1.0</Version>
-    </PropertyGroup>
+  <PropertyGroup>
+    <!-- Target framework compatible with Unity's runtime -->
+    <TargetFramework>netstandard2.1</TargetFramework>
 
-    <!--
-    How to include thunderstore mods as dependencies via nuget
+    <!-- Mod metadata -->
+    <AssemblyName>PEAKUnlimited</AssemblyName>
+    <AssemblyTitle>PEAKUnlimited</AssemblyTitle>
+    <Version>3.4.3</Version>
+
+    <!-- Ensure modern C# features are available -->
+    <LangVersion>latest</LangVersion>
+
+	<!-- Managed directory path -->
+	<ManagedDir>C:\Program Files (x86)\Steam\steamapps\common\PEAK\PEAK_Data\Managed\</ManagedDir>
+
+    <!-- Suppress warnings from Unity/BepInEx quirks -->
+    <NoWarn>CS0618</NoWarn>
+  </PropertyGroup>
   
-    We have already added the windows10ce nuget feed to this project
-    in NuGet.Config so all you need to do is list a dependency like
-    this:
+  <PropertyGroup>
+    <RestoreAdditionalProjectSources>
+      https://nuget.bepinex.dev/v3/index.json;
+      https://nuget.windows10ce.com/nuget/v3/index.json
+    </RestoreAdditionalProjectSources>
+  </PropertyGroup>
   
-    <ItemGroup>
-      <PackageReference Include="ModTeam-ModName" Version="1.0.0" Private="False"/>
-    </ItemGroup>
-  
-    Private="false" will stop it from being copied to the output folder
-    during build. This will cause the mod to be downloaded and its
-    methods will be available at compile time for your code. You'll still
-    need to add it as a dependency in your manifest.json, of course
-    -->
+  <!-- Core modding libraries -->
+  <ItemGroup>
+    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
+    <PackageReference Include="Hamunii.BepInEx.AutoPlugin" Version="2.0.*" PrivateAssets="all" />
+  </ItemGroup>
+
+  <!-- Local game references -->
+  <ItemGroup>
+    <LocalReferences
+      Include="$(ManagedDir)*.dll"
+      Exclude="$(ManagedDir)Mono*.dll;$(ManagedDir)netstandard.dll;$(ManagedDir)System*.dll;$(ManagedDir)mscorlib.dll"/>
+    <Reference Include="@(LocalReferences)" Private="false" />
+    <Reference Include="$(ManagedDir)Assembly-CSharp.dll" Private="false" Publicize="true" />
+  </ItemGroup>
 
 </Project>
