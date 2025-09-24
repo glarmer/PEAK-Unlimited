@@ -22,7 +22,7 @@ public class ModConfigurationUI : MonoBehaviour
         private GUIStyle _rowStyle;
         private GUIStyle _hintStyle;
         
-        private string titleText = "PEAK Unlimited Settings";
+        private string titleText = "PEAK Unlimited Settings | v" + Plugin.Version;
         private string hintText = "F2: Open/Close • Tab or ↑/↓:  Move • Enter/Click: Change • Scroll Wheel or ←/→ Arrows: Adjust Numerical Values • +/-: Scale Menu";
 
         private int RowHeight = 32;
