@@ -11,9 +11,6 @@ using UnityEngine.InputSystem;
 
 namespace PEAKUnlimited;
 
-//TODO Add dynamic debugging logic
-//TODO Add try-catch logic to all the brittle parts of the codebase
-//TODO Add ability to get key information about the in-game assets for debugging purposes
 [BepInAutoPlugin]
 public partial class Plugin : BaseUnityPlugin
 {

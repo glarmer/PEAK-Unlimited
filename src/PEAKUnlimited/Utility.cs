@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using BepInEx.Logging;
+using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using UnityEngine;
 using Zorro.Core;
@@ -67,7 +69,7 @@ public static class Utility
     {
         if (!PhotonNetwork.IsConnected)
             return null;
-        Plugin.Logger.LogInfo($"Spawn item: {item.name} at {position}");
+        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Spawn item: {item.name} at {position}");
         return PhotonNetwork.Instantiate("0_Items/" + item.name, position, rotation).GetComponent<Item>();
     }
 }
