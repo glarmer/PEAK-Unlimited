@@ -13,10 +13,10 @@ public class EndSequenceRoutinePatch : MonoBehaviour
     {
         for (int i = 4; i < Character.AllCharacters.Count; i++)
         {
-            UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.EndScreenLogic,"Deactivating an end screen");
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.EndScreenLogic,"Deactivating an end screen");
             //Don't display the extra names since it blocks the chart
             Destroy(__instance.scoutWindows[i].gameObject);
-            UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.EndScreenLogic,"Deleted an end screen");
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.EndScreenLogic,"Deleted an end screen");
         }
     }
 }

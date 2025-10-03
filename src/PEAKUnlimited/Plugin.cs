@@ -31,39 +31,39 @@ public partial class Plugin : BaseUnityPlugin
         Logger.LogInfo($"Plugin {Id} is loaded!");
         ConfigurationHandler = new ConfigurationHandler();
         NetworkConnector.MAX_PLAYERS = ConfigurationHandler.MaxPlayers;
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
 
         //Extra marshmallow and backpack patches
         _harmony.PatchAll(typeof(CampfireAwakePatch));
         _harmony.PatchAll(typeof(OnPlayerLeftRoomPatch));
         _harmony.PatchAll(typeof(OnPlayerEnteredRoomPatch));
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Marshmallow patches successful!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Marshmallow patches successful!");
 
         //Lock Airport Kiosk Patches
         _harmony.PatchAll(typeof(StartGamePatch));
         _harmony.PatchAll(typeof(LoadIslandMasterPatch));
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Kiosk patches successful!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Kiosk patches successful!");
 
         //End screen patches
         _harmony.PatchAll(typeof(EndSequenceRoutinePatch));
         _harmony.PatchAll(typeof(WaitingForPlayersUIPatch));
         _harmony.PatchAll(typeof(EndScreenStartPatch));
         _harmony.PatchAll(typeof(EndScreenNextPatch));
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"End screen patches successful!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"End screen patches successful!");
 
         //In-game message patches
         _harmony.PatchAll(typeof(PlayerConnectionLogAwakePatch));
         _harmony.PatchAll(typeof(PlayClickedPatch));
         _harmony.PatchAll(typeof(LeaveLobbyPatch));
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Player connection log patches successful!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Player connection log patches successful!");
         
         //Possibly help with broken audio bug?
         _harmony.PatchAll(typeof(AssignMixerGroupPatch));
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Audio patches successful!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Audio patches successful!");
         
         //Disable vanilla marshmallow patch
         _harmony.PatchAll(typeof(SingleItemSpawnerTrySpawnItemsPatch));
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Item Spawner patches successful!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Item Spawner patches successful!");
 
         //Mod Configuration Menu
         var go = new GameObject("PEAKUnlimitedUI");

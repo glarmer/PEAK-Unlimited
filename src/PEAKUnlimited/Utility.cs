@@ -69,7 +69,7 @@ public static class Utility
     {
         if (!PhotonNetwork.IsConnected)
             return null;
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Spawn item: {item.name} at {position}");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Spawn item: {item.name} at {position}");
         return PhotonNetwork.Instantiate("0_Items/" + item.name, position, rotation).GetComponent<Item>();
     }
 }

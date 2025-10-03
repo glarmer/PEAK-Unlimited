@@ -14,7 +14,7 @@ public class OnPlayerEnteredRoomPatch
     [HarmonyPostfix]
     static void Postfix()
     {
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Someone has joined the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + NetworkConnector.MAX_PLAYERS);
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Someone has joined the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + NetworkConnector.MAX_PLAYERS);
         //Add a marshmallow at each campfire for the new player
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
@@ -26,7 +26,7 @@ public class OnPlayerEnteredRoomPatch
         }
         catch (Exception e)
         {
-            UltimateLogger.GetInstance().DebugMessage(LogLevel.Error, DebugLogType.NetworkingLogic,"Error getting current segment: " + e);
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Error, DebugLogType.NetworkingLogic,"Error getting current segment: " + e);
             segment = Segment.Beach;
         }
         if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && Plugin.ConfigurationHandler.CheatMarshmallows == 0)

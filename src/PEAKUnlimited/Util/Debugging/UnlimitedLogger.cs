@@ -9,16 +9,16 @@ namespace PEAKUnlimited.Util.Debugging;
 /// Utility that allows for dynamic logging messages within the mod. The logger will determine if a message should be
 /// logged with the console based on the messages <see cref="DebugLogType"/>. 
 /// </summary>
-public class UltimateLogger
+public class UnlimitedLogger
 {
-    static UltimateLogger _instance;
+    static UnlimitedLogger _instance;
     HashSet<DebugLogType> logTypeMap = new();
 
-    public static UltimateLogger GetInstance()
+    public static UnlimitedLogger GetInstance()
     {
         if (_instance == null)
         {
-            _instance = new UltimateLogger();
+            _instance = new UnlimitedLogger();
         }
         return _instance;
     }
@@ -28,7 +28,7 @@ public class UltimateLogger
     /// 
     /// Developer note: Is private to ensure singleton pattern is respected. 
     /// </summary>
-    UltimateLogger()
+    UnlimitedLogger()
     {
         string logTypesString = Plugin.ConfigurationHandler.VisibleLogTypes;
         string[] logTypesNames = logTypesString.Split(new[] { ", " }, StringSplitOptions.None);

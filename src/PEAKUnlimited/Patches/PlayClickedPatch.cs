@@ -13,7 +13,7 @@ public class PlayClickedPatch
     static void Postfix(MainMenuMainPage __instance)
     {
         //This is a gross way of testing if a user created a lobby, since PhotonNetwork.IsMasterClient doesn't seem to work in PlayerConnectionLog
-        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Play clicked, this player is the lobby host!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Play clicked, this player is the lobby host!");
         PlayerConnectionLogAwakePatch.isHost = true;
     }
 }

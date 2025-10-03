@@ -14,7 +14,7 @@ public class LoadIslandMasterPatch
         if (Plugin.ConfigurationHandler.LockKiosk)
         {
             bool shouldCancelIslandLoad = !PhotonNetwork.IsMasterClient || !Plugin.HasHostStarted;
-            UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Host Only Kiosk Logic being tested: Should Cancel Island Load = {shouldCancelIslandLoad}");
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Host Only Kiosk Logic being tested: Should Cancel Island Load = {shouldCancelIslandLoad}");
             
             if (!PhotonNetwork.IsMasterClient || !Plugin.HasHostStarted) return false;
         }
