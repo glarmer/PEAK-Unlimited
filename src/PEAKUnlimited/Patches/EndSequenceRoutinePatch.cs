@@ -1,4 +1,6 @@
+using BepInEx.Logging;
 using HarmonyLib;
+using PEAKUnlimited.Util.Debugging;
 using UnityEngine;
 
 namespace PEAKUnlimited.Patches;
@@ -11,10 +13,10 @@ public class EndSequenceRoutinePatch : MonoBehaviour
     {
         for (int i = 4; i < Character.AllCharacters.Count; i++)
         {
-            Plugin.Logger.LogInfo("Deactivating an end screen");
+            UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.EndScreenLogic,"Deactivating an end screen");
             //Don't display the extra names since it blocks the chart
             Destroy(__instance.scoutWindows[i].gameObject);
-            Plugin.Logger.LogInfo("Deleted an end screen");
+            UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.EndScreenLogic,"Deleted an end screen");
         }
     }
 }

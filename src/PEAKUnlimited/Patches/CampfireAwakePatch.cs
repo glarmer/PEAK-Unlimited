@@ -15,7 +15,7 @@ public class CampfireAwakePatch
     [HarmonyPostfix]
     static void Postfix(Campfire __instance)
     {
-       UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,$"Campfire Awake Patch! Number of known campfires: {Plugin.CampfireList.Count}");
+       UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Campfire Awake Patch! Number of known campfires: {Plugin.CampfireList.Count}");
         if (!PhotonNetwork.IsMasterClient)
             return;
 

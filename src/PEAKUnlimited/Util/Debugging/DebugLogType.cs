@@ -9,6 +9,7 @@ public enum DebugLogType
     /// <see cref="Campfire"/> instances.
     /// </summary>
     MarshmallowLogic,
+    
     /// <summary>
     /// Defines logic that relates to alteration to the <see cref="Campfire"/> instances.
     /// </summary>
@@ -25,12 +26,14 @@ public enum DebugLogType
     /// events.
     /// </summary>
     NetworkingLogic, 
-    /// <summary>
-    /// Defines logic that relates to the handling of level <see cref="Segment"/> instances.
-    /// </summary>
-    SegmentLogic, 
+
     /// <summary>
     /// Defines logic that relates to the status of game methods the mod is attempting to patch.
     /// </summary>
-    PatchingLogic
+    PatchingLogic,
+    
+    /// <summary>
+    /// Defines logic that relates to the handling of the game's <see cref="EndScreen"/>
+    /// </summary>
+    EndScreenLogic
 }

@@ -1,4 +1,6 @@
+using BepInEx.Logging;
 using HarmonyLib;
+using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 
 namespace PEAKUnlimited.Patches;
@@ -11,7 +13,9 @@ public class LoadIslandMasterPatch
     {
         if (Plugin.ConfigurationHandler.LockKiosk)
         {
-            Plugin.Logger.LogInfo("Load Island Master Patch running");
+            bool shouldCancelIslandLoad = !PhotonNetwork.IsMasterClient || !Plugin.HasHostStarted;
+            UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Host Only Kiosk Logic being tested: Should Cancel Island Load = {shouldCancelIslandLoad}");
+            
             if (!PhotonNetwork.IsMasterClient || !Plugin.HasHostStarted) return false;
         }
         Plugin.HasHostStarted = false;
