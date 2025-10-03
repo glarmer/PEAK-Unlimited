@@ -13,7 +13,7 @@ public class CampfireAwakePatch
     [HarmonyPostfix]
     static void Postfix(Campfire __instance)
     {
-        Plugin.Logger.LogInfo("Campfire Awake Patch!");
+        Plugin.Logger.LogInfo($"Campfire Awake Patch! Number of known campfires: {Plugin.CampfireList.Count}");
         if (!PhotonNetwork.IsMasterClient)
             return;
 

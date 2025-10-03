@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 using Photon.Pun;
 using UnityEngine;
@@ -16,7 +17,16 @@ public class OnPlayerEnteredRoomPatch
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
         if (Plugin.CampfireList == null || Plugin.CampfireList.Count == 0) return;
-        Segment segment = Singleton<MapHandler>.Instance.GetCurrentSegment();
+        Segment segment;
+        try
+        {
+            segment = MapHandler.Instance.GetCurrentSegment();
+        }
+        catch (Exception e)
+        {
+            Plugin.Logger.LogError("Error getting current segment: " + e);
+            segment = Segment.Beach;
+        }
         if (Plugin.IsAfterAwake && PhotonNetwork.IsMasterClient && Plugin.ConfigurationHandler.CheatMarshmallows == 0)
         {
             //Delete existing marshmallows
