@@ -2,6 +2,7 @@ using System;
 using System.IO;
 using BepInEx;
 using BepInEx.Configuration;
+using PEAKUnlimited.Util.Debugging;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,7 +21,9 @@ public class ConfigurationHandler
     public ConfigEntry<int> ConfigCheatExtraMarshmallows;
     public ConfigEntry<bool> ConfigExtraBackpacks;
     public ConfigEntry<int> ConfigCheatExtraBackpacks;
+    public ConfigEntry<string> ConfigVisibleLogTypes;
     public ConfigEntry<string> ConfigMenuKey;
+    
     
     public int MaxPlayers => ConfigMaxPlayers.Value;
     public bool LockKiosk => ConfigLockKiosk.Value;
@@ -29,6 +32,7 @@ public class ConfigurationHandler
     public bool IsLateMarshmallowsEnabled => ConfigLateMarshmallows.Value;
     public int CheatMarshmallows => ConfigCheatExtraMarshmallows.Value;
     public bool IsExtraBackpacksEnabled => ConfigExtraBackpacks.Value;
+    public string VisibleLogTypes => ConfigVisibleLogTypes.Value;
     public int CheatBackpacks => ConfigCheatExtraBackpacks.Value;
     
     
@@ -89,7 +93,14 @@ public class ConfigurationHandler
             "Controls whether additional backpacks have a chance to be spawned for extra players"
         );
         Plugin.Logger.LogInfo("ConfigurationHandler: Extra backpacks enabled: " + ConfigExtraBackpacks.Value);
-        
+
+        ConfigVisibleLogTypes = _config.Bind(
+            "General",
+            "VisibleLogTypes",
+            "",
+            $"Determines what types of debug messages are visible in the Bepinex Logs, Options include: {string.Join(", ", Enum.GetNames(typeof(DebugLogType)))}"
+        );
+        Plugin.Logger.LogInfo($"ConfigurationHandler: Log Types Enabled: {string.Join(", ", Enum.GetNames(typeof(DebugLogType)))}");
         ConfigLateMarshmallows = _config.Bind
         (
             "General",
