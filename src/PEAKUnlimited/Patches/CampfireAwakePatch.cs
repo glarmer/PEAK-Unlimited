@@ -1,6 +1,7 @@
 using System;
 using BepInEx.Logging;
 using HarmonyLib;
+using PEAKUnlimited.Model.GameInfo;
 using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class CampfireAwakePatch
     static void Postfix(Campfire __instance)
     {
        UltimateLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Campfire Awake Patch! Number of known campfires: {Plugin.CampfireList.Count}");
+       UltimateLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.CampfireLogic, new CampfireInfo().GetInfoMessage(__instance));
         if (!PhotonNetwork.IsMasterClient)
             return;
 
