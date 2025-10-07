@@ -10,7 +10,7 @@ namespace PEAKUnlimited;
 
 public class ConfigurationHandler
 {
-    private ConfigFile _config = new ConfigFile(Path.Combine(Paths.ConfigPath, "PEAKUnlimited.cfg"), true);
+    private ConfigFile _config;
     public InputAction MenuAction { get; set; }
 
     public ConfigEntry<int> ConfigMaxPlayers;
@@ -36,8 +36,10 @@ public class ConfigurationHandler
     public int CheatBackpacks => ConfigCheatExtraBackpacks.Value;
     
     
-    public ConfigurationHandler()
+    public ConfigurationHandler(ConfigFile configFile)
     {
+        _config = configFile;
+        
         Plugin.Logger.LogInfo("ConfigurationHandler initialising");
         ConfigMaxPlayers = _config.Bind
         (

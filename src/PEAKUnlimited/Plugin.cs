@@ -29,7 +29,7 @@ public partial class Plugin : BaseUnityPlugin
     {
         Logger = base.Logger;
         Logger.LogInfo($"Plugin {Id} is loaded!");
-        ConfigurationHandler = new ConfigurationHandler();
+        ConfigurationHandler = new ConfigurationHandler(Config);
         NetworkConnector.MAX_PLAYERS = ConfigurationHandler.MaxPlayers;
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
 
