@@ -1,5 +1,8 @@
 using System;
+using BepInEx.Logging;
 using HarmonyLib;
+using PEAKUnlimited.Model.GameInfo;
+using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using UnityEngine;
 using Zorro.Core;
@@ -13,7 +16,8 @@ public class CampfireAwakePatch
     [HarmonyPostfix]
     static void Postfix(Campfire __instance)
     {
-        Plugin.Logger.LogInfo($"Campfire Awake Patch! Number of known campfires: {Plugin.CampfireList.Count}");
+       UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Campfire Awake Patch! Number of known campfires: {Plugin.CampfireList.Count}");
+       UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.CampfireLogic, new CampfireInfo().GetInfoMessage(__instance));
         if (!PhotonNetwork.IsMasterClient)
             return;
 
@@ -39,15 +43,15 @@ public class CampfireAwakePatch
             int amountOfMarshmallowsToSpawn = Math.Min(4, PhotonNetwork.CurrentRoom.PlayerCount);
             if (Plugin.ConfigurationHandler.IsExtraMarshmallowsEnabled)
             {
-                Plugin.Logger.LogInfo("Marshmallowification enabled and starting!");
+                UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.MarshmallowLogic,"Marshmallowification enabled and starting!");
                 amountOfMarshmallowsToSpawn = PhotonNetwork.CurrentRoom.PlayerCount;
             }
             if (Plugin.ConfigurationHandler.CheatMarshmallows != 0)
             {
                 amountOfMarshmallowsToSpawn = Plugin.ConfigurationHandler.CheatMarshmallows;
-                Plugin.Logger.LogInfo("Cheatmallows enabled!");
+                UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.MarshmallowLogic,"Cheatmallows enabled!");
             }
-            Plugin.Logger.LogInfo($"Will spawn {amountOfMarshmallowsToSpawn} marshmallows for {PhotonNetwork.CurrentRoom.PlayerCount} people!");
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.MarshmallowLogic,$"Will spawn {amountOfMarshmallowsToSpawn} marshmallows for {PhotonNetwork.CurrentRoom.PlayerCount} people!");
             Vector3 position = __instance.gameObject.transform.position;
             Vector3 eulerAngles = __instance.gameObject.transform.eulerAngles;
             Plugin.Marshmallows.Add(__instance, Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, position, eulerAngles, __instance.advanceToSegment));
@@ -56,7 +60,7 @@ public class CampfireAwakePatch
 
     private static void AddBackpacks(Campfire __instance)
     {
-        Plugin.Logger.LogInfo("Backpackification enabled and starting!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,"Backpackification enabled and starting!");
         Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[6];
         int numberOfExtraPlayers = PhotonNetwork.CurrentRoom.PlayerCount - Plugin.VanillaMaxPlayers;
         int number = 0;
@@ -80,11 +84,11 @@ public class CampfireAwakePatch
 
         if (Plugin.ConfigurationHandler.CheatBackpacks != 0)
         {
-            Plugin.Logger.LogInfo("Cheat Backpacks enabled = " + Plugin.ConfigurationHandler.CheatBackpacks);
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,"Cheat Backpacks enabled = " + Plugin.ConfigurationHandler.CheatBackpacks);
             number = Plugin.ConfigurationHandler.CheatBackpacks - 1; //Minus one as there is already a backpack present
         }
 
-        Plugin.Logger.LogInfo("Backpacks enabled = " + number);
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,"Backpacks enabled = " + number);
         if (number > 0)
         {
             foreach (Vector3 position in Utility.GetEvenlySpacedPointsAroundCampfire(number, 3.3f, 3.7f,
@@ -104,7 +108,7 @@ public class CampfireAwakePatch
         }
         else
         {
-            Plugin.Logger.LogInfo(
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,
                 "Not enough players to add additional backpacks, use the Cheat Backpack configuration setting if you want to override this!");
         }
     }

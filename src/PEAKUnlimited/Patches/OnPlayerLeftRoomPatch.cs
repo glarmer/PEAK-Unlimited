@@ -1,4 +1,6 @@
+using BepInEx.Logging;
 using HarmonyLib;
+using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using UnityEngine;
 using Zorro.Core;
@@ -11,7 +13,7 @@ public class OnPlayerLeftRoomPatch : MonoBehaviour
     [HarmonyPostfix]
     static void Postfix()
     {
-        Plugin.Logger.LogInfo("Someone has left the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + NetworkConnector.MAX_PLAYERS);
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Someone has left the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + NetworkConnector.MAX_PLAYERS);
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
         if (Plugin.CampfireList == null || Plugin.CampfireList.Count == 0) return;
