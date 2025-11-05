@@ -8,6 +8,7 @@ using PEAKUnlimited.Patches;
 using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using Photon.Realtime;
+using Steamworks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,6 +38,7 @@ public partial class Plugin : BaseUnityPlugin
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + ConfigurationHandler.ConfigMaxPlayers.Value + "!");
 
         _harmony.PatchAll(typeof(NetworkingUtilitiesHostRoomOptionsPatch));
+        _harmony.PatchAll(typeof(SteamLobbyHandlerSetLobbyDataPatch));
         
         //Extra marshmallow and backpack patches
         _harmony.PatchAll(typeof(CampfireAwakePatch));
