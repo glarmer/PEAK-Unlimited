@@ -21,7 +21,7 @@ public class PlayerConnectionLogAwakePatch
         if (Plugin.ConfigurationHandler.IsLobbyDetailsEnabled)
         {
             __instance.AddMessage(
-                $"{__instance.GetColorTag(__instance.joinedColor)} Max players: </color>{__instance.GetColorTag(__instance.userColor)} {NetworkConnector.MAX_PLAYERS} </color>");
+                $"{__instance.GetColorTag(__instance.joinedColor)} Max players: </color>{__instance.GetColorTag(__instance.userColor)} {ConfigurationHandler.ConfigMaxPlayers.Value} </color>");
 
             string isEnabled = "Enabled";
             if (!Plugin.ConfigurationHandler.IsExtraMarshmallowsEnabled)

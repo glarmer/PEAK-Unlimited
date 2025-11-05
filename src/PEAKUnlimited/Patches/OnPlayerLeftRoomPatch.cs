@@ -13,7 +13,7 @@ public class OnPlayerLeftRoomPatch : MonoBehaviour
     [HarmonyPostfix]
     static void Postfix()
     {
-        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Someone has left the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + NetworkConnector.MAX_PLAYERS);
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Someone has left the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + ConfigurationHandler.ConfigMaxPlayers.Value);
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;
         if (Plugin.CampfireList == null || Plugin.CampfireList.Count == 0) return;

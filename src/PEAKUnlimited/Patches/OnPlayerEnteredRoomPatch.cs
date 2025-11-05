@@ -14,7 +14,7 @@ public class OnPlayerEnteredRoomPatch
     [HarmonyPostfix]
     static void Postfix()
     {
-        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Someone has joined the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + NetworkConnector.MAX_PLAYERS);
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,"Someone has joined the room! Number: " + PhotonNetwork.CurrentRoom.PlayerCount + "/" + ConfigurationHandler.ConfigMaxPlayers.Value);
         //Add a marshmallow at each campfire for the new player
         if (!Plugin.ConfigurationHandler.IsLateMarshmallowsEnabled)
             return;

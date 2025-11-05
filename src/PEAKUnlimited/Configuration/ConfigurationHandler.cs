@@ -13,7 +13,7 @@ public class ConfigurationHandler
     private ConfigFile _config;
     public InputAction MenuAction { get; set; }
 
-    public ConfigEntry<int> ConfigMaxPlayers;
+    public static ConfigEntry<int> ConfigMaxPlayers;
     public ConfigEntry<bool> ConfigLockKiosk;
     public ConfigEntry<bool> ConfigLobbyDetails;
     public ConfigEntry<bool> ConfigExtraMarshmallows;
@@ -58,7 +58,7 @@ public class ConfigurationHandler
         }
         Plugin.Logger.LogInfo("ConfigurationHandler: Max Players Loaded: " + ConfigMaxPlayers.Value);
         
-        ConfigMaxPlayers.SettingChanged += OnMaxPlayersChanged;
+        //ConfigMaxPlayers.SettingChanged += OnMaxPlayersChanged;
         
         ConfigLockKiosk = _config.Bind
         (
@@ -159,11 +159,11 @@ public class ConfigurationHandler
         Plugin.Logger.LogInfo("ConfigurationHandler initialised");
     }
     
-    private void OnMaxPlayersChanged(object sender, System.EventArgs e)
-    {
-        NetworkConnector.MAX_PLAYERS = MaxPlayers;
-        Plugin.Logger.LogInfo($"Set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
-    }
+    //private void OnMaxPlayersChanged(object sender, System.EventArgs e)
+    //{
+    //    NetworkConnector.MAX_PLAYERS = MaxPlayers;
+    //    Plugin.Logger.LogInfo($"Set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
+    //}
 
     private void OnMenuKeyChanged(object sender, System.EventArgs e)
     {

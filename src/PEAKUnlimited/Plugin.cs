@@ -2,10 +2,12 @@ using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using Peak.Network;
 using PEAKUnlimited.Configuration;
 using PEAKUnlimited.Patches;
 using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -30,9 +32,12 @@ public partial class Plugin : BaseUnityPlugin
         Logger = base.Logger;
         Logger.LogInfo($"Plugin {Id} is loaded!");
         ConfigurationHandler = new ConfigurationHandler(Config);
-        NetworkConnector.MAX_PLAYERS = ConfigurationHandler.MaxPlayers;
-        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + NetworkConnector.MAX_PLAYERS + "!");
+        //NetworkingUtilities.MAX_PLAYERS = ConfigurationHandler.MaxPlayers;
+        
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + ConfigurationHandler.ConfigMaxPlayers.Value + "!");
 
+        _harmony.PatchAll(typeof(NetworkingUtilitiesHostRoomOptionsPatch));
+        
         //Extra marshmallow and backpack patches
         _harmony.PatchAll(typeof(CampfireAwakePatch));
         _harmony.PatchAll(typeof(OnPlayerLeftRoomPatch));
