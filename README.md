@@ -8,6 +8,8 @@ Introducing, "PEAK Unlimited", a mod for PEAK which raises the lobby max player 
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Q5Q7IFRUH)
 
+- You can get help from myself via my [Discord server](https://discord.gg/cjzWT37abR)!
+
 ## Features:
 - Raises the Max Player Count
 - Adds extra marshmallows for all your friends! 
