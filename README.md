@@ -28,12 +28,14 @@ Introducing, "PEAK Unlimited", a mod for PEAK which raises the lobby max player 
 
 ## My other mods
 
-- [Discplacement](https://thunderstore.io/c/peak/p/glarmer/Discplacement/) - Turns the frisbee into a teleportation device with various balance settings
-- [Hide and PEAK](https://thunderstore.io/c/peak/p/glarmer/Hide_and_PEAK_/) - Adds the ability to start a game of hide and seek wherever you are on the mountain!
+- [PEAK Unlimited](https://thunderstore.io/c/peak/p/glarmer/PEAK_Unlimited/) - Allows you to rebind your keys
 - [Voice Volume Saver](https://thunderstore.io/c/peak/p/glarmer/PEAK_Voice_Volume_Saver/) - Saves the volume of all your friends, no more adjusting their volume every time you load in!
+- [Discplacement](https://thunderstore.io/c/peak/p/glarmer/Discplacement/) - Turns the frisbee into a teleportation device with various balance settings
+- [Badges for Boba's Hats](https://thunderstore.io/c/peak/p/glarmer/Badges_For_Bobas_Hats/) - Adds badges so you can earn boba's hats!
+- [PEAK Unbound](https://thunderstore.io/c/peak/p/glarmer/PEAK_Unbound/) - Allows you to rebind your keys
 
-### Commissions
-Did you know I take commissions? Contact me on discord @glarmer if you'd like to discuss! Note: All commissions must go through PayPal for the safety of you as a buyer and me as a seller.
+## Commissions
+Did you know I take commissions? Contact me on discord @glarmer if you'd like to discuss! Alternatively reach out to me via my [Discord server](https://discord.gg/cjzWT37abR). Note: All commissions must go through PayPal for the safety of you as a buyer and me as a seller.
 
 ## Manual Installation
 Only the host needs to install! Automatic installation via Gale or R2ModMan is recommended!
@@ -61,7 +63,7 @@ Any other site is not run by me and may contain malware. Please make sure to dow
 
 ## Help
 - You can find your PEAK folder by **right clicking the game in your Steam library** then > **Manage** > **Browse Local Files**
-- If you have issues with auto install, try manually installing with the version of BepInEx that I link above.
+- You can get help from myself via my [Discord server](https://discord.gg/cjzWT37abR)!
 - Please report issues to [the mods github](https://github.com/glarmer/PEAK-Unlimited/), alternatively I will periodically check the [steam guide](https://steamcommunity.com/sharedfiles/filedetails/?id=3501916945&tscn=1750268995)
 
 ## Images
