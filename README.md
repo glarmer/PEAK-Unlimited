@@ -29,6 +29,7 @@ Introducing, "PEAK Unlimited", a mod for PEAK which raises the lobby max player 
 ## My other mods
 
 - [PEAK Unlimited](https://thunderstore.io/c/peak/p/glarmer/PEAK_Unlimited/) - Allows you to rebind your keys
+- [Hide and PEAK](https://thunderstore.io/c/peak/p/glarmer/Hide_and_PEAK_/) - Adds a Hide and Seek gamemode to PEAK!
 - [Voice Volume Saver](https://thunderstore.io/c/peak/p/glarmer/PEAK_Voice_Volume_Saver/) - Saves the volume of all your friends, no more adjusting their volume every time you load in!
 - [Discplacement](https://thunderstore.io/c/peak/p/glarmer/Discplacement/) - Turns the frisbee into a teleportation device with various balance settings
 - [Badges for Boba's Hats](https://thunderstore.io/c/peak/p/glarmer/Badges_For_Bobas_Hats/) - Adds badges so you can earn boba's hats!
