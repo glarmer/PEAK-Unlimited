@@ -48,14 +48,14 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(StartGamePatch));
         _harmony.PatchAll(typeof(LoadIslandMasterPatch));
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Kiosk patches successful!");
-
+        
         //End screen patches
         _harmony.PatchAll(typeof(EndSequenceRoutinePatch));
         _harmony.PatchAll(typeof(WaitingForPlayersUIPatch));
         _harmony.PatchAll(typeof(EndScreenStartPatch));
         _harmony.PatchAll(typeof(EndScreenNextPatch));
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"End screen patches successful!");
-
+        
         //In-game message patches
         _harmony.PatchAll(typeof(PlayerConnectionLogAwakePatch));
         _harmony.PatchAll(typeof(PlayClickedPatch));

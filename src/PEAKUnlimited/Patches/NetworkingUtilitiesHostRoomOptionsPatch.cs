@@ -14,7 +14,7 @@ public class NetworkingUtilitiesHostRoomOptionsPatch
         {
             IsVisible = false,
             MaxPlayers = ConfigurationHandler.ConfigMaxPlayers.Value,
-            PublishUserId = false
+            PublishUserId = true
         };
         return false;
     }
