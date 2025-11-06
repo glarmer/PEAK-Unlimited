@@ -1,11 +1,19 @@
+using System;
 using System.Collections.Generic;
 using BepInEx.Logging;
 using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using UnityEngine;
 using Zorro.Core;
+using Random = UnityEngine.Random;
 
 namespace PEAKUnlimited;
+
+public enum CampfireFoods
+{
+    Marshmallow = 46,
+    Glizzy = 154
+}
 
 public static class Utility
 {
@@ -47,11 +55,26 @@ public static class Utility
     public static List<GameObject> SpawnMarshmallows(int number, Vector3 campfirePosition, Vector3 campfireAngles, Segment advanceToSegment)
     {
         List<GameObject> marshmallows = new List<GameObject>();
-        Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[46];
-        obj.GetName();
+        
         foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 2f, 2.5f, campfirePosition, campfireAngles,
                      advanceToSegment))
         {
+            float chance = Random.Range(0.0f, 1.0f);
+            CampfireFoods randomEnum;
+            if (chance < 0.5f)
+            {
+                randomEnum = CampfireFoods.Glizzy;
+            }
+            else
+            {
+                randomEnum = CampfireFoods.Marshmallow;
+            }
+            ushort randomValue = (ushort) randomEnum;
+        
+            Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[randomValue];
+            obj.GetName();
+            
+            
             Vector3 directionToCampfire = (campfirePosition - position).normalized;
             Quaternion rotation = Quaternion.LookRotation(directionToCampfire, Vector3.up);
             rotation *= Quaternion.Euler(0f, Random.Range(-30f, -150f), 0f);
