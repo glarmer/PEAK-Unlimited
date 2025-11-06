@@ -7,7 +7,7 @@
     <!-- Mod metadata -->
     <AssemblyName>PEAKUnlimited</AssemblyName>
     <AssemblyTitle>PEAKUnlimited</AssemblyTitle>
-    <Version>3.4.4</Version>
+    <Version>3.6.3</Version>
 
     <!-- Ensure modern C# features are available -->
     <LangVersion>latest</LangVersion>
