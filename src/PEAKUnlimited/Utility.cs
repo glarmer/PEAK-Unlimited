@@ -61,7 +61,7 @@ public static class Utility
         {
             float chance = Random.Range(0.0f, 1.0f);
             CampfireFoods randomEnum;
-            float glizzyChance = 0.375f;
+            float glizzyChance = Plugin.ConfigurationHandler.ConfigHotDogChance.Value;
             if (chance < glizzyChance)
             {
                 randomEnum = CampfireFoods.Glizzy;

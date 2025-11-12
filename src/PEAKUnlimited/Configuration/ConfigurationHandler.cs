@@ -22,6 +22,7 @@ public class ConfigurationHandler
     public ConfigEntry<bool> ConfigExtraBackpacks;
     public ConfigEntry<int> ConfigCheatExtraBackpacks;
     public ConfigEntry<string> ConfigVisibleLogTypes;
+    public ConfigEntry<float> ConfigHotDogChance;
     public ConfigEntry<string> ConfigMenuKey;
     
     
@@ -83,9 +84,28 @@ public class ConfigurationHandler
             "General",
             "ExtraMarshmallows",
             true,
-            "Controls whether additional marshmallows are spawned for the extra players"
+            "Controls whether additional marshmallows and hot dogs are spawned for the extra players"
         );
         Plugin.Logger.LogInfo("ConfigurationHandler: Extra marshmallows enabled: " + ConfigExtraMarshmallows.Value);
+        
+        ConfigHotDogChance = _config.Bind
+        (
+            "General",
+            "HotDogChance",
+            0.375f,
+            "Controls the chance of hot dogs being spawned instead of marshmallows for extra players, Range: 0-1"
+        );
+        Plugin.Logger.LogInfo("ConfigurationHandler: Hot dog chance set to: " + ConfigHotDogChance.Value);
+        if (ConfigHotDogChance.Value < 0f)
+        {
+            ConfigHotDogChance.Value = 0f;
+        }
+        else if (ConfigHotDogChance.Value > 1f)
+        {
+            ConfigHotDogChance.Value = 1f;
+        }
+        
+        
         
         ConfigExtraBackpacks = _config.Bind
         (

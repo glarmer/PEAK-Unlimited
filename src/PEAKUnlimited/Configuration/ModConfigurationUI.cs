@@ -173,15 +173,15 @@ public class ModConfigurationUI : MonoBehaviour
                 ToggleSelected();
             
             if (Input.GetKeyDown(KeyCode.LeftArrow))
-                AdjustInt(-1);
+                AdjustNumerical(-1);
             if (Input.GetKeyDown(KeyCode.RightArrow))
-                AdjustInt(1);
+                AdjustNumerical(1);
             
-            float scroll = Input.GetAxis("Mouse ScrollWheel");
-            if (scroll > 0f)       
-                AdjustInt(1);
-            else if (scroll < 0f) 
-                AdjustInt(-1);
+            float scroll = Mouse.current.scroll.ReadValue().y;
+            if (scroll > 0f)
+                AdjustNumerical(1);
+            else if (scroll < 0f)
+                AdjustNumerical(-1);
         }
 
         private void ToggleSelected()
@@ -200,6 +200,12 @@ public class ModConfigurationUI : MonoBehaviour
                     if (next > option.MaxInt) next = option.MinInt;
                     option.IntEntry.Value = next;
                     break;
+                
+                case Option.OptionType.Float:
+                    float nextFloat = option.FloatEntry.Value + option.FloatStep;
+                    if (nextFloat > option.MaxFloat) nextFloat = option.MinFloat;
+                    option.FloatEntry.Value = nextFloat;
+                    break;
 
                 case Option.OptionType.InputAction:
                     _waitingForBinding = true;
@@ -208,7 +214,7 @@ public class ModConfigurationUI : MonoBehaviour
             }
         }
 
-        private void AdjustInt(int delta)
+        private void AdjustNumerical(int delta)
         {
             var option = _options[_selectedIndex];
             if (option.IsDisabled()) return;
@@ -217,6 +223,10 @@ public class ModConfigurationUI : MonoBehaviour
             {
                 int newValue = Mathf.Clamp(option.IntEntry.Value + (delta * option.Step), option.MinInt, option.MaxInt);
                 option.IntEntry.Value = newValue;
+            } else if (option.Type == Option.OptionType.Float)
+            {
+                float newValue = Mathf.Clamp(option.FloatEntry.Value + (delta * option.FloatStep), option.MinFloat, option.MaxFloat);
+                option.FloatEntry.Value = newValue;
             }
         }
 

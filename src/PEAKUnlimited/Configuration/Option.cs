@@ -5,7 +5,7 @@ namespace PEAKUnlimited.Configuration;
 
 public class Option
 {
-    public enum OptionType { Bool, Int, String, InputAction }
+    public enum OptionType { Bool, Int, String, InputAction, Float }
     
     public string Label {get; set;}
     public OptionType Type {get; set;}
@@ -17,11 +17,29 @@ public class Option
     public int Step {get; set;}
     public Func<bool> IsDisabled { get; set; } = () => false;
     public Func<string> DisplayValue { get; set; } = () => "";
+    
+    public ConfigEntry<float> FloatEntry { get; set; }
+    public float MinFloat {get; set;}
+    public float MaxFloat {get; set;}
+    public float FloatStep {get; set;}
 
     private Option(string label, OptionType type)
     {
         Label = label;
         Type = type;
+    }
+    
+    public static Option Float(string label, ConfigEntry<float> entry, float min, float max, float step = 0.05f, Func<bool>? isDisabled = null)
+    {
+        return new Option(label, OptionType.Float)
+        {
+            FloatEntry = entry,
+            MinFloat = min,
+            MaxFloat = max,
+            FloatStep = step,
+            IsDisabled = isDisabled ?? (() => false),
+            DisplayValue = () => entry.Value.ToString()
+        };
     }
 
     public static Option Bool(string label, ConfigEntry<bool> entry, Func<bool>? isDisabled = null)
