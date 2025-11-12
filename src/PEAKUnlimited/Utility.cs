@@ -61,7 +61,8 @@ public static class Utility
         {
             float chance = Random.Range(0.0f, 1.0f);
             CampfireFoods randomEnum;
-            if (chance < 0.5f)
+            float glizzyChance = 0.375f;
+            if (chance < glizzyChance)
             {
                 randomEnum = CampfireFoods.Glizzy;
             }
