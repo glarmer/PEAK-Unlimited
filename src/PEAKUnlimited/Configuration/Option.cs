@@ -38,7 +38,7 @@ public class Option
             MaxFloat = max,
             FloatStep = step,
             IsDisabled = isDisabled ?? (() => false),
-            DisplayValue = () => entry.Value.ToString()
+            DisplayValue = () => entry.Value.ToString("F3")
         };
     }
 
