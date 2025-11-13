@@ -20,6 +20,8 @@ public class CampfireAwakePatch
        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.CampfireLogic, new CampfireInfo().GetInfoMessage(__instance));
         if (!PhotonNetwork.IsMasterClient)
             return;
+        if (__instance.nameOverride == "NAME_PORTABLE STOVE")
+            return;
 
         if (Plugin.ConfigurationHandler.IsExtraBackpacksEnabled)
         {
