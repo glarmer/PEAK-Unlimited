@@ -1,4 +1,5 @@
 using HarmonyLib;
+using Photon.Pun;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,16 +11,20 @@ public class EndScreenStartPatch : MonoBehaviour
         [HarmonyPrefix]
         static void Prefix(EndScreen __instance)
         {
-            if (Character.AllCharacters.Count <= Plugin.VanillaMaxPlayers)
+            // Use PhotonNetwork.CurrentRoom.PlayerCount instead of Character.AllCharacters.Count
+            // to avoid race condition where AllCharacters isn't synced yet on non-host clients
+            int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
+
+            if (playerCount <= Plugin.VanillaMaxPlayers)
                 return;
 
-            var newScoutWindows = new EndScreenScoutWindow[Character.AllCharacters.Count];
-            var newScouts = new Image[Character.AllCharacters.Count];
-            var newScoutsAtPeak = new Image[Character.AllCharacters.Count];
-            var newOldPip = new Image[Character.AllCharacters.Count];
-            var newScoutLines = new Transform[Character.AllCharacters.Count];
+            var newScoutWindows = new EndScreenScoutWindow[playerCount];
+            var newScouts = new Image[playerCount];
+            var newScoutsAtPeak = new Image[playerCount];
+            var newOldPip = new Image[playerCount];
+            var newScoutLines = new Transform[playerCount];
 
-            for (int i = 0; i < Character.AllCharacters.Count; i++)
+            for (int i = 0; i < playerCount; i++)
             {
                 //Don't do anything to the original ones
                 bool withinExisting = i < __instance.scouts.Length;
