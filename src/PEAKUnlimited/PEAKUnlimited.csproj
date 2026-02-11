@@ -1,46 +1,55 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
 
-  <PropertyGroup>
-    <!-- Target framework compatible with Unity's runtime -->
-    <TargetFramework>netstandard2.1</TargetFramework>
+        <AssemblyName>PEAKUnlimited</AssemblyName>
+        <AssemblyTitle>PEAKUnlimited</AssemblyTitle>
+        <Version>3.7.0</Version>
 
-    <!-- Mod metadata -->
-    <AssemblyName>PEAKUnlimited</AssemblyName>
-    <AssemblyTitle>PEAKUnlimited</AssemblyTitle>
-    <Version>3.6.5</Version>
+        <LangVersion>latest</LangVersion>
+        <NoWarn>CS0618</NoWarn>
+    </PropertyGroup>
 
-    <!-- Ensure modern C# features are available -->
-    <LangVersion>latest</LangVersion>
+    <!-- Managed directory path (windows) -->
+    <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+        <ManagedDir>C:\Program Files (x86)\Steam\steamapps\common\PEAK\PEAK_Data\Managed\</ManagedDir>
+    </PropertyGroup>
 
-	<!-- Managed directory path -->
-	<ManagedDir>C:\Program Files (x86)\Steam\steamapps\common\PEAK\PEAK_Data\Managed\</ManagedDir>
+    <!-- Managed directory path (linux) -->
+    <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+        <ManagedDir>$(HOME)/.local/share/Steam/steamapps/common/PEAK/PEAK_Data/Managed/</ManagedDir>
+    </PropertyGroup>
+    
+    <PropertyGroup>
+        <RestoreAdditionalProjectSources>
+            https://nuget.bepinex.dev/v3/index.json;
+            https://nuget.windows10ce.com/nuget/v3/index.json
+        </RestoreAdditionalProjectSources>
+    </PropertyGroup>
 
-    <!-- Suppress warnings from Unity/BepInEx quirks -->
-    <NoWarn>CS0618</NoWarn>
-  </PropertyGroup>
-  
-  <PropertyGroup>
-    <RestoreAdditionalProjectSources>
-      https://nuget.bepinex.dev/v3/index.json;
-      https://nuget.windows10ce.com/nuget/v3/index.json
-    </RestoreAdditionalProjectSources>
-  </PropertyGroup>
-  
-  <!-- Core modding libraries -->
-  <ItemGroup>
-    <PackageReference Include="BepInEx.Core" Version="5.4.21" />
-    <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
-    <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
-    <PackageReference Include="Hamunii.BepInEx.AutoPlugin" Version="2.0.*" PrivateAssets="all" />
-  </ItemGroup>
+    <!-- Core modding libraries -->
+    <ItemGroup>
+        <PackageReference Include="BepInEx.Core" Version="5.4.21" />
+        <PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+        <PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild" Version="0.4.3" PrivateAssets="all" />
+        <PackageReference Include="Hamunii.BepInEx.AutoPlugin" Version="2.0.*" PrivateAssets="all" />
+    </ItemGroup>
 
-  <!-- Local game references -->
-  <ItemGroup>
-    <LocalReferences
-      Include="$(ManagedDir)*.dll"
-      Exclude="$(ManagedDir)Mono*.dll;$(ManagedDir)netstandard.dll;$(ManagedDir)System*.dll;$(ManagedDir)mscorlib.dll"/>
-    <Reference Include="@(LocalReferences)" Private="false" />
-    <Reference Include="$(ManagedDir)Assembly-CSharp.dll" Private="false" Publicize="true" />
-  </ItemGroup>
+    <!-- Local game references -->
+    <ItemGroup>
+        <LocalReferences
+                Include="$(ManagedDir)*.dll"
+                Exclude="
+        $(ManagedDir)Mono*.dll;
+        $(ManagedDir)netstandard.dll;
+        $(ManagedDir)System*.dll;
+        $(ManagedDir)mscorlib.dll" />
+
+        <Reference Include="@(LocalReferences)" Private="false" />
+        <Reference Include="$(ManagedDir)Assembly-CSharp.dll"
+                   Private="false"
+                   Publicize="true" />
+    </ItemGroup>
 
 </Project>

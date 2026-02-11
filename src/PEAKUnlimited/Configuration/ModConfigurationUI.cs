@@ -141,7 +141,7 @@ public class ModConfigurationUI : MonoBehaviour
                 return;
             }
             
-            if (Plugin.ConfigurationHandler.MenuAction != null && Plugin.ConfigurationHandler.MenuAction.WasPerformedThisFrame() && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>().m_currentState == RichPresenceState.Status_MainMenu))
+            if (Plugin.ConfigurationHandler.MenuAction != null && Plugin.ConfigurationHandler.MenuAction.WasPerformedThisFrame() && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>()._presence.State == RichPresenceState.Status_MainMenu))
             {
                 _visible = !_visible;
                 if (_visible) OnOpened();
