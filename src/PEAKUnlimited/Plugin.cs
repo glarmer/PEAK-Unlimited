@@ -33,9 +33,12 @@ public partial class Plugin : BaseUnityPlugin
         Logger = base.Logger;
         Logger.LogInfo($"Plugin {Id} is loaded!");
         ConfigurationHandler = new ConfigurationHandler(Config);
-        //NetworkingUtilities.MAX_PLAYERS = ConfigurationHandler.MaxPlayers;
         
-        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + ConfigurationHandler.ConfigMaxPlayers.Value + "!");
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Pre-max-players change: {NetworkingUtilities.MAX_PLAYERS}! Applying patch...");
+        _harmony.PatchAll(typeof(NetworkingUtilitiesGetMaxPlayersPatch));
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Post-max-players patch: {NetworkingUtilities.MAX_PLAYERS}");
+        
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + ConfigurationHandler.ConfigMaxPlayers.Value + "!");
 
         _harmony.PatchAll(typeof(NetworkingUtilitiesHostRoomOptionsPatch));
         _harmony.PatchAll(typeof(SteamLobbyHandlerSetLobbyDataPatch));
