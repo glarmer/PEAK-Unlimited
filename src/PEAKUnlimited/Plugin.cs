@@ -94,4 +94,11 @@ public partial class Plugin : BaseUnityPlugin
             Option.InputAction("Menu Key", ConfigurationHandler.ConfigMenuKey)
         });
     }
+    
+    void OnDestroy()
+    {
+        _harmony.UnpatchSelf();
+        Destroy(_modUIGameObject);
+        Logger.LogInfo($"Plugin {Name} unloaded!");
+    }
 }
