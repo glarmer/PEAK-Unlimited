@@ -76,10 +76,10 @@ public partial class Plugin : BaseUnityPlugin
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Item Spawner patches successful!");
 
         //Mod Configuration Menu
-        var go = new GameObject("PEAKUnlimitedUI");
-        DontDestroyOnLoad(go);
-        _ui = go.AddComponent<ModConfigurationUI>();
-        _ui.Init(new List<Option>
+        _modUIGameObject = new GameObject("PEAKUnlimitedUI");
+        DontDestroyOnLoad(_modUIGameObject);
+        _modConfigurationUIComponent = _modUIGameObject.AddComponent<ModConfigurationUI>();
+        _modConfigurationUIComponent.Init(new List<Option>
         {
             Option.Int("Max Players", ConfigurationHandler.ConfigMaxPlayers, 1, 30, isDisabled: () => PhotonNetwork.InRoom),
             Option.Bool("Extra Backpacks", ConfigurationHandler.ConfigExtraBackpacks, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
