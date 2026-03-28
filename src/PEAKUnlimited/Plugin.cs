@@ -26,7 +26,8 @@ public partial class Plugin : BaseUnityPlugin
     public static Dictionary<Campfire, List<GameObject>> Marshmallows = new();
     public static bool HasHostStarted = false;
 
-    private ModConfigurationUI _ui;
+    private ModConfigurationUI _modConfigurationUIComponent;
+    private GameObject _modUIGameObject;
 
     private void Awake()
     {
