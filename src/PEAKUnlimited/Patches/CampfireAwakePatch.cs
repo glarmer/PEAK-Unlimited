@@ -16,13 +16,21 @@ public class CampfireAwakePatch
     [HarmonyPostfix]
     static void Postfix(Campfire __instance)
     {
-       UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Campfire Awake Patch! Number of known campfires: {Plugin.CampfireList.Count}");
-       UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.CampfireLogic, new CampfireInfo().GetInfoMessage(__instance));
-        if (!PhotonNetwork.IsMasterClient)
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Campfire Awake Patch! Number of known campfires: {Plugin.CampfireList.Count}");
+        if (PhotonNetwork.CurrentRoom == null)
+        {
+            __instance.StartCoroutine(WaitForRoomAndRun(__instance));
             return;
+        }
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.CampfireLogic, new CampfireInfo().GetInfoMessage(__instance));
+        if (!PhotonNetwork.IsMasterClient)
+        {
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Campfire Awake Patch! Not the master client, returning!");
+            return;
+        }
         if (__instance.nameOverride == "NAME_PORTABLE STOVE")
             return;
-
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.CampfireLogic, "Testing 123");
         if (Plugin.ConfigurationHandler.IsExtraBackpacksEnabled)
         {
             AddBackpacks(__instance);
@@ -64,7 +72,18 @@ public class CampfireAwakePatch
     {
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,"Backpackification enabled and starting!");
         Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[6];
-        int numberOfExtraPlayers = PhotonNetwork.CurrentRoom.PlayerCount - Plugin.VanillaMaxPlayers;
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,"Backpackification enabled and starting! 1");
+        int numberOfExtraPlayers;
+        try
+        {
+            numberOfExtraPlayers = PhotonNetwork.CurrentRoom.PlayerCount - Plugin.VanillaMaxPlayers;
+        }
+        catch
+        {
+            numberOfExtraPlayers = 0;
+        }
+        
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,"Backpackification enabled and starting! 2");
         int number = 0;
         if (numberOfExtraPlayers > 0)
         {
@@ -83,7 +102,7 @@ public class CampfireAwakePatch
                 }
             }
         }
-
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,"Backpackification enabled and starting! 3");
         if (Plugin.ConfigurationHandler.CheatBackpacks != 0)
         {
             UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,"Cheat Backpacks enabled = " + Plugin.ConfigurationHandler.CheatBackpacks);
@@ -113,5 +132,28 @@ public class CampfireAwakePatch
             UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.BackpackLogic,
                 "Not enough players to add additional backpacks, use the Cheat Backpack configuration setting if you want to override this!");
         }
+    }
+    
+    private static System.Collections.IEnumerator WaitForRoomAndRun(Campfire instance)
+    {
+        while (PhotonNetwork.CurrentRoom == null)
+        {
+            yield return null;
+        }
+        
+        if (!PhotonNetwork.IsMasterClient)
+            yield break;
+
+        if (instance.nameOverride == "NAME_PORTABLE STOVE")
+            yield break;
+
+        if (Plugin.ConfigurationHandler.IsExtraBackpacksEnabled)
+        {
+            AddBackpacks(instance);
+        }
+
+        AddMarshmallows(instance);
+
+        Plugin.IsAfterAwake = true;
     }
 }
