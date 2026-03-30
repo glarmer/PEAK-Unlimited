@@ -86,7 +86,7 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(SingleItemSpawnerTrySpawnItemsPatch));
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Item Spawner patches successful!");
 
-        //_harmony.PatchAll(typeof(AudioLevelsInitNavigationPatch));
+        _harmony.PatchAll(typeof(AudioLevelsInitNavigationPatch));
         
         //Mod Configuration Menu
         _modUIGameObject = new GameObject("PEAKUnlimitedUI");
