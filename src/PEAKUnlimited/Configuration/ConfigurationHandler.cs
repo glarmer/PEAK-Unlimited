@@ -24,6 +24,7 @@ public class ConfigurationHandler
     public ConfigEntry<string> ConfigVisibleLogTypes;
     public ConfigEntry<float> ConfigHotDogChance;
     public ConfigEntry<string> ConfigMenuKey;
+    public ConfigEntry<bool> ConfigVoiceFix;
     
     
     public int MaxPlayers => ConfigMaxPlayers.Value;
@@ -177,6 +178,15 @@ public class ConfigurationHandler
         }
         Plugin.Logger.LogInfo("ConfigurationHandler: Cheat Backpacks set to: " + ConfigCheatExtraBackpacks.Value);
         Plugin.Logger.LogInfo("ConfigurationHandler initialised");
+        
+        ConfigVoiceFix = _config.Bind
+        (
+            "General",
+            "Voice",
+            false,
+            "Fixes voice chat issues with >4 players. Experimental, restart game if changed."
+        );
+        Plugin.Logger.LogInfo("ConfigurationHandler: Voice fix enabled: " + ConfigVoiceFix.Value);
     }
     
     //private void OnMaxPlayersChanged(object sender, System.EventArgs e)
@@ -198,4 +208,5 @@ public class ConfigurationHandler
         MenuAction.AddBinding(ConfigMenuKey.Value);
         MenuAction.Enable();
     }
+    
 }

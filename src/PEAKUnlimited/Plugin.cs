@@ -5,6 +5,7 @@ using HarmonyLib;
 using Peak.Network;
 using PEAKUnlimited.Configuration;
 using PEAKUnlimited.Patches;
+using PEAKUnlimited.Patches.Voice;
 using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using Photon.Realtime;
@@ -68,8 +69,18 @@ public partial class Plugin : BaseUnityPlugin
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Player connection log patches successful!");
         
         //Possibly help with broken audio bug?
-        _harmony.PatchAll(typeof(AssignMixerGroupPatch));
-        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Audio patches successful!");
+        if (ConfigurationHandler.ConfigVoiceFix.Value)
+        {
+            _harmony.PatchAll(typeof(CharacterVoiceHandlerStartPatch));
+            _harmony.PatchAll(typeof(CharacterVoiceHandlerUpdatePatch));
+            _harmony.PatchAll(typeof(PlayerHandlerAssignMixerGroupPatch));
+    
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.PatchingLogic, "Audio patches enabled!");
+        }
+        else
+        {
+            UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.PatchingLogic, "Audio patches disabled.");
+        }
         
         //Disable vanilla marshmallow patch
         _harmony.PatchAll(typeof(SingleItemSpawnerTrySpawnItemsPatch));
@@ -92,6 +103,7 @@ public partial class Plugin : BaseUnityPlugin
             Option.Bool("Lobby Details", ConfigurationHandler.ConfigLobbyDetails, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
             Option.Int("Cheat Campfire Food", ConfigurationHandler.ConfigCheatExtraMarshmallows, 0, 30, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
             Option.Int("Cheat Backpacks", ConfigurationHandler.ConfigCheatExtraBackpacks, 0, 10, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
+            Option.Bool("Fix Voice Chat", ConfigurationHandler.ConfigVoiceFix, isDisabled: () => PhotonNetwork.InRoom),
             Option.InputAction("Menu Key", ConfigurationHandler.ConfigMenuKey)
         });
     }
