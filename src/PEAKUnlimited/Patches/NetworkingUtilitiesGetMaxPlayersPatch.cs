@@ -1,21 +1,27 @@
+using BepInEx.Logging;
 using HarmonyLib;
 using Peak.Network;
+using PEAKUnlimited.Util.Debugging;
+using Photon.Realtime;
 
 namespace PEAKUnlimited.Patches;
 
 public class NetworkingUtilitiesGetMaxPlayersPatch
 {
-    /* This patch should be all that's needed to change the max player count.
-     
-     In the past max players was a variable that could be changed, then for a period it was a constant.
-     In case this getter is not used in all situations or changes in the future, I have opted to keep the patches
-     from when it was a constant as well as adding this. In the future, I will do testing and remove redundant patches.
-     */
     [HarmonyPatch(typeof(NetworkingUtilities), nameof(NetworkingUtilities.MAX_PLAYERS), MethodType.Getter)]
     [HarmonyPrefix]
     static bool Prefix(ref int __result)
     {
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Get max players patch!");
         __result = ConfigurationHandler.ConfigMaxPlayers.Value;
         return false;
     }
+    
+    // [HarmonyPatch(typeof(NetworkingUtilities), nameof(NetworkingUtilities.HostRoomOptions))]
+    // [HarmonyPostfix]
+    //
+    // static void Postfix(ref RoomOptions __result)
+    // {
+    //     __result.MaxPlayers = ConfigurationHandler.ConfigMaxPlayers.Value;
+    // }
 }

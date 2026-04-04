@@ -38,7 +38,8 @@ public partial class Plugin : BaseUnityPlugin
         
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Pre-max-players change: {NetworkingUtilities.MAX_PLAYERS}! Applying patch...");
         _harmony.PatchAll(typeof(NetworkingUtilitiesGetMaxPlayersPatch));
-        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Post-max-players patch: {NetworkingUtilities.MAX_PLAYERS}");
+        var value = typeof(NetworkingUtilities).GetProperty("MAX_PLAYERS").GetValue(null);
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.NetworkingLogic,$"Post-max-players patch: {value}");
         
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.PatchingLogic,$"Plugin {Id} set the Max Players to " + ConfigurationHandler.ConfigMaxPlayers.Value + "!");
 
