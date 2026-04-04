@@ -120,7 +120,7 @@ public class ConfigurationHandler
         ConfigVisibleLogTypes = _config.Bind(
             "General",
             "VisibleLogTypes",
-            "",
+            $"{nameof(DebugLogType.PatchingLogic)}, {nameof(DebugLogType.NetworkingLogic)}",
             $"Determines what types of debug messages are visible in the Bepinex Logs, Options include: {string.Join(", ", Enum.GetNames(typeof(DebugLogType)))}"
         );
         Plugin.Logger.LogInfo($"ConfigurationHandler: Log Types Enabled: {string.Join(", ", Enum.GetNames(typeof(DebugLogType)))}");
