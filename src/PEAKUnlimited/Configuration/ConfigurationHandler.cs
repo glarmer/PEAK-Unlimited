@@ -177,7 +177,6 @@ public class ConfigurationHandler
             ConfigCheatExtraBackpacks.Value = 0;
         }
         Plugin.Logger.LogInfo("ConfigurationHandler: Cheat Backpacks set to: " + ConfigCheatExtraBackpacks.Value);
-        Plugin.Logger.LogInfo("ConfigurationHandler initialised");
         
         ConfigVoiceFix = _config.Bind
         (
@@ -187,6 +186,10 @@ public class ConfigurationHandler
             "Fixes voice chat issues with >4 players. Experimental, restart game if changed."
         );
         Plugin.Logger.LogInfo("ConfigurationHandler: Voice fix enabled: " + ConfigVoiceFix.Value);
+        
+        // BIG COMMENT SO I DON'T ACCIDENTALLY
+        // PUT OPTIONS AFTER IT!
+        Plugin.Logger.LogInfo("ConfigurationHandler initialised");
     }
     
     //private void OnMaxPlayersChanged(object sender, System.EventArgs e)
