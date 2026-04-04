@@ -35,5 +35,10 @@ public enum DebugLogType
     /// <summary>
     /// Defines logic that relates to the handling of the game's <see cref="EndScreen"/>
     /// </summary>
-    EndScreenLogic
+    EndScreenLogic,
+    
+    /// <summary>
+    /// Defines logic that relates to the handling of the game's <see cref="AudioLevelSlider"/>
+    /// </summary>
+    AudioSliderLogic
 }

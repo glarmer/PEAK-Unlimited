@@ -1,5 +1,7 @@
 using System.Linq;
+using BepInEx.Logging;
 using HarmonyLib;
+using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -22,8 +24,8 @@ public class AudioLevelsInitNavigationPatch
         if (existing >= max)
             return;
 
-        Plugin.Logger.LogInfo($"Adding sliders: {existing} -> {max}");
-
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.AudioSliderLogic, $"Adding sliders: {existing} -> {max}");
+        
         var template = __instance.sliders.FirstOrDefault()?.gameObject;
         if (template == null)
             return;
