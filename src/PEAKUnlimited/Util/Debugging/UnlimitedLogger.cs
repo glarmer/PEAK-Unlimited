@@ -41,7 +41,7 @@ public class UnlimitedLogger
             }
             else
             {
-                Console.WriteLine($"Invalid enum name: {logTypeName}");
+                Plugin.Logger.LogInfo($"Invalid enum name found while setting up Logger: '{logTypeName}'. Check your configuration file!");
             }
         }
         
