@@ -22,7 +22,6 @@ public partial class Plugin : BaseUnityPlugin
     public static ConfigurationHandler ConfigurationHandler;
     private readonly Harmony _harmony = new(Id);
     public static List<Campfire> CampfireList = new();
-    public static bool IsAfterAwake = false;
     public const int VanillaMaxPlayers = 4;
     public static Dictionary<Campfire, List<GameObject>> Marshmallows = new();
     public static bool HasHostStarted = false;
@@ -107,6 +106,11 @@ public partial class Plugin : BaseUnityPlugin
             Option.Bool("Fix Voice Chat", ConfigurationHandler.ConfigVoiceFix, isDisabled: () => PhotonNetwork.InRoom),
             Option.InputAction("Menu Key", ConfigurationHandler.ConfigMenuKey)
         });
+        
+        #if DEBUG
+        Logger.LogInfo("Debug patches!");
+        _harmony.PatchAll(typeof(SteamLobbyAPIPlayerIsInLobbyPatch));
+        #endif
     }
     
     void OnDestroy()
