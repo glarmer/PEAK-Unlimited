@@ -36,8 +36,6 @@ public class CampfireAwakePatch
             AddBackpacks(__instance);
         }
         AddMarshmallows(__instance);
-
-        Plugin.IsAfterAwake = true;
     }
 
     private static void AddMarshmallows(Campfire __instance)
@@ -153,7 +151,5 @@ public class CampfireAwakePatch
         }
 
         AddMarshmallows(instance);
-
-        Plugin.IsAfterAwake = true;
     }
 }
