@@ -52,8 +52,12 @@ public static class Utility
         return points;
     }
 
-    public static List<GameObject> SpawnMarshmallows(int number, Vector3 campfirePosition, Vector3 campfireAngles, Segment advanceToSegment)
+    public static void SpawnMarshmallows(int number, Campfire campfire)
     {
+        Vector3 campfirePosition = campfire.transform.position;
+        Vector3 campfireAngles = campfire.transform.eulerAngles;
+        Segment advanceToSegment = campfire.advanceToSegment;
+        
         List<GameObject> marshmallows = new List<GameObject>();
         
         foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 2f, 2.5f, campfirePosition, campfireAngles,
@@ -79,9 +83,9 @@ public static class Utility
             Vector3 directionToCampfire = (campfirePosition - position).normalized;
             Quaternion rotation = Quaternion.LookRotation(directionToCampfire, Vector3.up);
             rotation *= Quaternion.Euler(0f, Random.Range(-30f, -150f), 0f);
-            marshmallows.Add(Add(obj, position, rotation).gameObject);
+            marshmallows.Add(InstantiateItem(obj, position, rotation));
         }
-        return marshmallows;
+        Plugin.Marshmallows.Add(campfire, marshmallows);
     }
     
     private static Vector3 SetToGround(Vector3 vector)
@@ -89,11 +93,11 @@ public static class Utility
         return HelperFunctions.GetGroundPos(vector, HelperFunctions.LayerType.TerrainMap);
     }
 
-    public static Item Add(Item item, Vector3 position, Quaternion rotation)
+    public static GameObject InstantiateItem(Item item, Vector3 position, Quaternion rotation)
     {
         if (!PhotonNetwork.IsConnected)
             return null;
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.CampfireLogic,$"Spawn item: {item.name} at {position}");
-        return PhotonNetwork.Instantiate("0_Items/" + item.name, position, rotation).GetComponent<Item>();
+        return PhotonNetwork.Instantiate("0_Items/" + item.name, position, rotation);
     }
 }

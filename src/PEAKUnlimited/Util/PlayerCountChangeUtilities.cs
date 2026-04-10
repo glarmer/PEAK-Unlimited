@@ -48,7 +48,7 @@ public static class PlayerCountChangeUtilities
                 if (campfire.advanceToSegment > segment)
                 {
                     //respawn these campfires marshmallows
-                    Plugin.Marshmallows.Add(campfire, Utility.SpawnMarshmallows(PhotonNetwork.CurrentRoom.PlayerCount, campfire.transform.position, campfire.gameObject.transform.eulerAngles, campfire.advanceToSegment));
+                    Utility.SpawnMarshmallows(PhotonNetwork.CurrentRoom.PlayerCount, campfire);
                 }
             }
         }

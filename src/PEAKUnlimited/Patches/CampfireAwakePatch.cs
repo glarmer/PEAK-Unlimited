@@ -60,9 +60,7 @@ public class CampfireAwakePatch
                 UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.MarshmallowLogic,"Cheatmallows enabled!");
             }
             UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.MarshmallowLogic,$"Will spawn {amountOfMarshmallowsToSpawn} marshmallows for {PhotonNetwork.CurrentRoom.PlayerCount} people!");
-            Vector3 position = __instance.gameObject.transform.position;
-            Vector3 eulerAngles = __instance.gameObject.transform.eulerAngles;
-            Plugin.Marshmallows.Add(__instance, Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, position, eulerAngles, __instance.advanceToSegment));
+            Utility.SpawnMarshmallows(amountOfMarshmallowsToSpawn, __instance);
         }
     }
 
@@ -122,7 +120,7 @@ public class CampfireAwakePatch
                 }
 
                 Quaternion rotation = Quaternion.Euler(0f, Random.Range(0f, 360f), 0f);
-                Utility.Add(obj, finalPosition, rotation).transform.parent = __instance.gameObject.transform;
+                Utility.InstantiateItem(obj, finalPosition, rotation).transform.parent = __instance.gameObject.transform;
             }
         }
         else
