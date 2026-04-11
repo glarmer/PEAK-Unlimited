@@ -12,6 +12,8 @@ public class PeakHandlerPatches
     [HarmonyPrefix]
     static void EndCutscenePrefix(PeakHandler __instance)
     {
+        if (!Plugin.ConfigurationHandler.AllScoutsHelicopter) return;
+        
         Plugin.Logger.LogInfo("[PeakHandler] EndCutscene Prefix called");
 
         int maxPlayers = Plugin.ConfigurationHandler.MaxPlayers;
@@ -71,6 +73,8 @@ public class PeakHandlerPatches
     [HarmonyPostfix]
     static void SetCosmeticsPostfix(PeakHandler __instance, List<Character> characters)
     {
+        if (!Plugin.ConfigurationHandler.AllScoutsHelicopter) return;
+        
         Plugin.Logger.LogInfo("[PeakHandler] SetCosmetics Postfix called");
 
         if (characters == null)

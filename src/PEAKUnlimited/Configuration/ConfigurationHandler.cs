@@ -25,6 +25,8 @@ public class ConfigurationHandler
     public ConfigEntry<float> ConfigHotDogChance;
     public ConfigEntry<string> ConfigMenuKey;
     public ConfigEntry<bool> ConfigVoiceFix;
+    public ConfigEntry<bool> ConfigAllScoutsHelicopter;
+    public ConfigEntry<bool> ConfigNamePlateFix;
     
     
     public int MaxPlayers => ConfigMaxPlayers.Value;
@@ -36,6 +38,8 @@ public class ConfigurationHandler
     public bool IsExtraBackpacksEnabled => ConfigExtraBackpacks.Value;
     public string VisibleLogTypes => ConfigVisibleLogTypes.Value;
     public int CheatBackpacks => ConfigCheatExtraBackpacks.Value;
+    public bool AllScoutsHelicopter => ConfigAllScoutsHelicopter.Value;
+    public bool NamePlateFix => ConfigNamePlateFix.Value;
     
     
     public ConfigurationHandler(ConfigFile configFile)
@@ -106,8 +110,6 @@ public class ConfigurationHandler
             ConfigHotDogChance.Value = 1f;
         }
         
-        
-        
         ConfigExtraBackpacks = _config.Bind
         (
             "General",
@@ -124,6 +126,7 @@ public class ConfigurationHandler
             $"Determines what types of debug messages are visible in the Bepinex Logs, Options include: {string.Join(", ", Enum.GetNames(typeof(DebugLogType)))}"
         );
         Plugin.Logger.LogInfo($"ConfigurationHandler: Log Types Enabled: {string.Join(", ", Enum.GetNames(typeof(DebugLogType)))}");
+        
         ConfigLateMarshmallows = _config.Bind
         (
             "General",
@@ -180,12 +183,32 @@ public class ConfigurationHandler
         
         ConfigVoiceFix = _config.Bind
         (
-            "General",
-            "Voice",
+            "Experimental",
+            "VoiceFix",
             false,
             "Fixes voice chat issues with >4 players. Experimental, restart game if changed."
         );
         Plugin.Logger.LogInfo("ConfigurationHandler: Voice fix enabled: " + ConfigVoiceFix.Value);
+        
+        ConfigAllScoutsHelicopter = _config.Bind
+        (
+            "Experimental",
+            "AllScoutsInHelicopter",
+            false,
+            "If enabled, the mod will try to put all of the (alive) scouts into the helicopter when you escape."
+        );
+        Plugin.Logger.LogInfo("ConfigurationHandler: Helicopter fix enabled: " + ConfigAllScoutsHelicopter.Value);
+        
+        ConfigNamePlateFix = _config.Bind
+        (
+            "Experimental",
+            "Nameplate fix",
+            false,
+            "Fixes incorrect nameplates above people's heads."
+        );
+        Plugin.Logger.LogInfo("ConfigurationHandler: Nameplate fix enabled: " + ConfigNamePlateFix.Value);
+
+
         
         // BIG COMMENT SO I DON'T ACCIDENTALLY
         // PUT OPTIONS AFTER IT!

@@ -9,6 +9,8 @@ class UIPlayerNamesPatches
 
     private static void FixArrayLengths(UIPlayerNames instance)
     {
+        if (!Plugin.ConfigurationHandler.NamePlateFix) return;
+        
         int targetSize = Plugin.ConfigurationHandler.MaxPlayers;
         if (instance.playerNameText == null || instance.playerNameText.Length >= targetSize)
             return;
@@ -42,6 +44,8 @@ class UIPlayerNamesPatches
     [HarmonyPrefix]
     static void InitPrefix(UIPlayerNames __instance)
     {
+        if (!Plugin.ConfigurationHandler.NamePlateFix) return;
+        
         FixArrayLengths(__instance);
     }
     
@@ -49,6 +53,8 @@ class UIPlayerNamesPatches
     [HarmonyPrefix]
     static bool UpdateNamePrefix(UIPlayerNames __instance, int index)
     {
+        if (!Plugin.ConfigurationHandler.NamePlateFix) return true;
+        
         FixArrayLengths(__instance);
 
         if (__instance.playerNameText == null)
@@ -64,6 +70,8 @@ class UIPlayerNamesPatches
     [HarmonyPrefix]
     static bool DisableNamePrefix(UIPlayerNames __instance, int index)
     {
+        if (!Plugin.ConfigurationHandler.NamePlateFix) return true;
+        
         if (__instance.playerNameText == null)
             return false;
 

@@ -74,7 +74,7 @@ public partial class Plugin : BaseUnityPlugin
             _harmony.PatchAll(typeof(CharacterVoiceHandlerStartPatch));
             _harmony.PatchAll(typeof(CharacterVoiceHandlerUpdatePatch));
             _harmony.PatchAll(typeof(PlayerHandlerAssignMixerGroupPatch));
-    
+        
             UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.PatchingLogic, "Audio patches enabled!");
         }
         else
@@ -86,7 +86,15 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(SingleItemSpawnerTrySpawnItemsPatch));
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Item Spawner patches successful!");
 
+        //Extra audio sliders patch
         _harmony.PatchAll(typeof(AudioLevelsInitNavigationPatch));
+
+
+        _harmony.PatchAll(typeof(UIPlayerNamesPatches));
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Nameplate patches successful!");
+        
+        _harmony.PatchAll(typeof(PeakHandlerPatches));
+        UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info,DebugLogType.PatchingLogic,"Helicopter patches successful!");
         
         //Mod Configuration Menu
         _modUIGameObject = new GameObject("PEAKUnlimitedUI");
@@ -95,15 +103,17 @@ public partial class Plugin : BaseUnityPlugin
         _modConfigurationUIComponent.Init(new List<Option>
         {
             Option.Int("Max Players", ConfigurationHandler.ConfigMaxPlayers, 1, 30, isDisabled: () => PhotonNetwork.InRoom),
-            Option.Bool("Extra Backpacks", ConfigurationHandler.ConfigExtraBackpacks, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
-            Option.Bool("Extra Campfire Food", ConfigurationHandler.ConfigExtraMarshmallows, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
-            Option.Float("Hot Dog Chance", ConfigurationHandler.ConfigHotDogChance, 0f, 1f, 0.005f, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
-            Option.Bool("Late Join Campfire Food", ConfigurationHandler.ConfigLateMarshmallows, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
-            Option.Bool("Host Locked Kiosk", ConfigurationHandler.ConfigLockKiosk, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
-            Option.Bool("Lobby Details", ConfigurationHandler.ConfigLobbyDetails, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
-            Option.Int("Cheat Campfire Food", ConfigurationHandler.ConfigCheatExtraMarshmallows, 0, 30, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
-            Option.Int("Cheat Backpacks", ConfigurationHandler.ConfigCheatExtraBackpacks, 0, 10, isDisabled: () => PhotonNetwork.InRoom && GameHandler.GetService<RichPresenceService>()._presence.State != RichPresenceState.Status_Airport),
-            Option.Bool("Fix Voice Chat", ConfigurationHandler.ConfigVoiceFix, isDisabled: () => PhotonNetwork.InRoom),
+            Option.Bool("Extra Backpacks", ConfigurationHandler.ConfigExtraBackpacks, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
+            Option.Bool("Extra Campfire Food", ConfigurationHandler.ConfigExtraMarshmallows, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
+            Option.Float("Hot Dog Chance", ConfigurationHandler.ConfigHotDogChance, 0f, 1f, 0.005f, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
+            Option.Bool("Late Join Campfire Food", ConfigurationHandler.ConfigLateMarshmallows, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
+            Option.Bool("Host Locked Kiosk", ConfigurationHandler.ConfigLockKiosk, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
+            Option.Bool("Lobby Details", ConfigurationHandler.ConfigLobbyDetails, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
+            Option.Int("Cheat Campfire Food", ConfigurationHandler.ConfigCheatExtraMarshmallows, 0, 30, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
+            Option.Int("Cheat Backpacks", ConfigurationHandler.ConfigCheatExtraBackpacks, 0, 10, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
+            Option.Bool("Experimental: Fix Voice Chat", ConfigurationHandler.ConfigVoiceFix, isDisabled: () => PhotonNetwork.InRoom),
+            Option.Bool("Experimental: Nameplate fix", ConfigurationHandler.ConfigNamePlateFix, isDisabled: () => PhotonNetwork.InRoom),
+            Option.Bool("Experimental: All Scouts in Helicopter", ConfigurationHandler.ConfigAllScoutsHelicopter, isDisabled: () => PhotonNetwork.InRoom),
             Option.InputAction("Menu Key", ConfigurationHandler.ConfigMenuKey)
         });
         
