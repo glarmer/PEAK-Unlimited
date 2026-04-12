@@ -4,7 +4,7 @@ namespace PEAKUnlimited.Patches.Voice;
 
 public class CharacterVoiceHandlerStartPatch
 {
-    [HarmonyPatch(typeof(CharacterVoiceHandler), "Start")]
+    [HarmonyPatch(typeof(CharacterVoiceHandler), nameof(CharacterVoiceHandler.Start))]
     [HarmonyPostfix]
     static void Postfix(CharacterVoiceHandler __instance)
     {

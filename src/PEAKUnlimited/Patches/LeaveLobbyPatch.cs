@@ -6,7 +6,7 @@ namespace PEAKUnlimited.Patches;
 
 public class LeaveLobbyPatch
 {
-    [HarmonyPatch(typeof(SteamLobbyHandler), "LeaveLobby")]
+    [HarmonyPatch(typeof(SteamLobbyHandler), nameof(SteamLobbyHandler.LeaveLobby))]
     [HarmonyPostfix]
     static void Postfix(SteamLobbyHandler __instance)
     {

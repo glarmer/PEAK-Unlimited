@@ -11,7 +11,7 @@ namespace PEAKUnlimited.Patches;
 
 public class OnPlayerEnteredRoomPatch
 {
-    [HarmonyPatch(typeof(PlayerConnectionLog), "OnPlayerEnteredRoom")]
+    [HarmonyPatch(typeof(PlayerConnectionLog), nameof(PlayerConnectionLog.OnPlayerEnteredRoom))]
     [HarmonyPostfix]
     static void Postfix()
     {

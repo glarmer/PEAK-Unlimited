@@ -12,7 +12,7 @@ namespace PEAKUnlimited.Patches;
 
 public class CampfireAwakePatch
 {
-    [HarmonyPatch(typeof(Campfire), "Awake")]
+    [HarmonyPatch(typeof(Campfire), nameof(Campfire.Awake))]
     [HarmonyPostfix]
     static void Postfix(Campfire __instance)
     {

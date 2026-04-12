@@ -6,7 +6,7 @@ namespace PEAKUnlimited.Patches;
 
 public class StartGamePatch
 {
-    [HarmonyPatch(typeof(AirportCheckInKiosk), "StartGame")]
+    [HarmonyPatch(typeof(AirportCheckInKiosk), nameof(AirportCheckInKiosk.StartGame))]
     [HarmonyPrefix]
     static void Prefix()
     {

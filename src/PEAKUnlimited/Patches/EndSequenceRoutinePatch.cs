@@ -7,7 +7,7 @@ namespace PEAKUnlimited.Patches;
 
 public class EndSequenceRoutinePatch : MonoBehaviour
 {
-    [HarmonyPatch(typeof(EndScreen), "EndSequenceRoutine")]
+    [HarmonyPatch(typeof(EndScreen), nameof(EndScreen.EndSequenceRoutine))]
     [HarmonyPostfix]
     static void Postfix(EndScreen __instance)
     {

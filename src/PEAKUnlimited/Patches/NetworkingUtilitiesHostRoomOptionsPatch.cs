@@ -6,7 +6,7 @@ namespace PEAKUnlimited.Patches;
 
 public class NetworkingUtilitiesHostRoomOptionsPatch
 {
-    [HarmonyPatch(typeof(NetworkingUtilities), "HostRoomOptions")]
+    [HarmonyPatch(typeof(NetworkingUtilities), nameof(NetworkingUtilities.HostRoomOptions))]
     [HarmonyPrefix]
     static bool Prefix(ref RoomOptions __result)
     {

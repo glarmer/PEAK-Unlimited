@@ -8,7 +8,7 @@ namespace PEAKUnlimited.Patches;
 public class PlayerConnectionLogAwakePatch
 {
     public static bool isHost = false;
-    [HarmonyPatch(typeof(PlayerConnectionLog), "Awake")]
+    [HarmonyPatch(typeof(PlayerConnectionLog), nameof(PlayerConnectionLog.Awake))]
     [HarmonyPostfix]
     static void Postfix(PlayerConnectionLog __instance)
     {

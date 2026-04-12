@@ -16,12 +16,4 @@ public class NetworkingUtilitiesGetMaxPlayersPatch
         __result = ConfigurationHandler.ConfigMaxPlayers.Value;
         return false;
     }
-    
-    // [HarmonyPatch(typeof(NetworkingUtilities), nameof(NetworkingUtilities.HostRoomOptions))]
-    // [HarmonyPostfix]
-    //
-    // static void Postfix(ref RoomOptions __result)
-    // {
-    //     __result.MaxPlayers = ConfigurationHandler.ConfigMaxPlayers.Value;
-    // }
 }

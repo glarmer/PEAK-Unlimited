@@ -7,7 +7,7 @@ namespace PEAKUnlimited.Patches;
 
 public class LoadIslandMasterPatch
 {
-    [HarmonyPatch(typeof(AirportCheckInKiosk), "LoadIslandMaster")]
+    [HarmonyPatch(typeof(AirportCheckInKiosk), nameof(AirportCheckInKiosk.LoadIslandMaster))]
     [HarmonyPrefix]
     static bool Prefix()
     {

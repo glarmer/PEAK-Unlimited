@@ -7,12 +7,10 @@ namespace PEAKUnlimited.Patches;
 
 public class EndScreenStartPatch : MonoBehaviour
     {
-        [HarmonyPatch(typeof(EndScreen), "Start")]
+        [HarmonyPatch(typeof(EndScreen), nameof(EndScreen.Start))]
         [HarmonyPrefix]
         static void Prefix(EndScreen __instance)
         {
-            // Use PhotonNetwork.CurrentRoom.PlayerCount instead of Character.AllCharacters.Count
-            // to avoid race condition where AllCharacters isn't synced yet on non-host clients
             int playerCount = PhotonNetwork.CurrentRoom.PlayerCount;
 
             if (playerCount <= Plugin.VanillaMaxPlayers)
@@ -26,11 +24,10 @@ public class EndScreenStartPatch : MonoBehaviour
 
             for (int i = 0; i < playerCount; i++)
             {
-                //Don't do anything to the original ones
                 bool withinExisting = i < __instance.scouts.Length;
                 if (!withinExisting)
                 {
-                    if ((UnityEngine.Object)__instance.scoutWindows[0] == null)
+                    if (__instance.scoutWindows[0] == null)
                     {
                         newScoutWindows[i] = null;
                     }
@@ -42,7 +39,7 @@ public class EndScreenStartPatch : MonoBehaviour
                         );
                     }
                     
-                    if ((UnityEngine.Object)__instance.scouts[0] == null)
+                    if (__instance.scouts[0] == null)
                     {
                         newScouts[i] = null;
                     }
@@ -54,7 +51,7 @@ public class EndScreenStartPatch : MonoBehaviour
                         );
                     }
                     
-                    if ((UnityEngine.Object)__instance.scoutsAtPeak[0] == null)
+                    if (__instance.scoutsAtPeak[0] == null)
                     {
                         newScoutsAtPeak[i] = null;
                     }
@@ -66,7 +63,7 @@ public class EndScreenStartPatch : MonoBehaviour
                         );
                     }
                     
-                    if ((UnityEngine.Object)__instance.oldPip[0] == null)
+                    if (__instance.oldPip[0] == null)
                     {
                         newOldPip[i] = null;
                     }
@@ -78,7 +75,7 @@ public class EndScreenStartPatch : MonoBehaviour
                         );
                     }
                     
-                    if ((UnityEngine.Object)__instance.scoutLines[0] == null)
+                    if (__instance.scoutLines[0] == null)
                     {
                         newScoutLines[i] = null;
                     }
@@ -98,8 +95,7 @@ public class EndScreenStartPatch : MonoBehaviour
                     newScoutLines[i] = __instance.scoutLines[i];
                 }
             }
-
-            //Reassign arrays with new ones
+            
             __instance.scoutWindows = newScoutWindows;
             __instance.scouts = newScouts;
             __instance.scoutsAtPeak = newScoutsAtPeak;

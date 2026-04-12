@@ -8,7 +8,7 @@ namespace PEAKUnlimited.Patches;
 
 public class PlayClickedPatch
 {
-    [HarmonyPatch(typeof(MainMenuMainPage), "PlayClicked")]
+    [HarmonyPatch(typeof(MainMenuMainPage), nameof(MainMenuMainPage.PlayClicked))]
     [HarmonyPostfix]
     static void Postfix(MainMenuMainPage __instance)
     {

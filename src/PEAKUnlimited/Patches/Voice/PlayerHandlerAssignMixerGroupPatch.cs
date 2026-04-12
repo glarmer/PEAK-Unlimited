@@ -4,7 +4,7 @@ namespace PEAKUnlimited.Patches.Voice;
 
 public class PlayerHandlerAssignMixerGroupPatch
 {
-    [HarmonyPatch(typeof(PlayerHandler), "AssignMixerGroup")]
+    [HarmonyPatch(typeof(PlayerHandler), nameof(PlayerHandler.AssignMixerGroup))]
     [HarmonyPrefix]
     static bool Prefix(ref byte __result, Character character)
     {
