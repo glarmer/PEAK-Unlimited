@@ -7,6 +7,18 @@ namespace PEAKUnlimited.Util;
 
 public static class PlayerCountChangeUtilities
 {
+    public static void ForgetCampfiresAndMarshmallows()
+    {
+        if (Plugin.Marshmallows != null)
+        {
+            Plugin.Marshmallows.Clear();
+        }
+        if (Plugin.CampfireList != null)
+        {
+            Plugin.CampfireList.Clear();
+        }
+    }
+    
     public static void RespawnMarshmallows()
     {
         if (!GameHandler.IsOnIslandAndInitialized) 
