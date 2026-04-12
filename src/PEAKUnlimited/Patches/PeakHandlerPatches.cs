@@ -149,6 +149,7 @@ public class PeakHandlerPatches
             Plugin.Logger.LogInfo($"[PeakHandler] Repositioning & scaling {total} players");
 
             Vector3 originalScale = refs[0].transform.localScale;
+            Vector3 originalScale2 = refs[0].transform.parent.localScale;
             for (int i = 0; i < total && i < refs.Length; i++)
             {
                 var scout = refs[i];
@@ -165,8 +166,9 @@ public class PeakHandlerPatches
                 position.x = newX;
                 scout.transform.localPosition = position;
                 
-                float scaleFactor = Mathf.Clamp(4f / total, 0.4f, 1f);
+                float scaleFactor = Mathf.Clamp(4f / total, 0.01f, 1f);
                 scout.transform.localScale = originalScale * scaleFactor;
+                //root.transform.localScale = originalScale2 * scaleFactor;
                 root.localRotation = refs[0].transform.parent.localRotation;
             }
         }
