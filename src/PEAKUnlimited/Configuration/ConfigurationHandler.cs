@@ -201,10 +201,10 @@ public class ConfigurationHandler
         
         ConfigNamePlateFix = _config.Bind
         (
-            "Experimental",
+            "Extra",
             "Nameplate fix",
             true,
-            "Fixes incorrect nameplates above people's heads."
+            "Fixes incorrect nameplates above people's heads. Should be on, only turn off if it is causing issues"
         );
         Plugin.Logger.LogInfo("ConfigurationHandler: Nameplate fix enabled: " + ConfigNamePlateFix.Value);
 

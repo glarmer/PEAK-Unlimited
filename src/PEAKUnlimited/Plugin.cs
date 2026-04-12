@@ -112,7 +112,6 @@ public partial class Plugin : BaseUnityPlugin
             Option.Int("Cheat Campfire Food", ConfigurationHandler.ConfigCheatExtraMarshmallows, 0, 30, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
             Option.Int("Cheat Backpacks", ConfigurationHandler.ConfigCheatExtraBackpacks, 0, 10, isDisabled: () => PhotonNetwork.InRoom && GameHandler.IsOnIsland),
             Option.Bool("Experimental: Fix Voice Chat", ConfigurationHandler.ConfigVoiceFix, isDisabled: () => PhotonNetwork.InRoom),
-            Option.Bool("Experimental: Nameplate fix", ConfigurationHandler.ConfigNamePlateFix, isDisabled: () => PhotonNetwork.InRoom),
             Option.Bool("Experimental: All Scouts in Helicopter", ConfigurationHandler.ConfigAllScoutsHelicopter, isDisabled: () => PhotonNetwork.InRoom),
             Option.InputAction("Menu Key", ConfigurationHandler.ConfigMenuKey)
         });
