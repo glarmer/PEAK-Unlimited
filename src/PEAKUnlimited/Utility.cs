@@ -54,38 +54,82 @@ public static class Utility
 
     public static void SpawnMarshmallows(int number, Campfire campfire)
     {
+        if (campfire == null)
+            return;
+
+        if (Plugin.ConfigurationHandler?.ConfigHotDogChance == null)
+            return;
+
+        if (Plugin.Marshmallows == null)
+            return;
+
+        ItemDatabase itemDatabase = SingletonAsset<ItemDatabase>.Instance;
+
+        if (itemDatabase?.itemLookup == null)
+            return;
+
         Vector3 campfirePosition = campfire.transform.position;
         Vector3 campfireAngles = campfire.transform.eulerAngles;
         Segment advanceToSegment = campfire.advanceToSegment;
-        
-        List<GameObject> marshmallows = new List<GameObject>();
-        
-        foreach (Vector3 position in GetEvenlySpacedPointsAroundCampfire(number, 2f, 2.5f, campfirePosition, campfireAngles,
-                     advanceToSegment))
+
+        IEnumerable<Vector3> positions = GetEvenlySpacedPointsAroundCampfire(number, 2f, 2.5f,
+            campfirePosition, campfireAngles, advanceToSegment);
+
+        if (positions == null)
+            return;
+
+        HashSet<GameObject> marshmallows = new HashSet<GameObject>();
+        foreach (Vector3 position in positions)
         {
             float chance = Random.Range(0.0f, 1.0f);
-            CampfireFoods randomEnum;
             float glizzyChance = Plugin.ConfigurationHandler.ConfigHotDogChance.Value;
-            if (chance < glizzyChance)
+
+            CampfireFoods randomEnum = chance < glizzyChance
+                ? CampfireFoods.Glizzy
+                : CampfireFoods.Marshmallow;
+
+            ushort randomValue = (ushort)randomEnum;
+            if (!itemDatabase.itemLookup.TryGetValue(randomValue, out Item obj) || obj == null)
             {
-                randomEnum = CampfireFoods.Glizzy;
+                UnlimitedLogger.GetInstance()?.DebugMessage(
+                    LogLevel.Warning,
+                    DebugLogType.MarshmallowLogic,
+                    $"No item found in itemLookup for key {randomValue} / {randomEnum}."
+                );
+
+                continue;
             }
-            else
-            {
-                randomEnum = CampfireFoods.Marshmallow;
-            }
-            ushort randomValue = (ushort) randomEnum;
-        
-            Item obj = SingletonAsset<ItemDatabase>.Instance.itemLookup[randomValue];
+
             obj.GetName();
-            
-            
-            Vector3 directionToCampfire = (campfirePosition - position).normalized;
-            Quaternion rotation = Quaternion.LookRotation(directionToCampfire, Vector3.up);
+            Vector3 directionToCampfire = campfirePosition - position;
+
+            if (directionToCampfire == Vector3.zero)
+                directionToCampfire = campfire.transform.forward;
+
+            Quaternion rotation = Quaternion.LookRotation(directionToCampfire.normalized, Vector3.up);
             rotation *= Quaternion.Euler(0f, Random.Range(-30f, -150f), 0f);
-            marshmallows.Add(InstantiateItem(obj, position, rotation));
+
+            GameObject spawnedItem = InstantiateItem(obj, position, rotation);
+            if (spawnedItem != null)
+            {
+                marshmallows.Add(spawnedItem);
+            }
         }
-        Plugin.Marshmallows.Add(campfire, marshmallows);
+
+        if (!Plugin.Marshmallows.ContainsKey(campfire))
+        {
+            Plugin.Marshmallows.Add(campfire, marshmallows);
+        }
+        else
+        {
+            foreach (GameObject marshmallow in marshmallows)
+            {
+                if (marshmallow != null)
+                {
+                    Plugin.Marshmallows[campfire].Add(marshmallow);
+                }
+            }
+        }
     }
     
     private static Vector3 SetToGround(Vector3 vector)
