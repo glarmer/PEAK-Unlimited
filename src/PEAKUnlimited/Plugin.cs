@@ -21,7 +21,7 @@ public partial class Plugin : BaseUnityPlugin
     internal new static ManualLogSource Logger;
     public static ConfigurationHandler ConfigurationHandler;
     private readonly Harmony _harmony = new(Id);
-    public static List<Campfire> CampfireList = new();
+    public static readonly HashSet<Campfire> CampfireList = new();
     public const int VanillaMaxPlayers = 4;
     public static Dictionary<Campfire, List<GameObject>> Marshmallows = new();
     public static bool HasHostStarted = false;
