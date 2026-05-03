@@ -54,7 +54,7 @@ public static class Utility
 
     public static void SpawnMarshmallows(int number, Campfire campfire)
     {
-        if (campfire == null)
+        if (!campfire)
             return;
 
         if (Plugin.ConfigurationHandler?.ConfigHotDogChance == null)
@@ -110,7 +110,7 @@ public static class Utility
             rotation *= Quaternion.Euler(0f, Random.Range(-30f, -150f), 0f);
 
             GameObject spawnedItem = InstantiateItem(obj, position, rotation);
-            if (spawnedItem != null)
+            if (spawnedItem)
             {
                 marshmallows.Add(spawnedItem);
             }
@@ -124,7 +124,7 @@ public static class Utility
         {
             foreach (GameObject marshmallow in marshmallows)
             {
-                if (marshmallow != null)
+                if (marshmallow)
                 {
                     Plugin.Marshmallows[campfire].Add(marshmallow);
                 }
