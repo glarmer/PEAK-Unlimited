@@ -50,6 +50,7 @@ public static class PlayerCountChangeUtilities
                 {
                     foreach (var marshmallow in campfireMarshmallows.Value)
                     {
+                        if (marshmallow == null) continue;
                         PhotonNetwork.Destroy(marshmallow);
                     }
                 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
@@ -121,7 +122,15 @@ public partial class Plugin : BaseUnityPlugin
         _harmony.PatchAll(typeof(SteamLobbyAPIPlayerIsInLobbyPatch));
         #endif
     }
-    
+
+    private void Update()
+    {
+        if (ConfigurationHandler.MenuAction != null && ConfigurationHandler.MenuAction.WasPerformedThisFrame() && ModConfigurationUI.Instance != null && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>()._presence.State == RichPresenceState.Status_MainMenu))
+        {
+            ModConfigurationUI.Instance.ToggleMenu();
+        }
+    }
+
     void OnDestroy()
     {
         _harmony.UnpatchSelf();
