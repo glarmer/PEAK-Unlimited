@@ -31,6 +31,12 @@ public class CampfireAwakePatch
         if (__instance.nameOverride == "NAME_PORTABLE STOVE")
             return;
         UnlimitedLogger.GetInstance().DebugMessage(LogLevel.Info, DebugLogType.CampfireLogic, "Testing 123");
+        
+        if (Plugin.CampfireList.Contains(__instance))
+        {
+            return;
+        }
+        Plugin.CampfireList.Add(__instance);
         if (Plugin.ConfigurationHandler.IsExtraBackpacksEnabled)
         {
             AddBackpacks(__instance);
@@ -46,7 +52,6 @@ public class CampfireAwakePatch
             {
                 return;
             }
-            Plugin.CampfireList.Add(__instance);
             
             int amountOfMarshmallowsToSpawn = Math.Min(4, PhotonNetwork.CurrentRoom.PlayerCount);
             if (Plugin.ConfigurationHandler.IsExtraMarshmallowsEnabled)
