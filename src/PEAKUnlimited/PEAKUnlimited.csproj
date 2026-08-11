@@ -5,7 +5,7 @@
 
         <AssemblyName>PEAKUnlimited</AssemblyName>
         <AssemblyTitle>PEAKUnlimited</AssemblyTitle>
-        <Version>3.9.2</Version>
+        <Version>4.0.0</Version>
 
         <LangVersion>latest</LangVersion>
         <NoWarn>CS0618</NoWarn>
