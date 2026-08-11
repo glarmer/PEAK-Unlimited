@@ -50,6 +50,111 @@
         <Reference Include="$(ManagedDir)Assembly-CSharp.dll"
                    Private="false"
                    Publicize="true" />
+        <Reference Include="Assembly-CSharp">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Assembly-CSharp.dll</HintPath>
+        </Reference>
+        <Reference Include="com.rlabrecque.steamworks.net">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\com.rlabrecque.steamworks.net.dll</HintPath>
+        </Reference>
+        <Reference Include="Newtonsoft.Json">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Newtonsoft.Json.dll</HintPath>
+        </Reference>
+        <Reference Include="Photon3Unity3D">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Photon3Unity3D.dll</HintPath>
+        </Reference>
+        <Reference Include="PhotonChat">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\PhotonChat.dll</HintPath>
+        </Reference>
+        <Reference Include="PhotonRealtime">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\PhotonRealtime.dll</HintPath>
+        </Reference>
+        <Reference Include="PhotonUnityNetworking">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\PhotonUnityNetworking.dll</HintPath>
+        </Reference>
+        <Reference Include="PhotonUnityNetworking.Utilities">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\PhotonUnityNetworking.Utilities.dll</HintPath>
+        </Reference>
+        <Reference Include="PhotonVoice">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\PhotonVoice.dll</HintPath>
+        </Reference>
+        <Reference Include="PhotonVoice.API">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\PhotonVoice.API.dll</HintPath>
+        </Reference>
+        <Reference Include="PhotonVoice.PUN">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\PhotonVoice.PUN.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.InputSystem">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Unity.InputSystem.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.Localization">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Unity.Localization.dll</HintPath>
+        </Reference>
+        <Reference Include="Unity.TextMeshPro">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.AudioModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.CoreModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.IMGUIModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputForUIModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.InputForUIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputLegacyModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.InputLegacyModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.InputModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.LocalizationModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.LocalizationModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextCoreFontEngineModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextCoreTextEngineModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.TextRenderingModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UI">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.UI.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UIElementsModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityEngine.UIModule">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+        </Reference>
+        <Reference Include="UnityUIExtensions">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\UnityUIExtensions.dll</HintPath>
+        </Reference>
+        <Reference Include="Zorro.ControllerSupport">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Zorro.ControllerSupport.dll</HintPath>
+        </Reference>
+        <Reference Include="Zorro.Core.Runtime">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Zorro.Core.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Zorro.JiggleBones">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Zorro.JiggleBones.dll</HintPath>
+        </Reference>
+        <Reference Include="Zorro.PhotonUtility">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Zorro.PhotonUtility.dll</HintPath>
+        </Reference>
+        <Reference Include="Zorro.Settings.Runtime">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Zorro.Settings.Runtime.dll</HintPath>
+        </Reference>
+        <Reference Include="Zorro.UI.Runtime">
+          <HintPath>D:\SteamLibrary\steamapps\common\PEAK\PEAK_Data\Managed\Zorro.UI.Runtime.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
 </Project>

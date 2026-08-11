@@ -69,7 +69,7 @@ public class PeakHandlerPatches
         Plugin.Logger.LogInfo("[PeakHandler] Finished expanding arrays");
     }
     
-    [HarmonyPatch(nameof(PeakHandler.SetCosmetics))]
+    [HarmonyPatch("SetCosmetics")]
     [HarmonyPostfix]
     static void SetCosmeticsPostfix(PeakHandler __instance, List<Character> characters)
     {

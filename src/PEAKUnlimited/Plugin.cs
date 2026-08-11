@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -125,7 +126,12 @@ public partial class Plugin : BaseUnityPlugin
 
     private void Update()
     {
-        if (ConfigurationHandler.MenuAction != null && ConfigurationHandler.MenuAction.WasPerformedThisFrame() && ModConfigurationUI.Instance != null && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>()._presence.State == RichPresenceState.Status_MainMenu))
+
+        if (ConfigurationHandler.MenuAction != null 
+            && ConfigurationHandler.MenuAction.WasPerformedThisFrame() 
+            && ModConfigurationUI.Instance != null 
+            && (PlayerConnectionLogAwakePatch.isHost ||
+                GameHandler.GetService<RichPresenceService>().m_currentState == RichPresenceState.Status_MainMenu))
         {
             ModConfigurationUI.Instance.ToggleMenu();
         }

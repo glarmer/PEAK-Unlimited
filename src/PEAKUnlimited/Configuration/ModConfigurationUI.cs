@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,7 +46,7 @@ public class ModConfigurationUI : MenuWindow
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
-        StartClosed();
+        AccessTools.Method(typeof(MenuWindow), "StartClosed").Invoke(this, null);
     }
 
     public void ToggleMenu()
@@ -54,14 +55,14 @@ public class ModConfigurationUI : MenuWindow
 
         if (_visible)
         {
-            Open();
+            AccessTools.Method(typeof(MenuWindow), "Open").Invoke(this, null);
 
             if (_options != null && _options.Count > 0 && _options[_selectedIndex].IsDisabled())
                 CycleSelection(1);
         }
         else
         {
-            Close();
+            AccessTools.Method(typeof(MenuWindow), "Close").Invoke(this, null);
         }
     }
 

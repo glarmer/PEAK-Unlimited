@@ -1,3 +1,4 @@
+using System.Reflection;
 using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
@@ -6,7 +7,8 @@ namespace PEAKUnlimited.Patches;
 
 public class WaitingForPlayersUIPatch : MonoBehaviour
 {
-    [HarmonyPatch(typeof(WaitingForPlayersUI), nameof(WaitingForPlayersUI.Update))]
+    
+    [HarmonyPatch(typeof(WaitingForPlayersUI), "Update")]
     [HarmonyPrefix]
     static void Prefix(WaitingForPlayersUI __instance)
     {

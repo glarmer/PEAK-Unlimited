@@ -7,7 +7,7 @@ namespace PEAKUnlimited.Patches;
 
 public class EndScreenStartPatch : MonoBehaviour
     {
-        [HarmonyPatch(typeof(EndScreen), nameof(EndScreen.Start))]
+        [HarmonyPatch(typeof(EndScreen), "Start")]
         [HarmonyPrefix]
         static void Prefix(EndScreen __instance)
         {
@@ -22,6 +22,8 @@ public class EndScreenStartPatch : MonoBehaviour
             var newOldPip = new Image[playerCount];
             var newScoutLines = new Transform[playerCount];
 
+            var oldPip = AccessTools.Field(typeof(EndScreen), "oldPip");
+            
             for (int i = 0; i < playerCount; i++)
             {
                 bool withinExisting = i < __instance.scouts.Length;
@@ -63,15 +65,15 @@ public class EndScreenStartPatch : MonoBehaviour
                         );
                     }
                     
-                    if (__instance.oldPip[0] == null)
+                    if (((Image[])oldPip.GetValue(__instance))[0] == null)
                     {
                         newOldPip[i] = null;
                     }
                     else
                     {
                         newOldPip[i] = Instantiate(
-                            __instance.oldPip[0],
-                            __instance.oldPip[0].transform.parent
+                            ((Image[])oldPip.GetValue(__instance))[0],
+                            ((Image[])oldPip.GetValue(__instance))[0].transform.parent
                         );
                     }
                     
@@ -91,7 +93,7 @@ public class EndScreenStartPatch : MonoBehaviour
                     newScoutWindows[i] = __instance.scoutWindows[i];
                     newScouts[i] = __instance.scouts[i];
                     newScoutsAtPeak[i] = __instance.scoutsAtPeak[i];
-                    newOldPip[i] = __instance.oldPip[i];
+                    newOldPip[i] = ((Image[])oldPip.GetValue(__instance))[i];
                     newScoutLines[i] = __instance.scoutLines[i];
                 }
             }
@@ -99,7 +101,7 @@ public class EndScreenStartPatch : MonoBehaviour
             __instance.scoutWindows = newScoutWindows;
             __instance.scouts = newScouts;
             __instance.scoutsAtPeak = newScoutsAtPeak;
-            __instance.oldPip = newOldPip;
+            oldPip.SetValue(__instance, newOldPip);
             __instance.scoutLines = newScoutLines;
         }
     }

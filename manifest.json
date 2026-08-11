@@ -1,6 +1,6 @@
 {
     "name": "PEAK_Unlimited",
-    "version_number": "2.7.1",
+    "version_number": "4.0.0",
     "website_url": "https://github.com/glarmer/PEAK-Unlimited/",
     "description": "Unlocks the max player cap for playing with more than 4 friends! (Now with extra marshmallows!)",
     "dependencies": [

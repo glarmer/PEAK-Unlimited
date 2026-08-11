@@ -11,11 +11,13 @@ namespace PEAKUnlimited.Patches;
 
 public class AudioLevelsInitNavigationPatch
 {
-    [HarmonyPatch(typeof(AudioLevels), nameof(AudioLevels.InitNavigation))]
+    [HarmonyPatch(typeof(AudioLevels), "InitNavigation")]
     [HarmonyPostfix]
     static void Postfix(AudioLevels __instance)
     {
-        if (!__instance.mainPage)
+        var mainPage = AccessTools.Field(typeof(AudioLevels), "mainPage");
+        
+        if (!((PauseMenuMainPage)mainPage.GetValue(__instance)))
             return;
 
         int max = Plugin.ConfigurationHandler.MaxPlayers;
@@ -33,7 +35,7 @@ public class AudioLevelsInitNavigationPatch
         AddSliders(__instance, template, existing, max);
         SetupAudioLevelsScroll();
 
-        __instance._dirty = true;
+        AccessTools.Field(typeof(AudioLevels), "_dirty").SetValue(__instance, true);
     }
     
     private static void AddSliders(AudioLevels instance, GameObject template, int existing, int max)

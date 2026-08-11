@@ -1,3 +1,4 @@
+using System.Reflection;
 using BepInEx.Logging;
 using HarmonyLib;
 using PEAKUnlimited.Util.Debugging;
@@ -5,9 +6,10 @@ using UnityEngine;
 
 namespace PEAKUnlimited.Patches;
 
+[HarmonyPatch]
 public class EndSequenceRoutinePatch : MonoBehaviour
 {
-    [HarmonyPatch(typeof(EndScreen), nameof(EndScreen.EndSequenceRoutine))]
+    [HarmonyPatch(typeof(EndScreen), "EndSequenceRoutine")]
     [HarmonyPostfix]
     static void Postfix(EndScreen __instance)
     {

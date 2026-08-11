@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using HarmonyLib;
 
 namespace PEAKUnlimited.Patches.Voice;
@@ -10,7 +11,10 @@ public class PlayerHandlerAssignMixerGroupPatch
     {
         int actor = character.photonView.Owner.ActorNumber;
         __result = (byte)(actor % 4);
-        PlayerHandler.Instance.m_assignedVoiceGroups[__result] = character;
+        
+        var assignedVoiceGroups = (Dictionary<byte, Character>)AccessTools.Field(typeof(PlayerHandler), "m_assignedVoiceGroups").GetValue(GameHandler.GetService<PlayerHandler>());
+        assignedVoiceGroups[__result] = character;
+        
         return false;
     }
 }

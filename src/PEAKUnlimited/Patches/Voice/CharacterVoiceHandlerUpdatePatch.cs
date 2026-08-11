@@ -1,18 +1,21 @@
 using HarmonyLib;
+using UnityEngine;
 
 namespace PEAKUnlimited.Patches.Voice;
 
 public class CharacterVoiceHandlerUpdatePatch
 {
-    [HarmonyPatch(typeof(CharacterVoiceHandler), nameof(CharacterVoiceHandler.Update))]
+    [HarmonyPatch(typeof(CharacterVoiceHandler), "Update")]
     [HarmonyPostfix]
     static void Postfix(CharacterVoiceHandler __instance)
     {
-        if (__instance.m_character == null)
+        Character _char = (Character)AccessTools.Field(typeof(CharacterVoiceHandler), "m_character").GetValue(__instance);
+        
+        if (_char == null)
             return;
 
-        string userId = __instance.m_character.photonView.Owner.UserId;
+        string userId = _char.photonView.Owner.UserId;
         float level = AudioLevels.GetPlayerLevel(userId);
-        __instance.m_source.volume = level;
+        ((AudioSource)AccessTools.Field(typeof(CharacterVoiceHandler), "m_source").GetValue(__instance)).volume = level;
     }
 }

@@ -6,7 +6,7 @@ namespace PEAKUnlimited.Patches;
 
 public class EndScreenNextPatch
 {
-    [HarmonyPatch(typeof (EndScreen), nameof(EndScreen.Next))]
+    [HarmonyPatch(typeof (EndScreen), "Next")]
     [HarmonyPostfix]
     private static void PostFix()
     {

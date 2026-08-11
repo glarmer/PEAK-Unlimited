@@ -1,3 +1,4 @@
+using System.Reflection;
 using BepInEx.Logging;
 using HarmonyLib;
 using PEAKUnlimited.Util;
@@ -9,7 +10,7 @@ namespace PEAKUnlimited.Patches;
 
 public class PlayClickedPatch
 {
-    [HarmonyPatch(typeof(MainMenuMainPage), nameof(MainMenuMainPage.PlayClicked))]
+    [HarmonyPatch(typeof(MainMenuMainPage), "PlayClicked")]
     [HarmonyPostfix]
     static void Postfix(MainMenuMainPage __instance)
     {
