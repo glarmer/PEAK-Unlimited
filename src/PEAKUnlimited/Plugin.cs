@@ -11,6 +11,7 @@ using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using Photon.Realtime;
 using Steamworks;
+using TMPro;
 using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -124,6 +125,8 @@ public partial class Plugin : BaseUnityPlugin
         #endif
     }
 
+    private List<string> tempSteamStrings = new List<string>();
+    
     private void Update()
     {
         if (ConfigurationHandler.MenuAction != null && ConfigurationHandler.MenuAction.WasPerformedThisFrame() && ModConfigurationUI.Instance != null && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>()._presence.State == RichPresenceState.Status_MainMenu))
@@ -154,11 +157,14 @@ public partial class Plugin : BaseUnityPlugin
                         if (gameInfo.m_steamIDLobby.IsValid())
                         {
                             Logger.LogInfo($"{displayName} is playing PEAK and in a lobby");
-                            SteamLobbyAPI.LobbyHandler.JoinLobby(gameInfo.m_steamIDLobby);
+                            string steamString = $"{displayName} is in a lobby with 1/4 players!";
+                            tempSteamStrings.Add(steamString);
                         }
                         else
                         {
                             Logger.LogInfo($"{displayName} is playing PEAK but not in a lobby");
+                            string steamString = $"{displayName} is in the Main Menu!";
+                            tempSteamStrings.Add(steamString);
                         }
                     }
                     else
@@ -171,6 +177,91 @@ public partial class Plugin : BaseUnityPlugin
                     Logger.LogInfo($"{displayName} is not playing anything");
                 }
                 
+            }
+        }
+        
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            GameObject originalUI = GameObject.Find("NextLevelUI");
+            if (originalUI == null)
+            {
+                Plugin.Logger.LogError($"Invite UI couldn't be made, original UI is not found");
+                return;
+            }
+            GameObject unlimitedLobbyUI = Instantiate(GameObject.Find("NextLevelUI"), originalUI.transform.parent);
+            unlimitedLobbyUI.gameObject.name = "UnlimitedLobbyUI";
+            GameObject panel = null;
+            GameObject panelDrop = null;
+            GameObject text = null;
+            GameObject timer = null;
+            for (int i = 0; i < unlimitedLobbyUI.transform.childCount; i++)
+            {
+                GameObject currentObject =  unlimitedLobbyUI.transform.GetChild(i).gameObject;
+                switch (currentObject.name)
+                {
+                    case "Panel":
+                        panel = currentObject.gameObject;
+                        break;
+                    case "PanelDrop":
+                        panelDrop = currentObject.gameObject;
+                        break;
+                    case "Text (TMP)":
+                        text = currentObject.gameObject;
+                        break;
+                    case "Timer":
+                        timer = currentObject.gameObject;
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (timer)
+            {
+                Destroy(timer);
+            }
+
+            if (panel)
+            {
+                RectTransform rectTransform = panel.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = new Vector2(0f, 0.5f);
+                rectTransform.anchorMax = new Vector2(1f, 0.5f);
+                rectTransform.offsetMin = new Vector2(-162f, -5000f);
+                rectTransform.offsetMax = new Vector2(0f, 5000f);
+                rectTransform.sizeDelta = new Vector2(162f, 10000f);
+            }
+
+            if (panelDrop)
+            {
+                RectTransform rectTransform = panelDrop.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = new Vector2(0f, 0.5f);
+                rectTransform.anchorMax = new Vector2(1f, 0.5f);
+                rectTransform.offsetMin = new Vector2(-170f, -5000f);
+                rectTransform.offsetMax = new Vector2(0f, 5000f);
+                rectTransform.sizeDelta = new Vector2(170f, 10000f);
+            }
+
+            if (text)
+            {
+                int i = 0;
+                foreach (string steamString in tempSteamStrings)
+                {
+                    GameObject playerText = Instantiate(text, text.transform.parent);
+                    TextMeshProUGUI textMeshPro =  playerText.GetComponent<TextMeshProUGUI>();
+                    textMeshPro.SetText(steamString);
+                    textMeshPro.transform.localPosition.Set(textMeshPro.transform.localPosition.x,
+                        textMeshPro.transform.localPosition.y - i * 40, textMeshPro.transform.localPosition.z);
+                    i++;
+                }
+                foreach (string steamString in tempSteamStrings)
+                {
+                    GameObject playerText = Instantiate(text, text.transform.parent);
+                    TextMeshProUGUI textMeshPro =  playerText.GetComponent<TextMeshProUGUI>();
+                    textMeshPro.SetText(steamString);
+                    textMeshPro.transform.localPosition.Set(textMeshPro.transform.localPosition.x,
+                        textMeshPro.transform.localPosition.y - i * 40, textMeshPro.transform.localPosition.z);
+                    i++;
+                }
+                Destroy(text);
             }
         }
     }
