@@ -45,6 +45,7 @@ public class SteamFriend
                 {
                     Plugin.Logger.LogInfo($"{DisplayName} is playing PEAK and in a lobby");
                     GameStatus = $"{DisplayName} is in a lobby with x/y players!";
+                    
                 }
                 else
                 {

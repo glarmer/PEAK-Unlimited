@@ -41,11 +41,6 @@ public class FriendLobbyMenu : MonoBehaviour
 
     public void InitialiseMenu()
     {
-        int number = 1;
-        
-        Plugin.Logger.LogInfo($"Initialising {number}");
-        number++;
-        
         _panel = null;
         _panelDrop = null;
         _text = null;
@@ -71,17 +66,11 @@ public class FriendLobbyMenu : MonoBehaviour
                     break;
             }
         }
-        
-        Plugin.Logger.LogInfo($"Initialising {number}");
-        number++;
 
         if (_timer)
         {
             Destroy(_timer);
         }
-        
-        Plugin.Logger.LogInfo($"Initialising {number}");
-        number++;
 
         if (_panel)
         {
@@ -92,9 +81,6 @@ public class FriendLobbyMenu : MonoBehaviour
             rectTransform.offsetMax = new Vector2(0f, 5000f);
             rectTransform.sizeDelta = new Vector2(162f, 10000f);
         }
-        
-        Plugin.Logger.LogInfo($"Initialising {number}");
-        number++;
 
         if (_panelDrop)
         {
@@ -106,33 +92,32 @@ public class FriendLobbyMenu : MonoBehaviour
             rectTransform.sizeDelta = new Vector2(170f, 10000f);
         }
         
-        Plugin.Logger.LogInfo($"Initialising {number}");
-        number++;
-
         if (_text)
         {
             GameObject originalButton = GameObject.Find("Button_PlayWithFriends");
-            Plugin.Logger.LogInfo($"Initialising {number}");
-            number++;
+
             int i = 0;
             foreach (KeyValuePair<CSteamID, SteamFriend> idFriend in _friends)
             {
-                Plugin.Logger.LogInfo($"Initialising {number}");
-                number++;
                 CSteamID lobbyId = idFriend.Value.GameInfo.m_steamIDLobby; //todo fix
                 string steamString = idFriend.Value.GameStatus;
-                Plugin.Logger.LogInfo($"Initialising {number}");
-                number++;
+                if (string.IsNullOrWhiteSpace(steamString))
+                {
+                    continue;
+                }
                 GameObject playerText = Instantiate(_text, _text.transform.parent);
                 TextMeshProUGUI textMeshPro = playerText.GetComponent<TextMeshProUGUI>();
                 textMeshPro.SetText(steamString);
                 textMeshPro.rectTransform.localPosition.Set(textMeshPro.rectTransform.localPosition.x,
                     textMeshPro.rectTransform.localPosition.y - i * 100, textMeshPro.rectTransform.localPosition.z);
-                Plugin.Logger.LogInfo($"Initialising {number}");
-                number++;
-                if (!lobbyId.IsLobby()) break;
-                Plugin.Logger.LogInfo($"Initialising {number}");
-                number++;
+                Plugin.Logger.LogInfo($"Initialising, {lobbyId.m_SteamID} , {lobbyId.IsValid()}");
+
+                if (!lobbyId.IsLobby())
+                {
+                    i++;
+                    continue;
+                }
+
                 GameObject playerButton = Instantiate(originalButton, textMeshPro.transform.parent);
                 CopyTransforms(playerText.transform, playerButton.transform);
                 RectTransform buttonTransform = playerButton.GetComponent<RectTransform>();
@@ -148,8 +133,6 @@ public class FriendLobbyMenu : MonoBehaviour
 
                 playerButton.transform.localPosition = new Vector3(-170, 0, playerButton.transform.localPosition.z);
                 playerButton.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-                Plugin.Logger.LogInfo($"Initialising {number}");
-                number++;
                 Button button = playerButton.GetComponent<Button>();
 
                 button.onClick = new Button.ButtonClickedEvent();
