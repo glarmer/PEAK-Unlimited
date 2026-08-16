@@ -11,6 +11,7 @@ using PEAKUnlimited.Util.Debugging;
 using Photon.Pun;
 using Photon.Realtime;
 using Steamworks;
+using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -128,6 +129,49 @@ public partial class Plugin : BaseUnityPlugin
         if (ConfigurationHandler.MenuAction != null && ConfigurationHandler.MenuAction.WasPerformedThisFrame() && ModConfigurationUI.Instance != null && (PlayerConnectionLogAwakePatch.isHost || GameHandler.GetService<RichPresenceService>()._presence.State == RichPresenceState.Status_MainMenu))
         {
             ModConfigurationUI.Instance.ToggleMenu();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            int friendCount = SteamFriends.GetFriendCount(EFriendFlags.k_EFriendFlagImmediate);
+            Logger.LogInfo($"");
+            Logger.LogInfo($"Friend count: {friendCount}");
+            for (int i = 0; i < friendCount; i++)
+            {
+                CSteamID steamID = SteamFriends.GetFriendByIndex(i, EFriendFlags.k_EFriendFlagImmediate);
+                Logger.LogInfo($"SteamID: {steamID}");
+                string friendName = SteamFriends.GetFriendPersonaName(steamID);
+                string nickName = SteamFriends.GetPlayerNickname(steamID) ?? "No nickname";
+                string displayName = SteamFriends.GetPlayerNickname(steamID) ?? friendName;
+                Logger.LogInfo($"Username: {friendName} Nickname: {nickName} DisplayName: {displayName}");
+                bool isInGame = SteamFriends.GetFriendGamePlayed(steamID, out FriendGameInfo_t gameInfo);
+                if (isInGame && gameInfo.m_gameID.IsValid())
+                {
+                    Logger.LogInfo($"{displayName} is playing a game");
+                    if (gameInfo.m_gameID.AppID() == SteamUtils.GetAppID())
+                    {
+                        Logger.LogInfo($"{displayName} is playing PEAK");
+                        if (gameInfo.m_steamIDLobby.IsValid())
+                        {
+                            Logger.LogInfo($"{displayName} is playing PEAK and in a lobby");
+                            SteamLobbyAPI.LobbyHandler.JoinLobby(gameInfo.m_steamIDLobby);
+                        }
+                        else
+                        {
+                            Logger.LogInfo($"{displayName} is playing PEAK but not in a lobby");
+                        }
+                    }
+                    else
+                    {
+                        Logger.LogInfo($"{displayName} is not playing PEAK");
+                    }
+                }
+                else
+                {
+                    Logger.LogInfo($"{displayName} is not playing anything");
+                }
+                
+            }
         }
     }
 
