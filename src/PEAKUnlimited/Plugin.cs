@@ -15,6 +15,7 @@ using TMPro;
 using Unity.VectorGraphics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 namespace PEAKUnlimited;
 
@@ -125,7 +126,7 @@ public partial class Plugin : BaseUnityPlugin
         #endif
     }
 
-    private List<string> tempSteamStrings = new List<string>();
+    private Dictionary<CSteamID, string> tempSteamStrings = new Dictionary<CSteamID, string>();
     
     private void Update()
     {
@@ -158,13 +159,13 @@ public partial class Plugin : BaseUnityPlugin
                         {
                             Logger.LogInfo($"{displayName} is playing PEAK and in a lobby");
                             string steamString = $"{displayName} is in a lobby with 1/4 players!";
-                            tempSteamStrings.Add(steamString);
+                            tempSteamStrings.Add(gameInfo.m_steamIDLobby, steamString);
                         }
                         else
                         {
                             Logger.LogInfo($"{displayName} is playing PEAK but not in a lobby");
                             string steamString = $"{displayName} is in the Main Menu!";
-                            tempSteamStrings.Add(steamString);
+                            tempSteamStrings.Add(steamID, steamString);
                         }
                     }
                     else
@@ -242,26 +243,94 @@ public partial class Plugin : BaseUnityPlugin
 
             if (text)
             {
+                GameObject originalButton =  GameObject.Find("Button_PlayWithFriends");
+                
                 int i = 0;
-                foreach (string steamString in tempSteamStrings)
+                foreach (KeyValuePair<CSteamID, string> kvp in tempSteamStrings)
                 {
+                    
+                    CSteamID steamID = kvp.Key;
+                    string steamString = kvp.Value;
+                    
                     GameObject playerText = Instantiate(text, text.transform.parent);
                     TextMeshProUGUI textMeshPro =  playerText.GetComponent<TextMeshProUGUI>();
                     textMeshPro.SetText(steamString);
-                    textMeshPro.transform.localPosition.Set(textMeshPro.transform.localPosition.x,
-                        textMeshPro.transform.localPosition.y - i * 40, textMeshPro.transform.localPosition.z);
+                    textMeshPro.rectTransform.localPosition.Set(textMeshPro.rectTransform.localPosition.x,
+                        textMeshPro.rectTransform.localPosition.y - i * 100, textMeshPro.rectTransform.localPosition.z);
+
+                    if (!steamID.IsLobby()) break;
+                    
+                    GameObject playerButton = Instantiate(originalButton, textMeshPro.transform.parent);
+                    CopyTransforms(playerText.transform, playerButton.transform);
+                    RectTransform buttonTransform = playerButton.GetComponent<RectTransform>();
+                    buttonTransform.anchoredPosition = textMeshPro.rectTransform.anchoredPosition + new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
+                    buttonTransform.anchorMax = textMeshPro.rectTransform.anchorMax + new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
+                    buttonTransform.anchorMin =  textMeshPro.rectTransform.anchorMin +  new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
+                    
+                    playerButton.transform.localPosition = new Vector3(-170, 0, playerButton.transform.localPosition.z);
+                    playerButton.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+                    
+                    Button button = playerButton.GetComponent<Button>();
+                    
+                    button.onClick = new Button.ButtonClickedEvent();
+                    button.onClick.AddListener(() =>
+                    {
+                        SteamLobbyAPI.LobbyHandler.JoinLobby(steamID);
+                    });
+                    
                     i++;
                 }
-                foreach (string steamString in tempSteamStrings)
+                foreach (KeyValuePair<CSteamID, string> kvp in tempSteamStrings)
                 {
+                    
+                    CSteamID steamID = kvp.Key;
+                    string steamString = kvp.Value;
+                    
                     GameObject playerText = Instantiate(text, text.transform.parent);
                     TextMeshProUGUI textMeshPro =  playerText.GetComponent<TextMeshProUGUI>();
                     textMeshPro.SetText(steamString);
-                    textMeshPro.transform.localPosition.Set(textMeshPro.transform.localPosition.x,
-                        textMeshPro.transform.localPosition.y - i * 40, textMeshPro.transform.localPosition.z);
+                    textMeshPro.rectTransform.localPosition.Set(textMeshPro.rectTransform.localPosition.x,
+                        textMeshPro.rectTransform.localPosition.y - i * 100, textMeshPro.rectTransform.localPosition.z);
+
+                    if (!steamID.IsLobby()) break;
+                    
+                    GameObject playerButton = Instantiate(originalButton, textMeshPro.transform.parent);
+                    RectTransform buttonTransform = playerButton.GetComponent<RectTransform>();
+                    CopyTransforms(playerText.transform, playerButton.transform);
+                    buttonTransform.anchoredPosition = textMeshPro.rectTransform.anchoredPosition + new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
+                    buttonTransform.anchorMax = textMeshPro.rectTransform.anchorMax + new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
+                    buttonTransform.anchorMin =  textMeshPro.rectTransform.anchorMin +  new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
+                    
+                    playerButton.transform.localPosition = new Vector3(-170, 0, playerButton.transform.localPosition.z);
+                    playerButton.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
+                    
+                    Button button = playerButton.GetComponent<Button>();
+                    
+                    button.onClick = new Button.ButtonClickedEvent();
+                    button.onClick.AddListener(() =>
+                    {
+                        SteamLobbyAPI.LobbyHandler.JoinLobby(steamID);
+                    });
+                    
                     i++;
                 }
                 Destroy(text);
+            }
+        }
+    }
+    
+    public void CopyTransforms(Transform sourceTransform, Transform targetTransform)
+    {
+        targetTransform.position = sourceTransform.position;
+        targetTransform.rotation = sourceTransform.rotation;
+        targetTransform.localScale = sourceTransform.localScale;
+
+        foreach (Transform sourceChild in sourceTransform)
+        {
+            Transform targetChild = targetTransform.Find(sourceChild.name);
+            if (targetChild)
+            {
+                CopyTransforms(sourceChild, targetChild);
             }
         }
     }
