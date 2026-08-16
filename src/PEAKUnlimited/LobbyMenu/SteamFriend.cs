@@ -8,8 +8,10 @@ public class SteamFriend
     public string UserName { get; private set; }
     public string DisplayName { get; private set; }
     private bool _isInGame;
-    private FriendGameInfo_t _gameInfo;
+    public FriendGameInfo_t GameInfo { get; private set; }
     public string GameStatus { get; private set; } = "";
+    
+    //TODO: Implement PersonaStateChange_t callback so when friends start playing something else, they automatically update
 
     public SteamFriend(CSteamID playerID)
     {
@@ -32,7 +34,7 @@ public class SteamFriend
     private void GetFriendGameDetails()
     {
         _isInGame = SteamFriends.GetFriendGamePlayed(PlayerID, out FriendGameInfo_t gameInfo);
-        _gameInfo = gameInfo;
+        GameInfo = gameInfo;
         if (_isInGame && gameInfo.m_gameID.IsValid())
         {
             Plugin.Logger.LogInfo($"{DisplayName} is playing a game");

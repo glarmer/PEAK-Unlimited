@@ -5,6 +5,7 @@ using BepInEx.Logging;
 using HarmonyLib;
 using Peak.Network;
 using PEAKUnlimited.Configuration;
+using PEAKUnlimited.LobbyMenu;
 using PEAKUnlimited.Patches;
 using PEAKUnlimited.Patches.Voice;
 using PEAKUnlimited.Util.Debugging;
@@ -134,157 +135,21 @@ public partial class Plugin : BaseUnityPlugin
         {
             ModConfigurationUI.Instance.ToggleMenu();
         }
-        
-        if (Input.GetKeyDown(KeyCode.X))
+
+        //TODO: temp
+        if (Input.GetKeyDown(KeyCode.Z))
         {
-            GameObject originalUI = GameObject.Find("NextLevelUI");
-            if (originalUI == null)
+            if (GameObject.Find("FriendLobbyUI") == null)
             {
-                Plugin.Logger.LogError($"Invite UI couldn't be made, original UI is not found");
-                return;
-            }
-            GameObject unlimitedLobbyUI = Instantiate(GameObject.Find("NextLevelUI"), originalUI.transform.parent);
-            unlimitedLobbyUI.gameObject.name = "UnlimitedLobbyUI";
-            GameObject panel = null;
-            GameObject panelDrop = null;
-            GameObject text = null;
-            GameObject timer = null;
-            for (int i = 0; i < unlimitedLobbyUI.transform.childCount; i++)
-            {
-                GameObject currentObject =  unlimitedLobbyUI.transform.GetChild(i).gameObject;
-                switch (currentObject.name)
+                GameObject original = GameObject.Find("NextLevelUI");
+                if (original == null)
                 {
-                    case "Panel":
-                        panel = currentObject.gameObject;
-                        break;
-                    case "PanelDrop":
-                        panelDrop = currentObject.gameObject;
-                        break;
-                    case "Text (TMP)":
-                        text = currentObject.gameObject;
-                        break;
-                    case "Timer":
-                        timer = currentObject.gameObject;
-                        break;
-                    default:
-                        break;
+                    Logger.LogError($"Invite UI couldn't be made, original UI is not found");
+                    return;
                 }
-            }
-            if (timer)
-            {
-                Destroy(timer);
-            }
-
-            if (panel)
-            {
-                RectTransform rectTransform = panel.GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = new Vector2(0f, 0.5f);
-                rectTransform.anchorMax = new Vector2(1f, 0.5f);
-                rectTransform.offsetMin = new Vector2(-162f, -5000f);
-                rectTransform.offsetMax = new Vector2(0f, 5000f);
-                rectTransform.sizeDelta = new Vector2(162f, 10000f);
-            }
-
-            if (panelDrop)
-            {
-                RectTransform rectTransform = panelDrop.GetComponent<RectTransform>();
-                rectTransform.anchoredPosition = new Vector2(0f, 0.5f);
-                rectTransform.anchorMax = new Vector2(1f, 0.5f);
-                rectTransform.offsetMin = new Vector2(-170f, -5000f);
-                rectTransform.offsetMax = new Vector2(0f, 5000f);
-                rectTransform.sizeDelta = new Vector2(170f, 10000f);
-            }
-
-            if (text)
-            {
-                GameObject originalButton =  GameObject.Find("Button_PlayWithFriends");
-                
-                int i = 0;
-                foreach (KeyValuePair<CSteamID, string> kvp in tempSteamStrings)
-                {
-                    
-                    CSteamID steamID = kvp.Key;
-                    string steamString = kvp.Value;
-                    
-                    GameObject playerText = Instantiate(text, text.transform.parent);
-                    TextMeshProUGUI textMeshPro =  playerText.GetComponent<TextMeshProUGUI>();
-                    textMeshPro.SetText(steamString);
-                    textMeshPro.rectTransform.localPosition.Set(textMeshPro.rectTransform.localPosition.x,
-                        textMeshPro.rectTransform.localPosition.y - i * 100, textMeshPro.rectTransform.localPosition.z);
-
-                    if (!steamID.IsLobby()) break;
-                    
-                    GameObject playerButton = Instantiate(originalButton, textMeshPro.transform.parent);
-                    CopyTransforms(playerText.transform, playerButton.transform);
-                    RectTransform buttonTransform = playerButton.GetComponent<RectTransform>();
-                    buttonTransform.anchoredPosition = textMeshPro.rectTransform.anchoredPosition + new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
-                    buttonTransform.anchorMax = textMeshPro.rectTransform.anchorMax + new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
-                    buttonTransform.anchorMin =  textMeshPro.rectTransform.anchorMin +  new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
-                    
-                    playerButton.transform.localPosition = new Vector3(-170, 0, playerButton.transform.localPosition.z);
-                    playerButton.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-                    
-                    Button button = playerButton.GetComponent<Button>();
-                    
-                    button.onClick = new Button.ButtonClickedEvent();
-                    button.onClick.AddListener(() =>
-                    {
-                        SteamLobbyAPI.LobbyHandler.JoinLobby(steamID);
-                    });
-                    
-                    i++;
-                }
-                foreach (KeyValuePair<CSteamID, string> kvp in tempSteamStrings)
-                {
-                    
-                    CSteamID steamID = kvp.Key;
-                    string steamString = kvp.Value;
-                    
-                    GameObject playerText = Instantiate(text, text.transform.parent);
-                    TextMeshProUGUI textMeshPro =  playerText.GetComponent<TextMeshProUGUI>();
-                    textMeshPro.SetText(steamString);
-                    textMeshPro.rectTransform.localPosition.Set(textMeshPro.rectTransform.localPosition.x,
-                        textMeshPro.rectTransform.localPosition.y - i * 100, textMeshPro.rectTransform.localPosition.z);
-
-                    if (!steamID.IsLobby()) break;
-                    
-                    GameObject playerButton = Instantiate(originalButton, textMeshPro.transform.parent);
-                    RectTransform buttonTransform = playerButton.GetComponent<RectTransform>();
-                    CopyTransforms(playerText.transform, playerButton.transform);
-                    buttonTransform.anchoredPosition = textMeshPro.rectTransform.anchoredPosition + new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
-                    buttonTransform.anchorMax = textMeshPro.rectTransform.anchorMax + new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
-                    buttonTransform.anchorMin =  textMeshPro.rectTransform.anchorMin +  new Vector2(0f, textMeshPro.rectTransform.anchoredPosition.y - i * 100 + 30);
-                    
-                    playerButton.transform.localPosition = new Vector3(-170, 0, playerButton.transform.localPosition.z);
-                    playerButton.transform.localScale = new Vector3(0.5f, 0.5f, 1f);
-                    
-                    Button button = playerButton.GetComponent<Button>();
-                    
-                    button.onClick = new Button.ButtonClickedEvent();
-                    button.onClick.AddListener(() =>
-                    {
-                        SteamLobbyAPI.LobbyHandler.JoinLobby(steamID);
-                    });
-                    
-                    i++;
-                }
-                Destroy(text);
-            }
-        }
-    }
-    
-    public void CopyTransforms(Transform sourceTransform, Transform targetTransform)
-    {
-        targetTransform.position = sourceTransform.position;
-        targetTransform.rotation = sourceTransform.rotation;
-        targetTransform.localScale = sourceTransform.localScale;
-
-        foreach (Transform sourceChild in sourceTransform)
-        {
-            Transform targetChild = targetTransform.Find(sourceChild.name);
-            if (targetChild)
-            {
-                CopyTransforms(sourceChild, targetChild);
+                GameObject unlimitedLobbyUI = Instantiate(original, original.transform.parent);
+                unlimitedLobbyUI.gameObject.name = "FriendLobbyUI";
+                unlimitedLobbyUI.AddComponent<FriendLobbyMenu>();
             }
         }
     }
